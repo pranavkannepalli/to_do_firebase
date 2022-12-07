@@ -5,6 +5,8 @@ import  {db}  from "../firebase_setup"
 import React, {useState, useEffect} from "react";
 import {ITodo} from "../types"
 import {Button, Card} from "react-bootstrap";
+import Todo from "../components/Todo";
+import FormTodo from '../components/FormTodo';
 
 export default function Home() {
   const [todos, updateTodos] = useState([]);
@@ -15,15 +17,29 @@ export default function Home() {
     db.ref("Tasks/").on("value", snapshot => {
     let allTodos:any = [];
     snapshot.forEach(snap => {
-      allTodos.push(snap.val)
+      var data : any = snap.val()
+      var newTodo : ITodo = {
+        id: data.id,
+        description: data.description,
+        isDone : data.isDone
+      }
+      allTodos.push(newTodo)
     })
     updateTodos(allTodos);
-    console.log(todos);
   })};
 
-  const addTodo = (text: string) => {};
-  const markTodo = (id: number) => {};
-  const removeTodo = (id: number) => {};
+  const addTodo = (text: string) => {
+    var lastId = 0;
+    db.ref("LastId").on("value", snapshot => {lastId = snapshot.val()})
+    db.ref(`Tasks/${lastId+1}/`).set({id: lastId+1, description: text, isDone: false})
+    db.ref().update({LastId: lastId+1})
+  };
+  const markTodo = (id: number) => {
+    db.ref(`Tasks/${id}/`).update({isDone:true});
+  };
+  const removeTodo = (id: number) => {
+    db.ref(`Tasks/${id}/`).remove();
+  };
 
   return (
     <div>
@@ -32,9 +48,16 @@ export default function Home() {
       </Head>
       <main>
         <div>
-          HELLO WORLD
+        <h1 className="text-center mb-4">Todo List</h1>
+        <FormTodo addTodo={addTodo}/>
+          {todos.map((todo, index) => (
+            <Card key={index}>
+              <Card.Body>
+                <Todo todo={todo} markTodo={markTodo} removeTodo={removeTodo} />
+              </Card.Body>
+            </Card>
+          ))}
         </div>
-        <Button onClick={loadData}>load Data</Button>
       </main>
     </div>
   )
