@@ -1,3 +1,7 @@
+## What the Project Is
+
+Just a simple next.js application that makes calls to a very simple firebase realtime database. It serves as a to-do application that I built when I had to much time.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
