@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Form } from "react-bootstrap";
+import ListGroup from "react-bootstrap/ListGroup";
 
 type Props = {
     signUp: (email: string, password: string) => void;
@@ -17,9 +18,11 @@ const SignUp: React.FC<Props> = ({ signUp }) => {
         if (!email) return;
         if (!password) return;
         if (password != repeatPassword) return;
+        if (password.length < 8) return;
         signUp(email, password);
         setEmail("");
         setPassword("");
+        console.log("Signed up");
     }
 
     return (
@@ -49,7 +52,14 @@ const SignUp: React.FC<Props> = ({ signUp }) => {
                 onChange={(e) => setRepeat(e.target.value)}
                 placeholder="Repeat Password"
                 />
-                {password != repeatPassword ? <div>Passwords do not match</div> : <div></div>}
+                <ListGroup>
+                    <ListGroup.Item variant={password.length<8 ? "danger" : "success"}className="my-2">
+                        {password.length < 8 ? "Password needs to be more than 8 letters" : "Password is more than 8 letters"}
+                    </ListGroup.Item>
+                    <ListGroup.Item variant={password != repeatPassword ? "danger" : "success"}className="my-2">
+                        {password != repeatPassword ? "Passwords don't match" : "Passwords are matching"}
+                    </ListGroup.Item>
+                </ListGroup>
             </Form.Group>
             <Button variant="primary mb-3" type="submit">
                 Submit
