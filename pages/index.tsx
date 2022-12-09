@@ -12,7 +12,7 @@ export default function Home() {
   const [todos, updateTodos] = useState([]);
   const [userExists, changeUserExists] = useState<boolean>(false);
   const [loading, changeLoading] = useState<boolean>(false);
-  useEffect(() => {loadData()}, [])
+  useEffect(() => {loadData()}, [userExists])
   
   const loadData = () => {
     db.ref(`${auth.currentUser?.uid}/Tasks/`).on("value", snapshot => {
