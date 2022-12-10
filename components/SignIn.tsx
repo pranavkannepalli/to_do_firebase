@@ -24,21 +24,21 @@ const SignIn: React.FC<Props> = ({ signIn }) => {
         <Form onSubmit={handleSubmit}>
             <Form.Group>
                 <Form.Label>
-                    <b>Sign In<br/></b>
+                    <b>Sign In<br /></b>
                 </Form.Label>
                 <Form.Control
-                type = "email"
-                className = "input"
-                value = {email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter email"
+                    type="email"
+                    className="input"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter email"
                 />
                 <Form.Control
-                type = "password"
-                className = "input"
-                value = {password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter password"
+                    type="password"
+                    className="input"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter password"
                 />
             </Form.Group>
             <Button variant="primary mb-3" type="submit">

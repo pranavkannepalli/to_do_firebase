@@ -29,34 +29,34 @@ const SignUp: React.FC<Props> = ({ signUp }) => {
         <Form onSubmit={handleSubmit}>
             <Form.Group>
                 <Form.Label>
-                    <b>Sign Up<br/></b>
+                    <b>Sign Up<br /></b>
                 </Form.Label>
                 <Form.Control
-                type = "email"
-                className = "input"
-                value = {email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter email"
+                    type="email"
+                    className="input"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter email"
                 />
                 <Form.Control
-                type = "password"
-                className = "input"
-                value = {password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter password"
+                    type="password"
+                    className="input"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter password"
                 />
                 <Form.Control
-                type = "password"
-                className = "input"
-                value = {repeatPassword}
-                onChange={(e) => setRepeat(e.target.value)}
-                placeholder="Repeat Password"
+                    type="password"
+                    className="input"
+                    value={repeatPassword}
+                    onChange={(e) => setRepeat(e.target.value)}
+                    placeholder="Repeat Password"
                 />
                 <ListGroup>
-                    <ListGroup.Item variant={password.length<8 ? "danger" : "success"}className="my-2">
+                    <ListGroup.Item variant={password.length < 8 ? "danger" : "success"} className="my-2">
                         {password.length < 8 ? "Password needs to be more than 8 letters" : "Password is more than 8 letters"}
                     </ListGroup.Item>
-                    <ListGroup.Item variant={password != repeatPassword ? "danger" : "success"}className="my-2">
+                    <ListGroup.Item variant={password != repeatPassword ? "danger" : "success"} className="my-2">
                         {password != repeatPassword ? "Passwords don't match" : "Passwords are matching"}
                     </ListGroup.Item>
                 </ListGroup>

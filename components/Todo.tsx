@@ -1,5 +1,5 @@
 import React from "react";
-import {Button} from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { ITodo } from "../types";
 
 type Props = {
@@ -8,10 +8,10 @@ type Props = {
     removeTodo: (id: number) => void;
 }
 
-const Todo: React.FC<Props> = ({todo, markTodo, removeTodo}) => {
+const Todo: React.FC<Props> = ({ todo, markTodo, removeTodo }) => {
     return (
         <div className="todo">
-            <span style={{textDecoration: todo.isDone ? "line-through":""}}>
+            <span style={{ textDecoration: todo.isDone ? "line-through" : "" }}>
                 {todo.description}
             </span>
             <div>

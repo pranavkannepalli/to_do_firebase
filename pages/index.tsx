@@ -1,10 +1,6 @@
-import Head from 'next/head'
 import  {db, auth}  from "../firebase_setup"
 import React, {useState, useEffect} from "react";
 import {ITodo} from "../types"
-import {Button, Card} from "react-bootstrap";
-import Todo from "../components/Todo";
-import FormTodo from '../components/FormTodo';
 import LoginPage from "../components/LoginPage";
 import TodoPage from '../components/TodoPage';
 
