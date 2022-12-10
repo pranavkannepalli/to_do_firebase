@@ -5,8 +5,8 @@ import {ITodo} from "../types"
 import {Button, Card} from "react-bootstrap";
 import Todo from "../components/Todo";
 import FormTodo from '../components/FormTodo';
-import SignIn from "../components/SignIn";
-import SignUp from "../components/SignUp";
+import LoginPage from "../components/LoginPage";
+import TodoPage from '../components/TodoPage';
 
 export default function Home() {
   const [todos, updateTodos] = useState([]);
@@ -30,76 +30,9 @@ export default function Home() {
     updateTodos(allTodos);
   })};
 
-  const addTodo = (text: string) => {
-    db.ref(`${auth.currentUser?.uid}/Tasks/${lastId+1}/`).set({id: lastId+1, description: text, isDone: false})
-    db.ref(`${auth.currentUser?.uid}/`).update({LastId: lastId+1})
-    changeLast(lastId+1)
-  };
-  const markTodo = (id: number) => {
-    db.ref(`${auth.currentUser?.uid}/Tasks/${id}/`).update({isDone:true});
-  };
-  const removeTodo = (id: number) => {
-    db.ref(`${auth.currentUser?.uid}/Tasks/${id}/`).remove();
-  };
-
-  const signIn = async (email: string, password: string) => {
-    changeLoading(true);
-    try {
-      const res = await auth.signInWithEmailAndPassword(email, password);
-      res.user && changeUserExists(true);
-      db.ref(`${auth.currentUser?.uid}/`).once("value", snapshot => {changeLast(snapshot.val().LastId)})
-    } 
-    catch(error) {
-      console.log(error);
-    }
-    changeLoading(false);
-  }
-
-  const signUp = async (email: string, password: string) => {
-    changeLoading(true);
-    try {
-      const res = await auth.createUserWithEmailAndPassword(email, password);
-      res.user && changeUserExists(true);
-    }
-    catch(error) {
-      console.log(error);
-    }
-    changeLoading(false);
-  }
-
-  const signOut = async () => {
-    changeLoading(true);
-    try {
-      const res = await auth.signOut();
-      changeUserExists(false);
-    }
-    catch (error) {
-      console.log(error);
-    }
-    changeLoading(false);
-  }
-  
   if (userExists) {
     return (
-      <div>
-        <Head>
-          <title>To-do App</title>
-        </Head>
-        <main>
-          <div>
-          <h1 className="text-center mb-4">Todo List - {auth.currentUser?.email}</h1>
-          <Button onClick={signOut}>Sign Out</Button>
-            <FormTodo addTodo={addTodo}/>
-            {todos.map((todo, index) => (
-              <Card key={index}>
-                <Card.Body>
-                  <Todo todo={todo} markTodo={markTodo} removeTodo={removeTodo} />
-                </Card.Body>
-              </Card>
-            ))}
-          </div>
-        </main>
-      </div>
+      <TodoPage todos={todos} lastId={lastId} changeLast={changeLast} changeLoading={changeLoading} changeUserExists={changeUserExists}></TodoPage>
     )
   }
   else if (loading) {
@@ -107,18 +40,7 @@ export default function Home() {
   } 
   else {
     return (
-      <div>
-        <Head>
-          <title>Login/Sign Up</title>
-        </Head>
-        <main>
-          <div>
-            <h1 className="text-center mb-4">Login</h1>
-            <SignIn signIn={signIn}></SignIn>
-            <SignUp signUp={signUp}></SignUp>
-          </div>
-        </main>
-      </div>
+      <LoginPage changeLast={changeLast} changeLoading={changeLoading} changeUserExists={changeUserExists}></LoginPage>
     )
   }
 }
