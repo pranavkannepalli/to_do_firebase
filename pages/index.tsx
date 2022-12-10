@@ -31,7 +31,7 @@ export default function Home() {
 
   const addTodo = (text: string) => {
     var lastId = 0;
-    db.ref(`${auth.currentUser?.uid}/LastId`).on("value", snapshot => {lastId = snapshot.val()})
+    db.ref(`${auth.currentUser?.uid}/`).once("value", snapshot => {lastId = snapshot.val().LastId})
     db.ref(`${auth.currentUser?.uid}/Tasks/${lastId+1}/`).set({id: lastId+1, description: text, isDone: false})
     db.ref(`${auth.currentUser?.uid}/`).update({LastId: lastId+1})
   };
@@ -78,7 +78,6 @@ export default function Home() {
     changeLoading(false);
   }
 
-  console.log(auth.currentUser);
   if (userExists) {
     return (
       <div>
