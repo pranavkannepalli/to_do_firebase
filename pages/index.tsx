@@ -12,6 +12,7 @@ export default function Home() {
   const [todos, updateTodos] = useState([]);
   const [userExists, changeUserExists] = useState<boolean>(false);
   const [loading, changeLoading] = useState<boolean>(false);
+  const [lastId, changeLast] = useState<number>(0);
   useEffect(() => {loadData()}, [userExists])
   
   const loadData = () => {
@@ -30,10 +31,9 @@ export default function Home() {
   })};
 
   const addTodo = (text: string) => {
-    var lastId = 0;
-    db.ref(`${auth.currentUser?.uid}/`).once("value", snapshot => {lastId = snapshot.val().LastId})
     db.ref(`${auth.currentUser?.uid}/Tasks/${lastId+1}/`).set({id: lastId+1, description: text, isDone: false})
     db.ref(`${auth.currentUser?.uid}/`).update({LastId: lastId+1})
+    changeLast(lastId+1)
   };
   const markTodo = (id: number) => {
     db.ref(`${auth.currentUser?.uid}/Tasks/${id}/`).update({isDone:true});
@@ -47,6 +47,7 @@ export default function Home() {
     try {
       const res = await auth.signInWithEmailAndPassword(email, password);
       res.user && changeUserExists(true);
+      db.ref(`${auth.currentUser?.uid}/`).once("value", snapshot => {changeLast(snapshot.val().LastId)})
     } 
     catch(error) {
       console.log(error);
@@ -77,7 +78,7 @@ export default function Home() {
     }
     changeLoading(false);
   }
-
+  
   if (userExists) {
     return (
       <div>
