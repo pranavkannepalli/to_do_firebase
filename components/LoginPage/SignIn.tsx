@@ -24,7 +24,7 @@ const SignIn: React.FC<Props> = ({ signIn }) => {
         <Form onSubmit={handleSubmit}>
             <Form.Group>
                 <Form.Label>
-                    <b>Sign In<br /></b>
+                    <span><h2>Sign In<br /></h2></span>
                 </Form.Label>
                 <Form.Control
                     type="email"
@@ -41,7 +41,7 @@ const SignIn: React.FC<Props> = ({ signIn }) => {
                     placeholder="Enter password"
                 />
             </Form.Group>
-            <Button variant="primary mb-3" type="submit">
+            <Button className="button" variant="primary mb-3" type="submit">
                 Submit
             </Button>
         </Form>

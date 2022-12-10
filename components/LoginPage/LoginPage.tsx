@@ -1,6 +1,6 @@
 import Head from "next/head";
 import React from "react";
-import { auth, db } from "../firebase_setup";
+import { auth, db } from "../../firebase_setup";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 
@@ -44,7 +44,7 @@ const LoginPage: React.FC<Props> = ({ changeLast, changeUserExists, changeLoadin
       </Head>
       <main>
         <div>
-          <h1 className="text-center mb-4">Login</h1>
+          <h1 className="text-center mb-4">Login/Sign Up</h1>
           <SignIn signIn={signIn}></SignIn>
           <SignUp signUp={signUp}></SignUp>
         </div>

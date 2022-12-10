@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import { ITodo } from "../types";
+import { ITodo } from "../../types";
 
 type Props = {
     todo: ITodo;

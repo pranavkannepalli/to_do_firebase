@@ -1,6 +1,6 @@
 import Head from "next/head";
 import React from "react";
-import { auth, db } from "../firebase_setup";
+import { auth, db } from "../../firebase_setup";
 import FormTodo from "./FormTodo";
 import Todo from "./Todo";
 import { Button, Card } from "react-bootstrap";
@@ -46,8 +46,9 @@ const TodoPage: React.FC<Props> = ({ todos, lastId, changeLast, changeUserExists
             </Head>
             <main>
                 <div>
-                    <h1 className="text-center mb-4">Todo List - {auth.currentUser?.email}</h1>
-                    <Button onClick={signOut}>Sign Out</Button>
+                    <h1 className="text-center">Todo List</h1>
+                    <h3 className="text-center">User: <span>{auth.currentUser?.email}</span></h3>
+                    <Button className="button" onClick={signOut}>Sign Out</Button>
                     <FormTodo addTodo={addTodo} />
                     {todos.map((todo, index) => (
                         <Card key={index}>

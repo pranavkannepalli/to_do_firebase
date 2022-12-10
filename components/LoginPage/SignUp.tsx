@@ -29,7 +29,7 @@ const SignUp: React.FC<Props> = ({ signUp }) => {
         <Form onSubmit={handleSubmit}>
             <Form.Group>
                 <Form.Label>
-                    <b>Sign Up<br /></b>
+                    <span><h2>Sign Up<br /></h2></span>
                 </Form.Label>
                 <Form.Control
                     type="email"
@@ -52,18 +52,18 @@ const SignUp: React.FC<Props> = ({ signUp }) => {
                     onChange={(e) => setRepeat(e.target.value)}
                     placeholder="Repeat Password"
                 />
-                <ListGroup>
-                    <ListGroup.Item variant={password.length < 8 ? "danger" : "success"} className="my-2">
-                        {password.length < 8 ? "Password needs to be more than 8 letters" : "Password is more than 8 letters"}
-                    </ListGroup.Item>
-                    <ListGroup.Item variant={password != repeatPassword ? "danger" : "success"} className="my-2">
-                        {password != repeatPassword ? "Passwords don't match" : "Passwords are matching"}
-                    </ListGroup.Item>
-                </ListGroup>
             </Form.Group>
-            <Button variant="primary mb-3" type="submit">
+            <Button className="button" variant="primary mb-3" type="submit">
                 Submit
             </Button>
+            <ListGroup>
+                <ListGroup.Item className={password.length < 8 ? "danger my-2" : "success my-2"}>
+                    {password.length < 8 ? "Password needs to be more than 8 letters" : "Password is more than 8 letters"}
+                </ListGroup.Item>
+                <ListGroup.Item className={password != repeatPassword ? "danger my-2" : "success my-2"}>
+                    {password != repeatPassword ? "Passwords don't match" : "Passwords are matching"}
+                </ListGroup.Item>
+            </ListGroup>
         </Form>
     )
 }
