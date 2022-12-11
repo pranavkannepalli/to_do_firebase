@@ -4,16 +4,21 @@ import { auth, db } from "../../firebase_setup";
 import FormTodo from "./FormTodo";
 import Todo from "./Todo";
 import { Button, Card } from "react-bootstrap";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import DropdownItem from "react-bootstrap/esm/DropdownItem";
 
 type Props = {
+    groups: string[];
     todos: never[];
     lastId: number;
+    changeGroups: (value: React.SetStateAction<string[]>) => void;
     changeLast: (value: React.SetStateAction<number>) => void;
     changeUserExists: (value: React.SetStateAction<boolean>) => void;
     changeLoading: (value: React.SetStateAction<boolean>) => void
 }
 
-const TodoPage: React.FC<Props> = ({ todos, lastId, changeLast, changeUserExists, changeLoading }) => {
+const TodoPage: React.FC<Props> = ({ groups, todos, lastId, changeGroups, changeLast, changeUserExists, changeLoading }) => {
 
     const addTodo = (text: string) => {
         db.ref(`${auth.currentUser?.uid}/Tasks/${lastId + 1}/`).set({ id: lastId + 1, description: text, isDone: false })

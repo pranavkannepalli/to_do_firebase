@@ -29,6 +29,8 @@ const LoginPage: React.FC<Props> = ({ changeLast, changeUserExists, changeLoadin
     changeLoading(true);
     try {
       const res = await auth.createUserWithEmailAndPassword(email, password);
+      db.ref(`${auth.currentUser?.uid}/`).update({ LastId: 1 })
+      db.ref(`${auth.currentUser?.uid}/`).update({ Groups: ["Personal"] })
       res.user && changeUserExists(true);
     }
     catch (error) {

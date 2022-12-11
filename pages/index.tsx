@@ -9,27 +9,43 @@ export default function Home() {
   const [userExists, changeUserExists] = useState<boolean>(false);
   const [loading, changeLoading] = useState<boolean>(false);
   const [lastId, changeLast] = useState<number>(0);
+  const [groups, changeGroups] = useState(["Personal"]);
   useEffect(() => { loadData() }, [userExists])
 
   const loadData = () => {
-    db.ref(`${auth.currentUser?.uid}/Tasks/`).on("value", snapshot => {
-      let allTodos: any = [];
-      snapshot.forEach(snap => {
-        var data: any = snap.val()
-        var newTodo: ITodo = {
-          id: data.id,
-          description: data.description,
-          isDone: data.isDone
-        }
-        allTodos.push(newTodo)
+    if (userExists) {
+      db.ref(`${auth.currentUser?.uid}/Tasks/`).on("value", snapshot => {
+        let allTodos: any = [];
+        snapshot.forEach(snap => {
+          var data: any = snap.val()
+          var newTodo: ITodo = {
+            id: data.id,
+            description: data.description,
+            isDone: data.isDone
+          }
+          allTodos.push(newTodo)
+        })
+        updateTodos(allTodos);
       })
-      updateTodos(allTodos);
-    })
+      try {
+        db.ref(`${auth.currentUser?.uid}/Groups/`).once("value", snapshot => {
+          let allGroups: any = ["Personal"]
+          for (let i = 0; i < snapshot.val().length; i++) {
+            allGroups.push(snapshot.val()[i]);
+          }
+          changeGroups(allGroups);
+          console.log(groups);
+        })
+      }
+      catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   if (userExists) {
     return (
-      <TodoPage todos={todos} lastId={lastId} changeLast={changeLast} changeLoading={changeLoading} changeUserExists={changeUserExists} />
+      <TodoPage groups={groups} todos={todos} lastId={lastId} changeGroups={changeGroups} changeLast={changeLast} changeLoading={changeLoading} changeUserExists={changeUserExists} />
     )
   }
   else if (loading) {
