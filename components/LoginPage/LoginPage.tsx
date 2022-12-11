@@ -11,7 +11,7 @@ type Props = {
 }
 
 const LoginPage: React.FC<Props> = ({ changeLast, changeUserExists, changeLoading }) => {
-
+  
   const signIn = async (email: string, password: string) => {
     changeLoading(true);
     try {
