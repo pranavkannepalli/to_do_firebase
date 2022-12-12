@@ -9,27 +9,29 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
 
 type Props = {
+    currentGroup: string;
     groups: string[];
     todos: never[];
     lastId: number;
+    changeCurrentGroup: (value: React.SetStateAction<string>) => void;
     changeGroups: (value: React.SetStateAction<string[]>) => void;
     changeLast: (value: React.SetStateAction<number>) => void;
     changeUserExists: (value: React.SetStateAction<boolean>) => void;
     changeLoading: (value: React.SetStateAction<boolean>) => void
 }
 
-const TodoPage: React.FC<Props> = ({ groups, todos, lastId, changeGroups, changeLast, changeUserExists, changeLoading }) => {
+const TodoPage: React.FC<Props> = ({ currentGroup, groups, todos, lastId, changeCurrentGroup, changeGroups, changeLast, changeUserExists, changeLoading }) => {
 
     const addTodo = (text: string) => {
-        db.ref(`${auth.currentUser?.uid}/Tasks/${lastId + 1}/`).set({ id: lastId + 1, description: text, isDone: false })
-        db.ref(`${auth.currentUser?.uid}/`).update({ LastId: lastId + 1 })
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${lastId + 1}/`).set({ id: lastId + 1, description: text, isDone: false })
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/`).update({ LastId: lastId + 1 })
         changeLast(lastId + 1)
     };
     const markTodo = (id: number) => {
-        db.ref(`${auth.currentUser?.uid}/Tasks/${id}/`).update({ isDone: true });
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${id}/`).update({ isDone: true });
     };
     const removeTodo = (id: number) => {
-        db.ref(`${auth.currentUser?.uid}/Tasks/${id}/`).remove();
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${id}/`).remove();
     };
 
     const signOut = async () => {
@@ -44,6 +46,10 @@ const TodoPage: React.FC<Props> = ({ groups, todos, lastId, changeGroups, change
         changeLoading(false);
     }
 
+    const groupsNonsense = (group:string) => {
+        changeCurrentGroup(group);
+    }
+
     return (
         <div>
             <Head>
@@ -53,7 +59,13 @@ const TodoPage: React.FC<Props> = ({ groups, todos, lastId, changeGroups, change
                 <div>
                     <h1 className="text-center">Todo List</h1>
                     <h3 className="text-center">User: <span>{auth.currentUser?.email}</span></h3>
-                    <Button className="button" onClick={signOut}>Sign Out</Button>
+                    <Button onClick={signOut}>Sign Out</Button>
+                    <br />
+                    <DropdownButton id="dropdown-button-basic" title="Groups">
+                        {groups.map((group, index) => (
+                            <Dropdown.Item onClick={() => groupsNonsense(group)} key={index}>{group}</Dropdown.Item>
+                        ))}
+                    </DropdownButton>
                     <FormTodo addTodo={addTodo} />
                     {todos.map((todo, index) => (
                         <Card key={index}>

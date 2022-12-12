@@ -61,7 +61,7 @@ const SignUp: React.FC<Props> = ({ signUp }) => {
                     </ListGroup.Item>
                 </ListGroup>
             </Form.Group>
-            <Button className="button" variant="primary" type="submit">
+            <Button  variant="primary" type="submit">
                 Submit
             </Button>
         </Form>

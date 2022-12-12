@@ -52,13 +52,7 @@ h1 {
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-
-  body {
-    color: var(--clr-light);
-    background: var(--clr-dark);
-  }
+body {
+  color: var(--clr-light) !important;
+  background: var(--clr-dark) !important;
 }
