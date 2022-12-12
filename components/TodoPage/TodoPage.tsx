@@ -56,7 +56,7 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, todos, lastId, change
                     <h1 className="text-center">Todo List</h1>
                     <h3 className="text-center">User: <span>{auth.currentUser?.email}</span><Button className="mx-2" onClick={signOut}>Sign Out</Button></h3>
                     <br />
-                    <Groups groups={groups} changeCurrentGroup={changeCurrentGroup} />
+                    <Groups groups={groups} changeGroups={changeGroups} changeCurrentGroup={changeCurrentGroup} />
                     <FormTodo addTodo={addTodo} />
                     {todos.map((todo, index) => (
                         <Card className="bg-dark" key={index}>
