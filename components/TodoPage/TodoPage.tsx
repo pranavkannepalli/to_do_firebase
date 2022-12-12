@@ -11,14 +11,16 @@ type Props = {
     groups: string[];
     todos: never[];
     lastId: number;
+    allGroups: string[];
     changeCurrentGroup: (value: React.SetStateAction<string>) => void;
     changeGroups: (value: React.SetStateAction<string[]>) => void;
+    changeAllGroups: (value: React.SetStateAction<string[]>) => void;
     changeLast: (value: React.SetStateAction<number>) => void;
     changeUserExists: (value: React.SetStateAction<boolean>) => void;
     changeLoading: (value: React.SetStateAction<boolean>) => void
 }
 
-const TodoPage: React.FC<Props> = ({ currentGroup, groups, todos, lastId, changeCurrentGroup, changeGroups, changeLast, changeUserExists, changeLoading }) => {
+const TodoPage: React.FC<Props> = ({ currentGroup, groups, allGroups, todos, lastId, changeCurrentGroup, changeGroups, changeAllGroups, changeLast, changeUserExists, changeLoading }) => {
 
     const addTodo = (text: string) => {
         db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${lastId + 1}/`).set({ id: lastId + 1, description: text, isDone: false })
@@ -56,7 +58,7 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, todos, lastId, change
                     <h1 className="text-center">Todo List</h1>
                     <h3 className="text-center">User: <span>{auth.currentUser?.email}</span><Button className="mx-2" onClick={signOut}>Sign Out</Button></h3>
                     <br />
-                    <Groups groups={groups} changeGroups={changeGroups} changeCurrentGroup={changeCurrentGroup} />
+                    <Groups groups={groups} allGroups={allGroups} changeAllGroups={changeAllGroups} changeGroups={changeGroups} changeCurrentGroup={changeCurrentGroup} />
                     <FormTodo addTodo={addTodo} />
                     {todos.map((todo, index) => (
                         <Card className="bg-dark" key={index}>

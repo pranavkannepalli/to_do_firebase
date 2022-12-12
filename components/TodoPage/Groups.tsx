@@ -7,12 +7,14 @@ import {db, auth} from "../../firebase_setup";
 
 type Props = {
     groups: string[];
+    allGroups: string[];
+    changeAllGroups: (value: React.SetStateAction<string[]>) => void;
     changeGroups: (value: React.SetStateAction<string[]>) => void;
     changeCurrentGroup: (value: React.SetStateAction<string>) => void;
 }
 
-const groupPage: React.FC<Props> = ({ groups, changeGroups, changeCurrentGroup }) => {
-    const [newGroup, setNewGroup] = useState<string>("");
+const groupPage: React.FC<Props> = ({ groups, allGroups, changeAllGroups, changeGroups, changeCurrentGroup }) => {
+    const [newGroup, setNewGroup] = useState<string>('');
     const groupsNonsense = (group: string) => {
         changeCurrentGroup(group);
     }
@@ -20,15 +22,38 @@ const groupPage: React.FC<Props> = ({ groups, changeGroups, changeCurrentGroup }
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!newGroup) return;
-        setNewGroup("");
+        for (let i = 0; i < allGroups.length; i++) {
+            if (newGroup == allGroups[i]) {
+                setNewGroup('');
+                return;
+            }
+        }
         db.ref(`${newGroup}/`).update({ LastId: 2 })
         db.ref(`${newGroup}/Tasks/`).update({1: {id: 1, description: "Say Hello to Your New Group", isDone: false}});
-        let allGroups = groups;
-        allGroups.push(newGroup);
-        changeGroups(allGroups);
-        db.ref(`${auth.currentUser?.uid}/Groups/`).update(allGroups);
-        console.log(groups);
+        let Groups = groups;
+        Groups.push(newGroup);
+        changeGroups(Groups);
+        db.ref(`${auth.currentUser?.uid}/Groups/`).set(Groups);
         changeCurrentGroup(newGroup);
+        let all = allGroups;
+        all.push(newGroup);
+        changeAllGroups(Groups);
+        db.ref("All Groups").set(all);
+        setNewGroup("");
+    }
+
+    const joinGroup = (group: string) => {
+        for (let i = 0; i < groups.length; i++) {
+            if (group == groups[i]) {
+                setNewGroup('');
+                return;
+            }
+        }
+        let Groups = groups;
+        Groups.push(group);
+        changeGroups(Groups);
+        db.ref(`${auth.currentUser?.uid}/Groups/`).set(Groups);
+        changeCurrentGroup(group);
     }
 
     return (
@@ -44,6 +69,11 @@ const groupPage: React.FC<Props> = ({ groups, changeGroups, changeCurrentGroup }
                     Submit
                 </Button>
             </Form>
+            <DropdownButton className="my-3" id="dropdown-button-basic" title="Join a Group">
+                {allGroups.map((group, index) => (
+                    <Dropdown.Item onClick={() => joinGroup(group)} key={index}>{group}</Dropdown.Item>
+                ))}
+            </DropdownButton>
             <DropdownButton className="my-3" id="dropdown-button-basic" title="Groups">
                 {groups.map((group, index) => (
                     <Dropdown.Item onClick={() => groupsNonsense(group)} key={index}>{group}</Dropdown.Item>
