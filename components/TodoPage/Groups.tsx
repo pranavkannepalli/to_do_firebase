@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from 'react-bootstrap/DropdownButton';
@@ -13,8 +12,8 @@ type Props = {
     changeCurrentGroup: (value: React.SetStateAction<string>) => void;
 }
 
-const groupPage: React.FC<Props> = ({ groups, allGroups, changeAllGroups, changeGroups, changeCurrentGroup }) => {
-    const [newGroup, setNewGroup] = useState<string>('');
+const Groups: React.FC<Props> = ({ groups, allGroups, changeAllGroups, changeGroups, changeCurrentGroup }) => {
+    const [newGroup, setNewGroup] = React.useState<string>('');
     const groupsNonsense = (group: string) => {
         changeCurrentGroup(group);
     }
@@ -83,4 +82,4 @@ const groupPage: React.FC<Props> = ({ groups, allGroups, changeAllGroups, change
     )
 }
 
-export default groupPage;
+export default Groups;
