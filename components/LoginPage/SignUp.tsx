@@ -13,8 +13,6 @@ const SignUp: React.FC<Props> = ({ signUp }) => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(email);
-        console.log(password);
         if (!email) return;
         if (!password) return;
         if (password != repeatPassword) return;
@@ -22,7 +20,6 @@ const SignUp: React.FC<Props> = ({ signUp }) => {
         signUp(email, password);
         setEmail("");
         setPassword("");
-        console.log("Signed up");
     }
 
     return (
@@ -52,16 +49,16 @@ const SignUp: React.FC<Props> = ({ signUp }) => {
                     onChange={(e) => setRepeat(e.target.value)}
                     placeholder="Repeat Password"
                 />
-                <ListGroup>
-                    <ListGroup.Item className={password.length < 8 ? "danger my-2" : "success my-2"}>
+                <ListGroup className="my-2">
+                    <ListGroup.Item className={password.length < 8 ? "danger bg-dark" : "success bg-dark"}>
                         {password.length < 8 ? "Password needs to be more than 8 letters" : "Password is more than 8 letters"}
                     </ListGroup.Item>
-                    <ListGroup.Item className={password != repeatPassword ? "danger my-2" : "success my-2"}>
+                    <ListGroup.Item className={password != repeatPassword ? "danger bg-dark" : "success bg-dark"}>
                         {password != repeatPassword ? "Passwords don't match" : "Passwords are matching"}
                     </ListGroup.Item>
                 </ListGroup>
             </Form.Group>
-            <Button  variant="primary" type="submit">
+            <Button className="secondary my-3" type="submit">
                 Submit
             </Button>
         </Form>

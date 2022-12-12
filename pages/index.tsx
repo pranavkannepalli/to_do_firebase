@@ -39,7 +39,6 @@ export default function Home() {
             allGroups.push(snapshot.val()[i]);
           }
           changeGroups(allGroups);
-          console.log(groups);
         })
       }
       catch (error) {
@@ -48,7 +47,6 @@ export default function Home() {
     }
   };
 
-  console.log(currentGroup)
   if (userExists) {
     return (
       <TodoPage currentGroup={currentGroup} groups={groups} todos={todos} lastId={lastId} changeCurrentGroup={changeCurrentGroup} changeGroups={changeGroups} changeLast={changeLast} changeLoading={changeLoading} changeUserExists={changeUserExists} />

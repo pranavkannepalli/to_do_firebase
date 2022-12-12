@@ -4,9 +4,7 @@ import { auth, db } from "../../firebase_setup";
 import FormTodo from "./FormTodo";
 import Todo from "./Todo";
 import { Button, Card } from "react-bootstrap";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import DropdownItem from "react-bootstrap/esm/DropdownItem";
+import Groups from "./Groups"
 
 type Props = {
     currentGroup: string;
@@ -39,15 +37,13 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, todos, lastId, change
         try {
             const res = await auth.signOut();
             changeUserExists(false);
+            changeCurrentGroup("Personal");
+            changeGroups(["Personal"])
         }
         catch (error) {
             console.log(error);
         }
         changeLoading(false);
-    }
-
-    const groupsNonsense = (group:string) => {
-        changeCurrentGroup(group);
     }
 
     return (
@@ -58,17 +54,12 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, todos, lastId, change
             <main>
                 <div>
                     <h1 className="text-center">Todo List</h1>
-                    <h3 className="text-center">User: <span>{auth.currentUser?.email}</span></h3>
-                    <Button onClick={signOut}>Sign Out</Button>
+                    <h3 className="text-center">User: <span>{auth.currentUser?.email}</span><Button className="mx-2" onClick={signOut}>Sign Out</Button></h3>
                     <br />
-                    <DropdownButton id="dropdown-button-basic" title="Groups">
-                        {groups.map((group, index) => (
-                            <Dropdown.Item onClick={() => groupsNonsense(group)} key={index}>{group}</Dropdown.Item>
-                        ))}
-                    </DropdownButton>
+                    <Groups groups={groups} changeCurrentGroup={changeCurrentGroup} />
                     <FormTodo addTodo={addTodo} />
                     {todos.map((todo, index) => (
-                        <Card key={index}>
+                        <Card className="bg-dark" key={index}>
                             <Card.Body>
                                 <Todo todo={todo} markTodo={markTodo} removeTodo={removeTodo} />
                             </Card.Body>
