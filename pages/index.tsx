@@ -22,6 +22,7 @@ export default function Home() {
       changeAllGroups(snapshot.val());
     })
     if (userExists) {
+      db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/`).once("value", snapshot => { changeLast(snapshot.val().LastId) })
       db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/`).on("value", snapshot => {
         let allTodos: any = [];
         snapshot.forEach(snap => {
