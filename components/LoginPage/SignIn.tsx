@@ -11,8 +11,6 @@ const SignIn: React.FC<Props> = ({ signIn }) => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(email);
-        console.log(password);
         if (!email) return;
         if (!password) return;
         signIn(email, password);
@@ -41,7 +39,7 @@ const SignIn: React.FC<Props> = ({ signIn }) => {
                     placeholder="Enter password"
                 />
             </Form.Group>
-            <Button className="button" variant="primary mb-3" type="submit">
+            <Button className="secondary my-3" type="submit">
                 Submit
             </Button>
         </Form>

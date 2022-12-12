@@ -10,10 +10,10 @@ type Props = {
 
 const Todo: React.FC<Props> = ({ todo, markTodo, removeTodo }) => {
     return (
-        <div className="todo">
-            <span style={{ textDecoration: todo.isDone ? "line-through" : "" }}>
+        <div className="todo bg-dark">
+            <div style={{ textDecoration: todo.isDone ? "line-through" : "" }}>
                 {todo.description}
-            </span>
+            </div>
             <div>
                 {!todo.isDone && (<Button variant="outline-success" onClick={() => markTodo(todo.id)}>
                     ✔️

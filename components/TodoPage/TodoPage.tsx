@@ -4,27 +4,32 @@ import { auth, db } from "../../firebase_setup";
 import FormTodo from "./FormTodo";
 import Todo from "./Todo";
 import { Button, Card } from "react-bootstrap";
+import Groups from "./Groups"
 
 type Props = {
+    currentGroup: string;
+    groups: string[];
     todos: never[];
     lastId: number;
+    changeCurrentGroup: (value: React.SetStateAction<string>) => void;
+    changeGroups: (value: React.SetStateAction<string[]>) => void;
     changeLast: (value: React.SetStateAction<number>) => void;
     changeUserExists: (value: React.SetStateAction<boolean>) => void;
     changeLoading: (value: React.SetStateAction<boolean>) => void
 }
 
-const TodoPage: React.FC<Props> = ({ todos, lastId, changeLast, changeUserExists, changeLoading }) => {
+const TodoPage: React.FC<Props> = ({ currentGroup, groups, todos, lastId, changeCurrentGroup, changeGroups, changeLast, changeUserExists, changeLoading }) => {
 
     const addTodo = (text: string) => {
-        db.ref(`${auth.currentUser?.uid}/Tasks/${lastId + 1}/`).set({ id: lastId + 1, description: text, isDone: false })
-        db.ref(`${auth.currentUser?.uid}/`).update({ LastId: lastId + 1 })
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${lastId + 1}/`).set({ id: lastId + 1, description: text, isDone: false })
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/`).update({ LastId: lastId + 1 })
         changeLast(lastId + 1)
     };
     const markTodo = (id: number) => {
-        db.ref(`${auth.currentUser?.uid}/Tasks/${id}/`).update({ isDone: true });
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${id}/`).update({ isDone: true });
     };
     const removeTodo = (id: number) => {
-        db.ref(`${auth.currentUser?.uid}/Tasks/${id}/`).remove();
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${id}/`).remove();
     };
 
     const signOut = async () => {
@@ -32,6 +37,8 @@ const TodoPage: React.FC<Props> = ({ todos, lastId, changeLast, changeUserExists
         try {
             const res = await auth.signOut();
             changeUserExists(false);
+            changeCurrentGroup("Personal");
+            changeGroups(["Personal"])
         }
         catch (error) {
             console.log(error);
@@ -47,11 +54,12 @@ const TodoPage: React.FC<Props> = ({ todos, lastId, changeLast, changeUserExists
             <main>
                 <div>
                     <h1 className="text-center">Todo List</h1>
-                    <h3 className="text-center">User: <span>{auth.currentUser?.email}</span></h3>
-                    <Button className="button" onClick={signOut}>Sign Out</Button>
+                    <h3 className="text-center">User: <span>{auth.currentUser?.email}</span><Button className="mx-2" onClick={signOut}>Sign Out</Button></h3>
+                    <br />
+                    <Groups groups={groups} changeCurrentGroup={changeCurrentGroup} />
                     <FormTodo addTodo={addTodo} />
                     {todos.map((todo, index) => (
-                        <Card key={index}>
+                        <Card className="bg-dark" key={index}>
                             <Card.Body>
                                 <Todo todo={todo} markTodo={markTodo} removeTodo={removeTodo} />
                             </Card.Body>

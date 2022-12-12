@@ -6,6 +6,14 @@
   --clr-dark: #1E1E1E;
 }
 
+.dark {
+  background-color: var(--clr-dark);
+}
+
+.secondary {
+  background-color: var(--clr-secondary);
+}
+
 html,
 body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
@@ -52,13 +60,8 @@ h1 {
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-
-  body {
-    color: var(--clr-light);
-    background: var(--clr-dark);
-  }
+body {
+  padding: 10px !important;
+  color: var(--clr-light) !important;
+  background: var(--clr-dark) !important;
 }
