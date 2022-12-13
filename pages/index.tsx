@@ -30,7 +30,8 @@ export default function Home() {
           var newTodo: ITodo = {
             id: data.id,
             description: data.description,
-            isDone: data.isDone
+            isDone: data.isDone,
+            addedBy: data.addedBy
           }
           allTodos.push(newTodo)
         })
