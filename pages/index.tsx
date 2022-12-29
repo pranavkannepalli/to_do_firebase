@@ -4,14 +4,11 @@ import { ITodo } from "../types"
 import LoginPage from "../components/LoginPage/LoginPage";
 import TodoPage from '../components/TodoPage/TodoPage';
 
-// figure out a way to change the current group
-// figure out a way to add groups
-// figure out a way to add people to groups
 export default function Home() {
   const [todos, updateTodos] = useState([]);
   const [userExists, changeUserExists] = useState<boolean>(false);
   const [loading, changeLoading] = useState<boolean>(false);
-  const [lastId, changeLast] = useState<number>(0);
+  const [lastId, changeLastId] = useState<number>(0);
   const [allGroups, changeAllGroups] = useState<string[]>([]);
   const [groups, changeGroups] = useState<string[]>(["Personal"]);
   const [currentGroup, changeCurrentGroup] = useState<string>("Personal");
@@ -22,7 +19,7 @@ export default function Home() {
       changeAllGroups(snapshot.val());
     })
     if (userExists) {
-      db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/`).once("value", snapshot => { changeLast(snapshot.val().LastId) })
+      db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/`).once("value", snapshot => { changeLastId(snapshot.val().LastId) })
       db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/`).on("value", snapshot => {
         let allTodos: any = [];
         snapshot.forEach(snap => {
@@ -54,7 +51,7 @@ export default function Home() {
 
   if (userExists) {
     return (
-      <TodoPage currentGroup={currentGroup} groups={groups} allGroups={allGroups} todos={todos} lastId={lastId} changeAllGroups={changeAllGroups} changeCurrentGroup={changeCurrentGroup} changeGroups={changeGroups} changeLast={changeLast} changeLoading={changeLoading} changeUserExists={changeUserExists} />
+      <TodoPage currentGroup={currentGroup} groups={groups} allGroups={allGroups} todos={todos} lastId={lastId} changeAllGroups={changeAllGroups} changeCurrentGroup={changeCurrentGroup} changeGroups={changeGroups} changeLastId={changeLastId} changeLoading={changeLoading} changeUserExists={changeUserExists} />
     )
   }
   else if (loading) {
@@ -62,7 +59,7 @@ export default function Home() {
   }
   else {
     return (
-      <LoginPage changeLast={changeLast} changeLoading={changeLoading} changeUserExists={changeUserExists} />
+      <LoginPage changeLastId={changeLastId} changeLoading={changeLoading} changeUserExists={changeUserExists} />
     )
   }
 }

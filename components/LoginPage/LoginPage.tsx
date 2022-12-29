@@ -5,19 +5,19 @@ import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 
 type Props = {
-  changeLast: (value: React.SetStateAction<number>) => void;
+  changeLastId: (value: React.SetStateAction<number>) => void;
   changeUserExists: (value: React.SetStateAction<boolean>) => void;
   changeLoading: (value: React.SetStateAction<boolean>) => void
 }
 
-const LoginPage: React.FC<Props> = ({ changeLast, changeUserExists, changeLoading }) => {
+const LoginPage: React.FC<Props> = ({ changeLastId, changeUserExists, changeLoading }) => {
   
   const signIn = async (email: string, password: string) => {
     changeLoading(true);
     try {
       const res = await auth.signInWithEmailAndPassword(email, password);
       res.user && changeUserExists(true);
-      db.ref(`${auth.currentUser?.uid}/`).once("value", snapshot => { changeLast(snapshot.val().LastId) })
+      db.ref(`${auth.currentUser?.uid}/`).once("value", snapshot => { changeLastId(snapshot.val().LastId) })
     }
     catch (error) {
       console.log(error);
