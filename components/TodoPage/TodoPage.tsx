@@ -3,29 +3,30 @@ import React from "react";
 import { auth, db } from "../../firebase_setup";
 import FormTodo from "./FormTodo";
 import Todo from "./Todo";
+import { ITodo } from "../../types"
 import { Button, Card } from "react-bootstrap";
 import Groups from "./Groups"
 
 type Props = {
     currentGroup: string;
     groups: string[];
-    todos: never[];
+    todos: ITodo[];
     lastId: number;
     allGroups: string[];
     changeCurrentGroup: (value: React.SetStateAction<string>) => void;
     changeGroups: (value: React.SetStateAction<string[]>) => void;
     changeAllGroups: (value: React.SetStateAction<string[]>) => void;
-    changeLastId: (value: React.SetStateAction<number>) => void;
+    changeLast: (value: React.SetStateAction<number>) => void;
     changeUserExists: (value: React.SetStateAction<boolean>) => void;
     changeLoading: (value: React.SetStateAction<boolean>) => void
 }
 
-const TodoPage: React.FC<Props> = ({ currentGroup, groups, allGroups, todos, lastId, changeCurrentGroup, changeGroups, changeAllGroups, changeLastId, changeUserExists, changeLoading }) => {
+const TodoPage: React.FC<Props> = ({ currentGroup, groups, allGroups, todos, lastId, changeCurrentGroup, changeGroups, changeAllGroups, changeLast, changeUserExists, changeLoading }) => {
 
     const addTodo = (text: string) => {
         db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${lastId + 1}/`).set({ id: lastId + 1, description: text, isDone: false, addedBy: auth.currentUser?.email })
         db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/`).update({ LastId: lastId + 1 })
-        changeLastId(lastId + 1)
+        changeLast(lastId + 1)
     };
     const markTodo = (id: number) => {
         db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${id}/`).update({ isDone: true });
