@@ -4,3 +4,8 @@ export interface ITodo {
     isDone: boolean;
     addedBy: string;
 }
+
+export interface GroupRequest {
+    id: string;
+    email: string;
+}
