@@ -56,6 +56,7 @@ export default function Home() {
         }
       }
       catch (error) {
+        changeGroupRequests([])
         console.log(error)
       }
 

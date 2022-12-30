@@ -54,11 +54,17 @@ const Groups: React.FC<Props> = ({ currentGroup, groups, allGroups, groupRequest
     const acceptRequest = (request: GroupRequest) => {
         db.ref(`${request.id}/Groups/`).once("value", snapshot => {
             let Groups: any = [];
+            let ingroup: boolean = false;
             for (let i = 0; i < snapshot.val().length; i++) {
                 Groups.push(snapshot.val()[i]);
+                if (snapshot.val()[i] == currentGroup) {
+                    ingroup = true;
+                } 
             }
             Groups.push(currentGroup)
-            db.ref(`${request.id}/Groups/`).update(Groups);
+            if (!ingroup) {
+                db.ref(`${request.id}/Groups/`).update(Groups);
+            }
         });
         deleteRequest(request);
     }
