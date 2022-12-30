@@ -7,6 +7,7 @@ import { GroupRequest } from "../../types";
 import Request from "./Request";
 
 type Props = {
+    currentGroup: string;
     groups: string[];
     allGroups: string[];
     groupRequests: GroupRequest[];
@@ -15,7 +16,7 @@ type Props = {
     changeCurrentGroup: (value: React.SetStateAction<string>) => void;
 }
 
-const Groups: React.FC<Props> = ({ groups, allGroups, groupRequests, changeAllGroups, changeGroups, changeCurrentGroup }) => {
+const Groups: React.FC<Props> = ({ currentGroup, groups, allGroups, groupRequests, changeAllGroups, changeGroups, changeCurrentGroup }) => {
     const [newGroup, setNewGroup] = React.useState<string>('');
     const groupsNonsense = (group: string) => {
         changeCurrentGroup(group);
@@ -54,8 +55,8 @@ const Groups: React.FC<Props> = ({ groups, allGroups, groupRequests, changeAllGr
         console.log(request)
     }
 
-    const declineRequest = (request : GroupRequest) => {
-        console.log(request)
+    const deleteRequest = (request : GroupRequest) => {
+        db.ref(`${currentGroup}/Requests/${request.id}/`).remove()
     }
 
     const inGroups = (group : string) => {
@@ -89,7 +90,7 @@ const Groups: React.FC<Props> = ({ groups, allGroups, groupRequests, changeAllGr
                 ))}
             </DropdownButton>
             {groupRequests.map((request, index) => (
-                <Request key={index} acceptRequest={acceptRequest} declineRequest={declineRequest} request={request}/>
+                <Request key={index} acceptRequest={acceptRequest} deleteRequest={deleteRequest} request={request}/>
             ))}
         </div>
     )

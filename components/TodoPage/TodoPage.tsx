@@ -60,7 +60,7 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                     <h1 className="text-center">Todo List</h1>
                     <h3 className="text-center">User: <span>{auth.currentUser?.email}</span><Button className="mx-2" onClick={signOut}>Sign Out</Button></h3>
                     <br />
-                    <Groups groups={groups} allGroups={allGroups} groupRequests={groupRequests} changeAllGroups={changeAllGroups} changeGroups={changeGroups} changeCurrentGroup={changeCurrentGroup} />
+                    <Groups currentGroup={currentGroup} groups={groups} allGroups={allGroups} groupRequests={groupRequests} changeAllGroups={changeAllGroups} changeGroups={changeGroups} changeCurrentGroup={changeCurrentGroup} />
                     <FormTodo addTodo={addTodo} />
                     {todos.map((todo, index) => (
                         <Card className="bg-dark" key={index}>

@@ -5,10 +5,10 @@ import { GroupRequest, ITodo } from "../../types";
 type Props = {
     request: GroupRequest;
     acceptRequest: (request: GroupRequest) => void;
-    declineRequest: (request: GroupRequest) => void;
+    deleteRequest: (request: GroupRequest) => void;
 }
 
-const Request: React.FC<Props> = ({ request, acceptRequest, declineRequest }) => {
+const Request: React.FC<Props> = ({ request, acceptRequest, deleteRequest }) => {
     return (
         <div className="todo bg-dark">
             <h5 className="my-2">
@@ -17,10 +17,10 @@ const Request: React.FC<Props> = ({ request, acceptRequest, declineRequest }) =>
             <div>
                 {request.email} wants to join this group
             </div>
-            <Button>
+            <Button onClick={(e) => acceptRequest(request)}>
                 Accept
             </Button>
-            <Button>
+            <Button onClick={(e) => deleteRequest(request)}>
                 Decline
             </Button>
         </div>
