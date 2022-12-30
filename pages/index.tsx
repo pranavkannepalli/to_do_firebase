@@ -74,7 +74,7 @@ export default function Home() {
   if (userExists) {
     return (
       <TodoPage currentGroup={currentGroup}
-        groups={groups} allGroups={allGroups}
+        groups={groups} allGroups={allGroups} groupRequests={groupRequests}
         todos={todos} lastId={lastId} changeAllGroups={changeAllGroups}
         changeCurrentGroup={changeCurrentGroup} changeGroups={changeGroups}
         changeLast={changeLast} changeLoading={changeLoading}

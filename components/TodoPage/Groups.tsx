@@ -3,16 +3,19 @@ import { Form, Button } from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import {db, auth} from "../../firebase_setup";
+import { GroupRequest } from "../../types";
+import Request from "./Request";
 
 type Props = {
     groups: string[];
     allGroups: string[];
+    groupRequests: GroupRequest[];
     changeAllGroups: (value: React.SetStateAction<string[]>) => void;
     changeGroups: (value: React.SetStateAction<string[]>) => void;
     changeCurrentGroup: (value: React.SetStateAction<string>) => void;
 }
 
-const Groups: React.FC<Props> = ({ groups, allGroups, changeAllGroups, changeGroups, changeCurrentGroup }) => {
+const Groups: React.FC<Props> = ({ groups, allGroups, groupRequests, changeAllGroups, changeGroups, changeCurrentGroup }) => {
     const [newGroup, setNewGroup] = React.useState<string>('');
     const groupsNonsense = (group: string) => {
         changeCurrentGroup(group);
@@ -55,6 +58,14 @@ const Groups: React.FC<Props> = ({ groups, allGroups, changeAllGroups, changeGro
         changeCurrentGroup(group);
     }
 
+    const acceptRequest = (request : GroupRequest) => {
+        console.log(request)
+    }
+
+    const declineRequest = (request : GroupRequest) => {
+        console.log(request)
+    }
+
     return (
         <div>
             <Form onSubmit={handleSubmit}>
@@ -78,6 +89,9 @@ const Groups: React.FC<Props> = ({ groups, allGroups, changeAllGroups, changeGro
                     <Dropdown.Item onClick={() => groupsNonsense(group)} key={index}>{group}</Dropdown.Item>
                 ))}
             </DropdownButton>
+            {groupRequests.map((request, index) => (
+                <Request acceptRequest={acceptRequest} declineRequest={declineRequest} request={request}/>
+            ))}
         </div>
     )
 }
