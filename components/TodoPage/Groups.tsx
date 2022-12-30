@@ -45,7 +45,7 @@ const Groups: React.FC<Props> = ({ groups, allGroups, groupRequests, changeAllGr
     }
 
     const joinGroup = (group: string) => {
-        if (!(group in groups)) {
+        if (!(inGroups(group))) {
             db.ref(`${group}/Requests/${auth.currentUser?.uid}`).set({id: auth.currentUser?.uid, email: auth.currentUser?.email})
         }
     }
@@ -56,6 +56,13 @@ const Groups: React.FC<Props> = ({ groups, allGroups, groupRequests, changeAllGr
 
     const declineRequest = (request : GroupRequest) => {
         console.log(request)
+    }
+
+    const inGroups = (group : string) => {
+        for(let i = 0; i < groups.length; i++) {
+            if (group == groups[i]) return true;
+        }
+        return false;
     }
 
     return (
@@ -73,7 +80,7 @@ const Groups: React.FC<Props> = ({ groups, allGroups, groupRequests, changeAllGr
             </Form>
             <DropdownButton className="my-3" id="dropdown-button-basic" title="Join a Group">
                 {allGroups.map((group, index) => (
-                    <Dropdown.Item onClick={() => joinGroup(group)} key={index}>{group}</Dropdown.Item>
+                    <Dropdown.Item onClick={() => joinGroup(group)} key={index}>{(inGroups(group)) ? "Already Joined" : group}</Dropdown.Item>
                 ))}
             </DropdownButton>
             <DropdownButton className="my-3" id="dropdown-button-basic" title="Groups">
@@ -82,7 +89,7 @@ const Groups: React.FC<Props> = ({ groups, allGroups, groupRequests, changeAllGr
                 ))}
             </DropdownButton>
             {groupRequests.map((request, index) => (
-                <Request acceptRequest={acceptRequest} declineRequest={declineRequest} request={request}/>
+                <Request key={index} acceptRequest={acceptRequest} declineRequest={declineRequest} request={request}/>
             ))}
         </div>
     )
