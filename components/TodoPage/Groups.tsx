@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Button } from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import {db, auth} from "../../firebase_setup";
+import { db, auth } from "../../firebase_setup";
 import { GroupRequest } from "../../types";
 import Request from "./Request";
 
@@ -32,7 +32,7 @@ const Groups: React.FC<Props> = ({ currentGroup, groups, allGroups, groupRequest
             }
         }
         db.ref(`${newGroup}/`).update({ LastId: 2 })
-        db.ref(`${newGroup}/Tasks/`).update({1: {id: 1, description: "Say Hello to Your New Group", isDone: false}});
+        db.ref(`${newGroup}/Tasks/`).update({ 1: { id: 1, description: "Say Hello to Your New Group", isDone: false } });
         let Groups = groups;
         Groups.push(newGroup);
         changeGroups(Groups);
@@ -47,20 +47,28 @@ const Groups: React.FC<Props> = ({ currentGroup, groups, allGroups, groupRequest
 
     const joinGroup = (group: string) => {
         if (!(inGroups(group))) {
-            db.ref(`${group}/Requests/${auth.currentUser?.uid}`).set({id: auth.currentUser?.uid, email: auth.currentUser?.email})
+            db.ref(`${group}/Requests/${auth.currentUser?.uid}`).set({ id: auth.currentUser?.uid, email: auth.currentUser?.email })
         }
     }
 
-    const acceptRequest = (request : GroupRequest) => {
-        console.log(request)
+    const acceptRequest = (request: GroupRequest) => {
+        db.ref(`${request.id}/Groups/`).once("value", snapshot => {
+            let Groups: any = [];
+            for (let i = 0; i < snapshot.val().length; i++) {
+                Groups.push(snapshot.val()[i]);
+            }
+            Groups.push(currentGroup)
+            db.ref(`${request.id}/Groups/`).update(Groups);
+        });
+        deleteRequest(request);
     }
 
-    const deleteRequest = (request : GroupRequest) => {
-        db.ref(`${currentGroup}/Requests/${request.id}/`).remove()
+    const deleteRequest = (request: GroupRequest) => {
+        db.ref(`${currentGroup}/Requests/${request.id}/`).remove();
     }
 
-    const inGroups = (group : string) => {
-        for(let i = 0; i < groups.length; i++) {
+    const inGroups = (group: string) => {
+        for (let i = 0; i < groups.length; i++) {
             if (group == groups[i]) return true;
         }
         return false;
@@ -90,8 +98,13 @@ const Groups: React.FC<Props> = ({ currentGroup, groups, allGroups, groupRequest
                 ))}
             </DropdownButton>
             {groupRequests.map((request, index) => (
-                <Request key={index} acceptRequest={acceptRequest} deleteRequest={deleteRequest} request={request}/>
+                <Request key={index} acceptRequest={acceptRequest} deleteRequest={deleteRequest} request={request} />
             ))}
+            <h2 className="mt-5">
+                <span>
+                    {currentGroup} - Tasks
+                </span>
+            </h2>
         </div>
     )
 }

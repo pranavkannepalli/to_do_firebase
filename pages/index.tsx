@@ -38,7 +38,7 @@ export default function Home() {
 
       try {
         if (currentGroup != "Personal") {
-          db.ref(`${currentGroup}/Requests/`).on("value", snapshot => {
+          db.ref(`${currentGroup}/Requests/`).once("value", snapshot => {
             let allRequests: any = [];
             snapshot.forEach(snap => {
               var data: any = snap.val();
@@ -50,6 +50,9 @@ export default function Home() {
             })
             changeGroupRequests(allRequests);
           })
+        }
+        else {
+          changeGroupRequests([])
         }
       }
       catch (error) {
@@ -86,7 +89,7 @@ export default function Home() {
   }
   else {
     return (
-      <LoginPage changeLast={changeLast} changeLoading={changeLoading} 
+      <LoginPage changeLast={changeLast} changeLoading={changeLoading}
         changeUserExists={changeUserExists} />
     )
   }
