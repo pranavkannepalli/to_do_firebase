@@ -3,13 +3,15 @@ import React from "react";
 import { auth, db } from "../../firebase_setup";
 import FormTodo from "./FormTodo";
 import Todo from "./Todo";
+import { GroupRequest, ITodo } from "../../types"
 import { Button, Card } from "react-bootstrap";
 import Groups from "./Groups"
 
 type Props = {
     currentGroup: string;
     groups: string[];
-    todos: never[];
+    groupRequests: GroupRequest[];
+    todos: ITodo[];
     lastId: number;
     allGroups: string[];
     changeCurrentGroup: (value: React.SetStateAction<string>) => void;
@@ -20,7 +22,7 @@ type Props = {
     changeLoading: (value: React.SetStateAction<boolean>) => void
 }
 
-const TodoPage: React.FC<Props> = ({ currentGroup, groups, allGroups, todos, lastId, changeCurrentGroup, changeGroups, changeAllGroups, changeLast, changeUserExists, changeLoading }) => {
+const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGroups, todos, lastId, changeCurrentGroup, changeGroups, changeAllGroups, changeLast, changeUserExists, changeLoading }) => {
 
     const addTodo = (text: string) => {
         db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${lastId + 1}/`).set({ id: lastId + 1, description: text, isDone: false, addedBy: auth.currentUser?.email })
@@ -58,7 +60,7 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, allGroups, todos, las
                     <h1 className="text-center">Todo List</h1>
                     <h3 className="text-center">User: <span>{auth.currentUser?.email}</span><Button className="mx-2" onClick={signOut}>Sign Out</Button></h3>
                     <br />
-                    <Groups groups={groups} allGroups={allGroups} changeAllGroups={changeAllGroups} changeGroups={changeGroups} changeCurrentGroup={changeCurrentGroup} />
+                    <Groups currentGroup={currentGroup} groups={groups} allGroups={allGroups} groupRequests={groupRequests} changeAllGroups={changeAllGroups} changeGroups={changeGroups} changeCurrentGroup={changeCurrentGroup} />
                     <FormTodo addTodo={addTodo} />
                     {todos.map((todo, index) => (
                         <Card className="bg-dark" key={index}>
