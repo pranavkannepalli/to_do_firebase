@@ -45,17 +45,9 @@ const Groups: React.FC<Props> = ({ groups, allGroups, groupRequests, changeAllGr
     }
 
     const joinGroup = (group: string) => {
-        for (let i = 0; i < groups.length; i++) {
-            if (group == groups[i]) {
-                setNewGroup('');
-                return;
-            }
+        if (!(group in groups)) {
+            db.ref(`${group}/Requests/${auth.currentUser?.uid}`).set({id: auth.currentUser?.uid, email: auth.currentUser?.email})
         }
-        let Groups = groups;
-        Groups.push(group);
-        changeGroups(Groups);
-        db.ref(`${auth.currentUser?.uid}/Groups/`).set(Groups);
-        changeCurrentGroup(group);
     }
 
     const acceptRequest = (request : GroupRequest) => {
