@@ -29,7 +29,7 @@ const FormTodo: React.FC<Props> = ({ addTodo }) => {
           placeholder="Add new todo"
         />
       </Form.Group>
-      <Button className="secondary my-3" type="submit">
+      <Button className="bg-primary my-3" type="submit">
         Submit
       </Button>
     </Form>

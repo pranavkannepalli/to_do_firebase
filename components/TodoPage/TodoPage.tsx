@@ -5,7 +5,8 @@ import FormTodo from "./FormTodo";
 import Todo from "./Todo";
 import { GroupRequest, ITodo } from "../../types"
 import { Button, Card } from "react-bootstrap";
-import Groups from "./Groups"
+import Sidebar from "./Sidebar"
+import Request from "./Request"
 
 type Props = {
     currentGroup: string;
@@ -50,7 +51,69 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
         changeLoading(false);
     }
 
+    const acceptRequest = (request: GroupRequest) => {
+        db.ref(`${request.id}/Groups/`).once("value", snapshot => {
+            let Groups: any = [];
+            let ingroup: boolean = false;
+            for (let i = 0; i < snapshot.val().length; i++) {
+                Groups.push(snapshot.val()[i]);
+                if (snapshot.val()[i] == currentGroup) {
+                    ingroup = true;
+                } 
+            }
+            Groups.push(currentGroup)
+            if (!ingroup) {
+                db.ref(`${request.id}/Groups/`).update(Groups);
+            }
+        });
+        deleteRequest(request);
+    }
+
+    const deleteRequest = (request: GroupRequest) => {
+        db.ref(`${currentGroup}/Requests/${request.id}/`).remove();
+    }
+
     return (
+        <div>
+            <Head>
+                <title>To-do App</title>
+            </Head>
+            <main>
+                <div className="grid">
+                    <div className="row">
+                        <Sidebar groups={groups} allGroups={allGroups} signOut={signOut} changeAllGroups={changeAllGroups} changeGroups={changeGroups} changeCurrentGroup={changeCurrentGroup}></Sidebar>
+                        <div className="col-8">
+                            <h1 className="primary">
+                                {currentGroup}
+                            </h1>
+                            <h2 className="secondary">
+                                Join Requests
+                            </h2>
+                            {groupRequests.map((request, index) => (
+                                <Request key={index} acceptRequest={acceptRequest} deleteRequest={deleteRequest} request={request} />
+                            ))}
+                            <h2 className="secondary">
+                                Add a Todo
+                            </h2>
+                            <FormTodo addTodo={addTodo} />
+                            <h2 className="secondary">
+                                Todos
+                            </h2>   
+                            {todos.map((todo, index) => (
+                                <Card className="" key={index}>
+                                    <Card.Body>
+                                        <Todo todo={todo} markTodo={markTodo} removeTodo={removeTodo} />
+                                    </Card.Body>
+                                </Card>
+                            ))}                         
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    )
+
+    /* return (
         <div>
             <Head>
                 <title>To-do App</title>
@@ -72,7 +135,7 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                 </div>
             </main>
         </div>
-    )
+    ) */
 }
 
 export default TodoPage;
