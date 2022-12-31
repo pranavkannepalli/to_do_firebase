@@ -15,6 +15,7 @@ type Props = {
     todos: ITodo[];
     lastId: number;
     allGroups: string[];
+    changeGroupRequests: (value: React.SetStateAction<GroupRequest[]>) => void;
     changeCurrentGroup: (value: React.SetStateAction<string>) => void;
     changeGroups: (value: React.SetStateAction<string[]>) => void;
     changeAllGroups: (value: React.SetStateAction<string[]>) => void;
@@ -23,7 +24,7 @@ type Props = {
     changeLoading: (value: React.SetStateAction<boolean>) => void
 }
 
-const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGroups, todos, lastId, changeCurrentGroup, changeGroups, changeAllGroups, changeLast, changeUserExists, changeLoading }) => {
+const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGroups, todos, lastId, changeGroupRequests, changeCurrentGroup, changeGroups, changeAllGroups, changeLast, changeUserExists, changeLoading }) => {
 
     const addTodo = (text: string) => {
         db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${lastId + 1}/`).set({ id: lastId + 1, description: text, isDone: false, addedBy: auth.currentUser?.email })
@@ -71,6 +72,18 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
 
     const deleteRequest = (request: GroupRequest) => {
         db.ref(`${currentGroup}/Requests/${request.id}/`).remove();
+        db.ref(`${currentGroup}/Requests/`).once("value", snapshot => {
+            let allRequests: any = [];
+            snapshot.forEach(snap => {
+              var data: any = snap.val();
+              var newRequest: GroupRequest = {
+                id: data.id,
+                email: data.email
+              }
+              allRequests.push(newRequest);
+            })
+            changeGroupRequests(allRequests);
+        })
     }
 
     return (

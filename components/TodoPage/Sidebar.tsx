@@ -13,9 +13,9 @@ type Props = {
 }
 
 const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups, changeGroups, changeCurrentGroup }) => {
-    const [closed, changeClosed] = useState(false);
-
-    const [newGroup, setNewGroup] = React.useState<string>('');
+    const [closed, changeClosed] = useState<boolean>(false);
+    const [join, changeJoin] = useState<string>("");
+    const [newGroup, setNewGroup] = useState<string>('');
     const groupsNonsense = (group: string) => {
         changeCurrentGroup(group);
     }
@@ -50,10 +50,19 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
         return false;
     }
 
-    const joinGroup = (group: string) => {
-        if (!(inGroups(group))) {
-            db.ref(`${group}/Requests/${auth.currentUser?.uid}`).set({ id: auth.currentUser?.uid, email: auth.currentUser?.email })
+    const inAllGroups = (group: string) => {
+        for (let i = 0; i < allGroups.length; i++) {
+            if (group == allGroups[i]) return true;
         }
+        return false;
+    }
+
+    const joinGroup = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!(inGroups(join)) && inAllGroups(join)) {
+            db.ref(`${join}/Requests/${auth.currentUser?.uid}`).set({ id: auth.currentUser?.uid, email: auth.currentUser?.email })
+        }
+        changeJoin("");
     }
 
     if (!closed) {
@@ -98,11 +107,17 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
                         Submit
                     </Button>
                 </Form>
-                <DropdownButton className="my-3" id="dropdown-button-basic" title="Join a Group">
-                    {allGroups.map((group, index) => (
-                        <Dropdown.Item onClick={() => joinGroup(group)} key={index}>{(inGroups(group)) ? "Already Joined" : group}</Dropdown.Item>
-                    ))}
-                </DropdownButton>
+                <Form onSubmit={joinGroup}>
+                    <Form.Group>
+                        <Form.Label>
+                            <b>Join Group</b>
+                        </Form.Label>
+                        <Form.Control type="text" className="input" value={join} onChange={(e) => changeJoin(e.target.value)} placeholder="Join new group" />
+                    </Form.Group>
+                    <Button className="secondary my-3" type="submit">
+                        Submit
+                    </Button>
+                </Form>
             </div>
         )
     }

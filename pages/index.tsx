@@ -82,7 +82,7 @@ export default function Home() {
         todos={todos} lastId={lastId} changeAllGroups={changeAllGroups}
         changeCurrentGroup={changeCurrentGroup} changeGroups={changeGroups}
         changeLast={changeLast} changeLoading={changeLoading}
-        changeUserExists={changeUserExists} />
+        changeUserExists={changeUserExists} changeGroupRequests={changeGroupRequests}/>
     )
   }
   else if (loading) {
