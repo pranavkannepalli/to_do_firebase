@@ -10,7 +10,7 @@ type Props = {
 
 const Todo: React.FC<Props> = ({ todo, markTodo, removeTodo }) => {
     return (
-        <div className="todo bg-dark">
+        <div className="todo ">
             <h5 style={{ textDecoration: todo.isDone ? "line-through" : "" }} className="my-2">
                 {todo.description}
             </h5>

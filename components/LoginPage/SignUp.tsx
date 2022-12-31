@@ -50,10 +50,10 @@ const SignUp: React.FC<Props> = ({ signUp }) => {
                     placeholder="Repeat Password"
                 />
                 <ListGroup className="my-2">
-                    <ListGroup.Item className={password.length < 8 ? "danger bg-dark" : "success bg-dark"}>
+                    <ListGroup.Item className={password.length < 8 ? "danger " : "success "}>
                         {password.length < 8 ? "Password needs to be more than 8 letters" : "Password is more than 8 letters"}
                     </ListGroup.Item>
-                    <ListGroup.Item className={password != repeatPassword ? "danger bg-dark" : "success bg-dark"}>
+                    <ListGroup.Item className={password != repeatPassword ? "danger " : "success "}>
                         {password != repeatPassword ? "Passwords don't match" : "Passwords are matching"}
                     </ListGroup.Item>
                 </ListGroup>

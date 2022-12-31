@@ -6,10 +6,6 @@
   --clr-dark: #1E1E1E;
 }
 
-.dark {
-  background-color: var(--clr-dark);
-}
-
 .secondary {
   background-color: var(--clr-secondary);
 }
@@ -40,11 +36,11 @@ a,
 }
 
 .danger {
-  color: #ef3737;
+  color: #F24E1E;
 }
 
 .success {
-  color: #3ab958;
+  color: #198754;
 }
 
 a:hover,
@@ -62,6 +58,6 @@ h1 {
 
 body {
   padding: 10px !important;
-  color: var(--clr-light) !important;
-  background: var(--clr-dark) !important;
+  color: var(--clr-dark) !important;
+  background: var(--clr-light) !important;
 }

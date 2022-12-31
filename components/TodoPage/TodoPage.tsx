@@ -63,7 +63,7 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                     <Groups currentGroup={currentGroup} groups={groups} allGroups={allGroups} groupRequests={groupRequests} changeAllGroups={changeAllGroups} changeGroups={changeGroups} changeCurrentGroup={changeCurrentGroup} />
                     <FormTodo addTodo={addTodo} />
                     {todos.map((todo, index) => (
-                        <Card className="bg-dark" key={index}>
+                        <Card className="" key={index}>
                             <Card.Body>
                                 <Todo todo={todo} markTodo={markTodo} removeTodo={removeTodo} />
                             </Card.Body>
