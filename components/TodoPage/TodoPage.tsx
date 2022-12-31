@@ -95,7 +95,7 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                 <div className="grid">
                     <div className="row">
                         <Sidebar groups={groups} allGroups={allGroups} signOut={signOut} changeAllGroups={changeAllGroups} changeGroups={changeGroups} changeCurrentGroup={changeCurrentGroup}></Sidebar>
-                        <div className="col-8">
+                        <div className="col-lg-8 col-sm-10">
                             <h1 className="primary">
                                 {currentGroup}
                             </h1>
@@ -125,30 +125,6 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
             </main>
         </div>
     )
-
-    /* return (
-        <div>
-            <Head>
-                <title>To-do App</title>
-            </Head>
-            <main>
-                <div>
-                    <h1 className="text-center">Todo List</h1>
-                    <h3 className="text-center">User: <span>{auth.currentUser?.email}</span><Button className="mx-2" onClick={signOut}>Sign Out</Button></h3>
-                    <br />
-                    <Groups currentGroup={currentGroup} groups={groups} allGroups={allGroups} groupRequests={groupRequests} changeAllGroups={changeAllGroups} changeGroups={changeGroups} changeCurrentGroup={changeCurrentGroup} />
-                    <FormTodo addTodo={addTodo} />
-                    {todos.map((todo, index) => (
-                        <Card className="" key={index}>
-                            <Card.Body>
-                                <Todo todo={todo} markTodo={markTodo} removeTodo={removeTodo} />
-                            </Card.Body>
-                        </Card>
-                    ))}
-                </div>
-            </main>
-        </div>
-    ) */
 }
 
 export default TodoPage;
