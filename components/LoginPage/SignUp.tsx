@@ -58,7 +58,7 @@ const SignUp: React.FC<Props> = ({ signUp }) => {
                     </ListGroup.Item>
                 </ListGroup>
             </Form.Group>
-            <Button className="secondary my-3" type="submit">
+            <Button className="button bg-secondary my-3" type="submit">
                 Submit
             </Button>
         </Form>

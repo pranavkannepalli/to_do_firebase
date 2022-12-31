@@ -103,7 +103,7 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
                         </Form.Label>
                         <Form.Control type="text" className="input" value={newGroup} onChange={(e) => setNewGroup(e.target.value)} placeholder="Add new group" />
                     </Form.Group>
-                    <Button className="secondary my-3" type="submit">
+                    <Button className="button bg-secondary my-3" type="submit">
                         Submit
                     </Button>
                 </Form>
@@ -114,7 +114,7 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
                         </Form.Label>
                         <Form.Control type="text" className="input" value={join} onChange={(e) => changeJoin(e.target.value)} placeholder="Join new group" />
                     </Form.Group>
-                    <Button className="secondary my-3" type="submit">
+                    <Button className="button bg-secondary my-3" type="submit">
                         Submit
                     </Button>
                 </Form>

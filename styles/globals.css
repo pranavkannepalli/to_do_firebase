@@ -103,6 +103,7 @@ a,
 a:hover,
 .button:hover {
   color: var(--clr-primary);
+  filter: drop-shadow(0.50em 0.50em 0.3em);
 }
 
 h1 {
