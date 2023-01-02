@@ -39,7 +39,7 @@ const SignIn: React.FC<Props> = ({ signIn }) => {
                     placeholder="Enter password"
                 />
             </Form.Group>
-            <Button className="button bg-secondary my-3" type="submit">
+            <Button className="button bgsecondary my-3" type="submit">
                 Submit
             </Button>
         </Form>

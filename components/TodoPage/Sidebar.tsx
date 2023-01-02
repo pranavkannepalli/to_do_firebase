@@ -64,7 +64,7 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
 
     if (!closed) {
         return (
-            <div className="col-lg-3 col-sm-12 bg-dark expandedSiderbar px-4">
+            <div className="col-lg-3 col-sm-12 bgdark expandedSiderbar px-4">
                 <div className="primary">
                     <button className="mx-1 p-2" onClick={() => changeClosed(!closed)}>
                         <svg width="45" height="35" viewBox="0 0 45 35" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -74,7 +74,7 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
                     {auth.currentUser?.email}
                 </div>
                 <h2 className="primary">
-                    Personal
+                    <a onClick={() => changeCurrentGroup("Personal")}>Personal</a>
                 </h2>
                 <a className="light" onClick={() => changeCurrentGroup("Personal")}>
                     Todos <br />
@@ -90,7 +90,7 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
                 </h2>
                 {groups.map((group, index) => (
                     <a key={index} className="light" onClick={() => changeCurrentGroup(group)}>
-                        {group} <br />
+                        {group != "Personal" ? <div>{group}<br /></div> : ""}
                     </a>
                 ))}
                 <Form className="my-3" onSubmit={handleSubmit}>
@@ -100,7 +100,7 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
                         </Form.Label>
                         <Form.Control type="text" className="input" value={newGroup} onChange={(e) => setNewGroup(e.target.value)} placeholder="Add new group" />
                     </Form.Group>
-                    <Button className="button bg-secondary my-3" type="submit">
+                    <Button className="button bgprimary my-3" type="submit">
                         Submit
                     </Button>
                 </Form>
@@ -111,7 +111,7 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
                         </Form.Label>
                         <Form.Control type="text" className="input" value={join} onChange={(e) => changeJoin(e.target.value)} placeholder="Join new group" />
                     </Form.Group>
-                    <Button className="button bg-secondary my-3" type="submit">
+                    <Button className="button bgprimary my-3" type="submit">
                         Submit
                     </Button>
                 </Form>
@@ -120,7 +120,7 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
     }
     else {
         return (
-            <div className="col-lg-1 col-sm-12 px-2 button_only bg-dark mx-1">
+            <div className="col-lg-1 col-sm-12 px-2 button_only bgdark mx-1">
                 <button className="p-2" onClick={() => changeClosed(!closed)}>
                     <svg width="45" height="35" viewBox="0 0 45 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1.17188 33.7656H43.8281M1.17188 17.5156H43.8281M1.17188 1.26562H43.8281" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
