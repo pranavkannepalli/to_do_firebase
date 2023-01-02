@@ -18,9 +18,6 @@ const FormTodo: React.FC<Props> = ({ addTodo }) => {
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group>
-        <Form.Label>
-          <b>Add Todo</b>
-        </Form.Label>
         <Form.Control
           type="text"
           className="input"
@@ -29,7 +26,7 @@ const FormTodo: React.FC<Props> = ({ addTodo }) => {
           placeholder="Add new todo"
         />
       </Form.Group>
-      <Button className="button bg-primary my-3" type="submit">
+      <Button className="button bgprimary my-3" type="submit">
         Submit
       </Button>
     </Form>
