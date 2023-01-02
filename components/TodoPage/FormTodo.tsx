@@ -18,9 +18,6 @@ const FormTodo: React.FC<Props> = ({ addTodo }) => {
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group>
-        <Form.Label>
-          <b>Add Todo</b>
-        </Form.Label>
         <Form.Control
           type="text"
           className="input"

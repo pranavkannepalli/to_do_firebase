@@ -103,8 +103,11 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                                 Join Requests
                             </h2>
                             {groupRequests.map((request, index) => (
-                                <Request key={index} acceptRequest={acceptRequest} deleteRequest={deleteRequest} request={request} />
-                            ))}
+                                <Card className="bgdark-alt border-0" key={index}>
+                                    <Card.Body>
+                                        <Request key={index} acceptRequest={acceptRequest} deleteRequest={deleteRequest} request={request} />
+                                    </Card.Body>
+                                </Card>                            ))}
                             <h2 className="secondary">
                                 Add a Todo
                             </h2>
@@ -113,7 +116,7 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                                 Todos
                             </h2>   
                             {todos.map((todo, index) => (
-                                <Card className="" key={index}>
+                                <Card className="bgdark-alt border-0" key={index}>
                                     <Card.Body>
                                         <Todo todo={todo} markTodo={markTodo} removeTodo={removeTodo} />
                                     </Card.Body>
