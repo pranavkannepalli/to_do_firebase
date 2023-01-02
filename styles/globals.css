@@ -1,24 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@200&display=swap');
+
 :root {
   /* colors */
   --clr-primary: #7D938A;
   --clr-secondary: #D64550;
   --clr-light: #FFFFFF;
   --clr-dark: #1E1E1E;
+  --clr-dark-alt: #dcdcdc;
+}
+
+.expandedSiderbar {
+  position: sticky;
+  left: 0px;
+  top: 0px;
+  height: 100vh;
+}
+
+@media screen and (min-width: 992px) {
+  .button_only {
+    position: sticky;
+    left: 0px;
+    top: 0px;
+    height: 100vh;
+  }
+}
+
+h1 {
+  font-size: 48px;
+  font-weight: 700;
+
+}
+
+h2 {
+  font-size: 30px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.bg-light {
+  background-color: var(--clr-light);
+}
+
+.bg-dark {
+  background-color: var(--clr-dark);
+}
+
+.bg-dark-alt {
+  background-color: var(--clr-dark-alt);
+}
+
+.bg-secondary {
+  background-color: var(--clr-secondary);
+}
+
+.bg-primary {
+  background-color: var(--clr-primary);
+}
+
+.light {
+  color: var(--clr-light);
+}
+
+.dark {
+  color: var(--clr-dark);
+}
+
+.primary {
+  color: var(--clr-primary);
 }
 
 .secondary {
-  background-color: var(--clr-secondary);
+  color: var(--clr-secondary);
+}
+
+button {
+  background-color: var(--clr-dark);
 }
 
 html,
 body {
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
-
-.button {
-  margin-top: 12px;
-  margin-bottom: 30px;
+  font-family: 'Roboto', sans-serif;
 }
 
 h1 {
@@ -46,6 +112,7 @@ a,
 a:hover,
 .button:hover {
   color: var(--clr-primary);
+  filter: drop-shadow(0.50em 0.50em 0.3em);
 }
 
 h1 {
@@ -57,7 +124,7 @@ h1 {
 }
 
 body {
-  padding: 10px !important;
+  margin: none;
   color: var(--clr-dark) !important;
   background: var(--clr-light) !important;
 }

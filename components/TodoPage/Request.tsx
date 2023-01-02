@@ -12,7 +12,7 @@ type Props = {
 const Request: React.FC<Props> = ({ request, acceptRequest, deleteRequest }) => {
     if (request.email != auth.currentUser?.email) {
         return (
-            <div className="todo ">
+            <div className="todo">
                 <h5 className="my-2">
                     Join Request
                 </h5>
