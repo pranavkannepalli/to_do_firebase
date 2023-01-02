@@ -9,11 +9,20 @@
   --clr-dark-alt: #dcdcdc;
 }
 
-.absolute{
+.expandedSiderbar {
   position: sticky;
   left: 0px;
   top: 0px;
   height: 100vh;
+}
+
+@media screen and (min-width: 992px) {
+  .button_only {
+    position: sticky;
+    left: 0px;
+    top: 0px;
+    height: 100vh;
+  }
 }
 
 h1 {
