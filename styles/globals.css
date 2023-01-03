@@ -5,7 +5,7 @@
   --clr-primary: #7D938A;
   --clr-secondary: #D64550;
   --clr-light: #FFFFFF;
-  --clr-dark: #1E1E1E;
+  --clr-dark: #3A3A3A;
   --clr-dark-alt: #dcdcdc;
 }
 
@@ -14,6 +14,25 @@
   left: 0px;
   top: 0px;
   height: 100vh;
+}
+
+.grad {
+  background-image: linear-gradient(white, black);
+  height: 100vh;
+  width: 100vw;
+}
+
+.sign {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  text-align: center;
+  height: 75wh;
+  width: 75vw;
+  border-radius: 25px;
 }
 
 @media screen and (min-width: 992px) {
@@ -130,6 +149,6 @@ h1 {
 
 body {
   margin: none;
-  color: var(--clr-dark) !important;
-  background: var(--clr-light) !important;
+  color: var(--clr-dark);
+  background: var(--clr-light);
 }

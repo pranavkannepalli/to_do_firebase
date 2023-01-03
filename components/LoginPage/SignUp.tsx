@@ -11,7 +11,7 @@ const SignUp: React.FC<Props> = ({ changePage, signUp }) => {
     const [email, setEmail] = React.useState<string>("");
     const [password, setPassword] = React.useState<string>("");
     const [repeatPassword, setRepeat] = React.useState<string>("");
-    
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!email) return;
@@ -24,49 +24,51 @@ const SignUp: React.FC<Props> = ({ changePage, signUp }) => {
     }
 
     return (
-        <div>
-            <Form onSubmit={handleSubmit}>
-                <Form.Group>
-                    <Form.Label>
-                        <span><h2>Sign Up<br /></h2></span>
-                    </Form.Label>
-                    <Form.Control
-                        type="email"
-                        className="input"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Enter email"
-                    />
-                    <Form.Control
-                        type="password"
-                        className="input"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Enter password"
-                    />
-                    <Form.Control
-                        type="password"
-                        className="input"
-                        value={repeatPassword}
-                        onChange={(e) => setRepeat(e.target.value)}
-                        placeholder="Repeat Password"
-                    />
-                    <ListGroup className="my-2">
-                        <ListGroup.Item className={password.length < 8 ? "danger " : "success "}>
-                            {password.length < 8 ? "Password needs to be more than 8 letters" : "Password is more than 8 letters"}
-                        </ListGroup.Item>
-                        <ListGroup.Item className={password != repeatPassword ? "danger " : "success "}>
-                            {password != repeatPassword ? "Passwords don't match" : "Passwords are matching"}
-                        </ListGroup.Item>
-                    </ListGroup>
-                </Form.Group>
-                <Button className="button bgsecondary my-3" type="submit">
-                    Submit
-                </Button>
-            </Form>
-            <div>
-                Already have an Account?
-                <button className="btn button bgprimary" onClick={() => changePage("signin")}>Sign In</button>
+        <div className="grad">
+            <div className="bgdark sign">
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group>
+                        <Form.Label>
+                            <h2 className="primary">Sign Up<br /></h2>
+                        </Form.Label>
+                        <Form.Control
+                            type="email"
+                            className="input"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Enter email"
+                        />
+                        <Form.Control
+                            type="password"
+                            className="input"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Enter password"
+                        />
+                        <Form.Control
+                            type="password"
+                            className="input"
+                            value={repeatPassword}
+                            onChange={(e) => setRepeat(e.target.value)}
+                            placeholder="Repeat Password"
+                        />
+                        <ListGroup className="my-2">
+                            <ListGroup.Item className={password.length < 8 ? "danger " : "success "}>
+                                {password.length < 8 ? "Password needs to be more than 8 letters" : "Password is more than 8 letters"}
+                            </ListGroup.Item>
+                            <ListGroup.Item className={password != repeatPassword ? "danger " : "success "}>
+                                {password != repeatPassword ? "Passwords don't match" : "Passwords are matching"}
+                            </ListGroup.Item>
+                        </ListGroup>
+                    </Form.Group>
+                    <Button className="button bgprimary my-3" type="submit">
+                        Submit
+                    </Button>
+                </Form>
+                <div className="light">
+                    Already have an Account?
+                </div>
+                <Button className="btn button bgprimary" onClick={() => changePage("signin")}>Sign In</Button>
             </div>
         </div>
     )

@@ -20,34 +20,36 @@ const SignIn: React.FC<Props> = ({ changePage, signIn }) => {
     }
 
     return (
-        <div>
-            <Form onSubmit={handleSubmit}>
-                <Form.Group>
-                    <Form.Label>
-                        <span><h2>Sign In<br /></h2></span>
-                    </Form.Label>
-                    <Form.Control
-                        type="email"
-                        className="input"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Enter email"
-                    />
-                    <Form.Control
-                        type="password"
-                        className="input"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Enter password"
-                    />
-                </Form.Group>
-                <Button className="button bgsecondary my-3" type="submit">
-                    Submit
-                </Button>
-            </Form>
-            <div>
-                Need an Account?
-                <button className="btn button bgprimary" onClick={() => changePage("signup")}>Sign Up</button>
+        <div className="grad">
+            <div className="bgdark sign">
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group>
+                        <Form.Label>
+                            <h2 className="primary">Sign In<br /></h2>
+                        </Form.Label>
+                        <Form.Control
+                            type="email"
+                            className="input"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Enter email"
+                        />
+                        <Form.Control
+                            type="password"
+                            className="input"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Enter password"
+                        />
+                    </Form.Group>
+                    <Button className="button bgprimary my-3" type="submit">
+                        Submit
+                    </Button>
+                </Form>
+                <div className="light">
+                    Need an Account?
+                </div>
+                <Button className="btn button bgprimary" onClick={() => changePage("signup")}>Sign Up</Button>
             </div>
         </div>
     )
