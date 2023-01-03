@@ -19,6 +19,7 @@ const FormTodo: React.FC<Props> = ({ addTodo }) => {
     <Form onSubmit={handleSubmit}>
       <Form.Group>
         <Form.Control
+          required={true}
           type="text"
           className="input"
           value={value}

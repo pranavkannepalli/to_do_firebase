@@ -3,6 +3,7 @@ import React from "react";
 import { auth, db } from "../../firebase_setup";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import {useState} from "react";
 
 type Props = {
   changeLast: (value: React.SetStateAction<number>) => void;
@@ -11,6 +12,7 @@ type Props = {
 }
 
 const LoginPage: React.FC<Props> = ({ changeLast, changeUserExists, changeLoading }) => {
+  const [page, changePage] = useState<string>("signin");
   
   const signIn = async (email: string, password: string) => {
     changeLoading(true);
@@ -40,20 +42,16 @@ const LoginPage: React.FC<Props> = ({ changeLast, changeUserExists, changeLoadin
     changeLoading(false);
   }
 
-  return (
-    <div>
-      <Head>
-        <title>Login/Sign Up</title>
-      </Head>
-      <main>
-        <div>
-          <h1 className="text-center mb-4">Login/Sign Up</h1>
-          <SignIn signIn={signIn}></SignIn>
-          <SignUp signUp={signUp}></SignUp>
-        </div>
-      </main>
-    </div>
-  )
+  if (page == "signin") {
+    return (
+      <SignIn changePage={changePage} signIn={signIn}></SignIn>
+    )
+  }
+  else {
+    return (
+      <SignUp changePage={changePage} signUp={signUp}></SignUp>
+    )
+  }
 }
 
 export default LoginPage;
