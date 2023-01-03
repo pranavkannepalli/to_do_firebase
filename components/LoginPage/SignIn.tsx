@@ -28,6 +28,7 @@ const SignIn: React.FC<Props> = ({ changePage, signIn }) => {
                             <h2 className="primary">Sign In<br /></h2>
                         </Form.Label>
                         <Form.Control
+                            required={true}
                             type="email"
                             className="input"
                             value={email}
@@ -35,6 +36,7 @@ const SignIn: React.FC<Props> = ({ changePage, signIn }) => {
                             placeholder="Enter email"
                         />
                         <Form.Control
+                            required={true}
                             type="password"
                             className="input"
                             value={password}
