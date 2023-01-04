@@ -48,6 +48,7 @@ const SignIn: React.FC<Props> = ({ changePage, signIn }) => {
                         Submit
                     </Button>
                 </Form>
+                <hr />
                 <div className="light">
                     Need an Account?
                 </div>

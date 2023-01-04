@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { auth, db } from "../../firebase_setup";
+import { Icon } from "@iconify/react";
 
 type Props = {
     groups: string[];
@@ -71,7 +72,7 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
         return (
             <div className="col-lg-3 col-sm-12 bgdark expandedSiderbar px-4">
                 <div className="primary">
-                    <button className="mx-1 p-2" onClick={() => changeClosed(!closed)}>
+                    <button className="p-2" onClick={() => changeClosed(!closed)}>
                         <svg width="45" height="35" viewBox="0 0 45 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M1.17188 33.7656H43.8281M1.17188 17.5156H43.8281M1.17188 1.26562H43.8281" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
@@ -79,7 +80,10 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
                     {auth.currentUser?.email}
                 </div>
                 <h2 className="primary">
-                    <a onClick={() => changeCurrentGroup("Personal")}>Personal</a>
+                    <a onClick={() => changeCurrentGroup("Personal")}>
+                        Personal
+                        <Icon className="sidebar-icon" icon="material-symbols:person-rounded" />
+                    </a>
                 </h2>
                 <a className="light" onClick={() => changeCurrentGroup("Personal")}>
                     Todos <br />
@@ -92,6 +96,7 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
                 </a>
                 <h2 className="primary">
                     Groups
+                    <Icon className="sidebar-icon" icon="material-symbols:group-rounded" />
                 </h2>
                 {groups.map((group, index) => (
                     <a key={index} className="light" onClick={() => changeCurrentGroup(group)}>
@@ -111,14 +116,14 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
                 </form>
                 <div className="primary mt-3">Join a Group</div>
                 <form onSubmit={joinGroup}>
-                <div className="input-group">
-                    <input type="text" className="form-control" value={join} onChange={(e) => changeJoin(e.target.value)} placeholder="Join new group" />
-                    <button className="btn btn-outline-secondary" type="submit">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M19.6 21L13.3 14.7C12.8 15.1 12.225 15.4167 11.575 15.65C10.925 15.8833 10.2333 16 9.5 16C7.68333 16 6.146 15.371 4.888 14.113C3.62933 12.8543 3 11.3167 3 9.5C3 7.68333 3.62933 6.14567 4.888 4.887C6.146 3.629 7.68333 3 9.5 3C11.3167 3 12.8543 3.629 14.113 4.887C15.371 6.14567 16 7.68333 16 9.5C16 10.2333 15.8833 10.925 15.65 11.575C15.4167 12.225 15.1 12.8 14.7 13.3L21 19.6L19.6 21ZM9.5 14C10.75 14 11.8127 13.5627 12.688 12.688C13.5627 11.8127 14 10.75 14 9.5C14 8.25 13.5627 7.18733 12.688 6.312C11.8127 5.43733 10.75 5 9.5 5C8.25 5 7.18733 5.43733 6.312 6.312C5.43733 7.18733 5 8.25 5 9.5C5 10.75 5.43733 11.8127 6.312 12.688C7.18733 13.5627 8.25 14 9.5 14Z" fill="white" />
-                        </svg>
-                    </button>
-                </div>
+                    <div className="input-group">
+                        <input type="text" className="form-control" value={join} onChange={(e) => changeJoin(e.target.value)} placeholder="Join new group" />
+                        <button className="btn btn-outline-secondary" type="submit">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19.6 21L13.3 14.7C12.8 15.1 12.225 15.4167 11.575 15.65C10.925 15.8833 10.2333 16 9.5 16C7.68333 16 6.146 15.371 4.888 14.113C3.62933 12.8543 3 11.3167 3 9.5C3 7.68333 3.62933 6.14567 4.888 4.887C6.146 3.629 7.68333 3 9.5 3C11.3167 3 12.8543 3.629 14.113 4.887C15.371 6.14567 16 7.68333 16 9.5C16 10.2333 15.8833 10.925 15.65 11.575C15.4167 12.225 15.1 12.8 14.7 13.3L21 19.6L19.6 21ZM9.5 14C10.75 14 11.8127 13.5627 12.688 12.688C13.5627 11.8127 14 10.75 14 9.5C14 8.25 13.5627 7.18733 12.688 6.312C11.8127 5.43733 10.75 5 9.5 5C8.25 5 7.18733 5.43733 6.312 6.312C5.43733 7.18733 5 8.25 5 9.5C5 10.75 5.43733 11.8127 6.312 12.688C7.18733 13.5627 8.25 14 9.5 14Z" fill="white" />
+                            </svg>
+                        </button>
+                    </div>
                 </form>
             </div>
         )
@@ -126,7 +131,7 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
     else {
         return (
             <div className="col-lg-1 col-sm-12 mb-2 px-2 button_only bgdark">
-                <button className="mx-3 p-2" onClick={() => changeClosed(!closed)}>
+                <button className="p-2" onClick={() => changeClosed(!closed)}>
                     <svg width="45" height="35" viewBox="0 0 45 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1.17188 33.7656H43.8281M1.17188 17.5156H43.8281M1.17188 1.26562H43.8281" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
