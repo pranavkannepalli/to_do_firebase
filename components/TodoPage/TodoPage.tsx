@@ -60,7 +60,7 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                 Groups.push(snapshot.val()[i]);
                 if (snapshot.val()[i] == currentGroup) {
                     ingroup = true;
-                } 
+                }
             }
             Groups.push(currentGroup)
             if (!ingroup) {
@@ -75,12 +75,12 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
         db.ref(`${currentGroup}/Requests/`).once("value", snapshot => {
             let allRequests: any = [];
             snapshot.forEach(snap => {
-              var data: any = snap.val();
-              var newRequest: GroupRequest = {
-                id: data.id,
-                email: data.email
-              }
-              allRequests.push(newRequest);
+                var data: any = snap.val();
+                var newRequest: GroupRequest = {
+                    id: data.id,
+                    email: data.email
+                }
+                allRequests.push(newRequest);
             })
             changeGroupRequests(allRequests);
         })
@@ -103,25 +103,25 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                                 Join Requests
                             </h2>
                             {groupRequests.map((request, index) => (
-                                <Card className="bgdark-alt border-0" key={index}>
+                                <Card className="bgdark-alt border-0 my-2" key={index}>
                                     <Card.Body>
                                         <Request key={index} acceptRequest={acceptRequest} deleteRequest={deleteRequest} request={request} />
                                     </Card.Body>
-                                </Card>                            ))}
+                                </Card>))}
                             <h2 className="secondary">
                                 Add a Todo
                             </h2>
                             <FormTodo addTodo={addTodo} />
                             <h2 className="secondary">
                                 Todos
-                            </h2>   
+                            </h2>
                             {todos.map((todo, index) => (
-                                <Card className="bgdark-alt border-0" key={index}>
+                                <Card className="bgdark-alt border-0 my-2" key={index}>
                                     <Card.Body>
                                         <Todo todo={todo} markTodo={markTodo} removeTodo={removeTodo} />
                                     </Card.Body>
                                 </Card>
-                            ))}                         
+                            ))}
                         </div>
                     </div>
                 </div>

@@ -28,7 +28,7 @@
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  padding: 20px;
+  padding: 3vw;
   text-align: center;
   height: 75wh;
   width: 75vw;
@@ -147,4 +147,12 @@ body {
   margin: none;
   color: var(--clr-dark);
   background: var(--clr-light);
+}
+
+hr {
+  color: white;
+  border-top: 5px solid;
+  opacity: 100;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
