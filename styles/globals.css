@@ -62,23 +62,23 @@ ul {
 }
 
 .bglight {
-  background-color: var(--clr-light);
+  background-color: var(--clr-light) !important;
 }
 
 .bgdark {
-  background-color: var(--clr-dark);
+  background-color: var(--clr-dark) !important;
 }
 
 .bgdark-alt {
-  background-color: var(--clr-dark-alt);
+  background-color: var(--clr-dark-alt) !important;
 }
 
 .bgsecondary {
-  background-color: var(--clr-secondary);
+  background-color: var(--clr-secondary) !important;
 }
 
 .bgprimary {
-  background-color: var(--clr-primary);
+  background-color: var(--clr-primary) !important;
 }
 
 .light {
