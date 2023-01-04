@@ -22,6 +22,13 @@
   width: 100vw;
 }
 
+.sidebar-icon {
+  color: var(--clr-light);
+  float: right;
+  height: 30px;
+  width: 30px;
+}
+
 .sign {
   position: fixed;
   top: 50%;

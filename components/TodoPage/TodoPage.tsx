@@ -99,15 +99,17 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                             <h1 className="primary">
                                 {currentGroup}
                             </h1>
-                            <h2 className="secondary">
-                                Join Requests
-                            </h2>
-                            {groupRequests.map((request, index) => (
-                                <Card className="bgdark-alt border-0 my-2" key={index}>
-                                    <Card.Body>
-                                        <Request key={index} acceptRequest={acceptRequest} deleteRequest={deleteRequest} request={request} />
-                                    </Card.Body>
-                                </Card>))}
+                            {currentGroup != "Personal" ? <div>
+                                <h2 className="secondary">
+                                    Join Requests
+                                </h2>
+                                {groupRequests.map((request, index) => (
+                                    <Card className="bgdark-alt border-0 my-2" key={index}>
+                                        <Card.Body>
+                                            <Request key={index} acceptRequest={acceptRequest} deleteRequest={deleteRequest} request={request} />
+                                        </Card.Body>
+                                    </Card>))}
+                            </div> : ""}
                             <h2 className="secondary">
                                 Add a Todo
                             </h2>
