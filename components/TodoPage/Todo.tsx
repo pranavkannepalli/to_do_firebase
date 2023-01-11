@@ -16,7 +16,11 @@ const Todo: React.FC<Props> = ({ todo, markTodo, removeTodo }) => {
                 {todo.description}
             </h5>
             <div className="my-1">
-                <span>Added By: </span>{todo.addedBy}
+                <strong>Date Due: </strong>{todo.date != null ? todo.date.toLocaleDateString() + " " : "None "}
+                <strong>Time Due: </strong>{todo.date != null ? todo.date.toLocaleTimeString() : "None "}
+            </div>
+            <div className="my-1">
+                <strong>Added By: </strong>{todo.addedBy}
             </div>
             <div>
                 {!todo.isDone && (<Button variant="outline-success border-0" onClick={() => markTodo(todo.id)}>
