@@ -18,6 +18,9 @@ const FormTodo: React.FC<Props> = ({ addTodo }) => {
     e.preventDefault();
     if (!value) return;
     addTodo(value, due);
+    setDate("");
+    setTime("");
+    setDue(undefined);
     setValue("");
   };
 
@@ -29,10 +32,10 @@ const FormTodo: React.FC<Props> = ({ addTodo }) => {
 
     if ("elogdate" === elid) {
       setDate(value);
-      newStr = new String("").concat(value||"0000-00-00", " ", time||"00:00");
+      newStr = new String("").concat(value||"", " ", time||"");
     } else if ("elogtime" === elid) {
       setTime(value);
-      newStr = new String("").concat(date||"0000-00-00", " ", value||"00:00");
+      newStr = new String("").concat(date||"", " ", value||"");
     }
     setDue(new Date(newStr));
   }
@@ -64,9 +67,6 @@ const FormTodo: React.FC<Props> = ({ addTodo }) => {
             type="time"
           />
         </>
-        <small>
-          <i>Date you set: {due?.toISOString()}</i>
-        </small>
       </Form.Group>
       <Button className="button bgprimary my-3" type="submit">
         Submit

@@ -25,12 +25,25 @@ export default function Home() {
         let allTodos: any = [];
         snapshot.forEach(snap => {
           var data: any = snap.val();
-          var newTodo: ITodo = {
-            id: data.id,
-            description: data.description,
-            isDone: data.isDone,
-            addedBy: data.addedBy
+          if ("date" in data) {
+            var newTodo: ITodo = {
+              id: data.id,
+              description: data.description,
+              isDone: data.isDone,
+              addedBy: data.addedBy,
+              date: new Date(data.date)
+            }
           }
+          else {
+            var newTodo: ITodo = {
+              id: data.id,
+              description: data.description,
+              isDone: data.isDone,
+              addedBy: data.addedBy,
+              date: null
+            }
+          }
+          console.log(newTodo)
           allTodos.push(newTodo);
         })
         changeTodos(allTodos);

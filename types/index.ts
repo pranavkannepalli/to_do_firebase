@@ -3,6 +3,7 @@ export interface ITodo {
     description: string;
     isDone: boolean;
     addedBy: string;
+    date?: Date | null;
 }
 
 export interface GroupRequest {
