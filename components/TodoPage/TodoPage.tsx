@@ -1,6 +1,7 @@
 import Head from "next/head";
 import React from "react";
 import { auth, db } from "../../firebase_setup";
+import firebase from "firebase/compat/app";
 import FormTodo from "./FormTodo";
 import Todo from "./Todo";
 import { GroupRequest, ITodo } from "../../types"
@@ -26,8 +27,11 @@ type Props = {
 
 const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGroups, todos, lastId, changeGroupRequests, changeCurrentGroup, changeGroups, changeAllGroups, changeLast, changeUserExists, changeLoading }) => {
 
-    const addTodo = (text: string) => {
-        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${lastId + 1}/`).set({ id: lastId + 1, description: text, isDone: false, addedBy: auth.currentUser?.email })
+    const addTodo = (text: string, date: Date | undefined) => {
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${lastId + 1}/`).set({ id: lastId + 1, description: text, isDone: false, addedBy: auth.currentUser?.email})
+        if (date != undefined) {
+            db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${lastId + 1}/`).update({date: date})
+        }
         db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/`).update({ LastId: lastId + 1 })
         changeLast(lastId + 1)
     };
