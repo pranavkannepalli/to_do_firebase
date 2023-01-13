@@ -5,7 +5,7 @@ import { Icon } from '@iconify/react';
 
 type Props = {
     todo: ITodo;
-    markTodo: (id: number) => void;
+    markTodo: (id: number, done: boolean) => void;
     removeTodo: (id: number) => void;
 }
 
@@ -23,10 +23,19 @@ const Todo: React.FC<Props> = ({ todo, markTodo, removeTodo }) => {
                 <strong>Added By: </strong>{todo.addedBy}
             </div>
             <div>
-                {!todo.isDone && (<Button variant="outline-success border-0" onClick={() => markTodo(todo.id)}>
-                    <Icon icon="ic:baseline-done-outline" />
-                </Button>)}
-                <Button variant="outline-danger border-0" onClick={() => removeTodo(todo.id)}>
+                {!todo.isDone ?
+                    (
+                        <Button className="button-primary m-2" title="Mark as Done" variant="outline-success border-0" onClick={() => markTodo(todo.id, true)}>
+                            <Icon icon="ic:baseline-done-outline" />
+                        </Button>
+                    ) :
+                    (
+                        <Button className="button-primary m-2" title="Mark as Not Done" variant="outline-success border-0" onClick={() => markTodo(todo.id, false)}>
+                            <Icon icon="ic:round-remove-done" />
+                        </Button>
+                    )
+                }
+                <Button className="button-danger" title="Delete" variant="outline-danger border-0" onClick={() => removeTodo(todo.id)}>
                     <Icon icon="mdi:trash-can-outline" />
                 </Button>
             </div>

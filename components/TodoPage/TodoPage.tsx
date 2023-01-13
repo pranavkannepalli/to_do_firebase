@@ -35,8 +35,8 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
         db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/`).update({ LastId: lastId + 1 })
         changeLast(lastId + 1)
     };
-    const markTodo = (id: number) => {
-        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${id}/`).update({ isDone: true });
+    const markTodo = (id: number, done: boolean) => {
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${id}/`).update({ isDone: done });
     };
     const removeTodo = (id: number) => {
         db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${id}/`).remove();
