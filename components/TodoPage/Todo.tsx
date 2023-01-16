@@ -16,12 +16,33 @@ const Todo: React.FC<Props> = ({ todo, markTodo, removeTodo, editTodo }) => {
 
     const [value, setValue] = useState<string>(todo.description);
     const [due, setDue] = useState<Date>();
-    const [date, setDate] = useState<string>();
-    const [time, setTime] = useState<string>();
+
+    const getDate = () => {
+        if (todo.date == null) return "";
+        var date:string = todo.date.toLocaleDateString();
+        var s:string[] = date.split("/");
+        while (s[0].length < 2) {
+            s[0] = "0".concat(s[0]);
+        }
+        while (s[1].length < 2) {
+            s[1] = "0".concat(s[1]);
+        }
+        while (s[2].length < 4) {
+            s[2] = "0".concat(s[2]);
+        }
+        date = s[2].concat("-", s[0], "-", s[1]) 
+        return date;
+    }
+
+    const getTime = () => {
+        if (todo.date == null) return "";
+        return todo.date.toLocaleTimeString();
+    }
+
+    const [date, setDate] = useState<string>(getDate());
+    const [time, setTime] = useState<string>(getTime());
     const dateRef = useRef(null);
     const timeRef = useRef(null);
-
-
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

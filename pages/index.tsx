@@ -43,7 +43,6 @@ export default function Home() {
               date: null,
             }
           }
-          console.log(newTodo)
           allTodos.push(newTodo);
         })
         changeTodos(allTodos);

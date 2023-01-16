@@ -9,8 +9,8 @@ type Props = {
 const FormTodo: React.FC<Props> = ({ addTodo }) => {
   const [value, setValue] = useState<string>("");
   const [due, setDue] = useState<Date>();
-  const [date, setDate] = useState<string>();
-  const [time, setTime] = useState<string>();
+  const [date, setDate] = useState<string>("");
+  const [time, setTime] = useState<string>("");
   const dateRef = useRef(null);
   const timeRef = useRef(null);
 
