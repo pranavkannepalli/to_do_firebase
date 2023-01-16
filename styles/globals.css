@@ -126,7 +126,7 @@ a {
 }
 
 .button {
-  background-color: var(--clr-primary);
+  background-color: var(--clr-secondary);
   color: white;
   text-decoration: none;
   border: none;
@@ -152,21 +152,9 @@ a {
   transition: box-shadow 300ms ease-in-out;
 }
 
-.danger {
-  color: #F24E1E;
-}
-
-.success {
-  color: #198754;
-}
-
-a:hover {
-  color: var(--clr-primary);
-}
-
 .button:hover {
   box-shadow: 0px 2px 16px var(--clr-dark);
-  color: inherit;
+  color: var(--clr-secondary);
   background: none;
 }
 
@@ -180,6 +168,18 @@ a:hover {
   box-shadow: 0px 2px 16px var(--clr-dark);
   color: var(--clr-danger);
   background: none;
+}
+
+.danger {
+  color: #F24E1E;
+}
+
+.success {
+  color: #198754;
+}
+
+a:hover {
+  color: var(--clr-primary);
 }
 
 h1 {
