@@ -31,7 +31,7 @@ export default function Home() {
               description: data.description,
               isDone: data.isDone,
               addedBy: data.addedBy,
-              date: new Date(data.date)
+              date: new Date(data.date),
             }
           }
           else {
@@ -40,10 +40,9 @@ export default function Home() {
               description: data.description,
               isDone: data.isDone,
               addedBy: data.addedBy,
-              date: null
+              date: null,
             }
           }
-          console.log(newTodo)
           allTodos.push(newTodo);
         })
         changeTodos(allTodos);

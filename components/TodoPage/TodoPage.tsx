@@ -1,11 +1,10 @@
 import Head from "next/head";
 import React from "react";
 import { auth, db } from "../../firebase_setup";
-import firebase from "firebase/compat/app";
 import FormTodo from "./FormTodo";
 import Todo from "./Todo";
 import { GroupRequest, ITodo } from "../../types"
-import { Button, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import Sidebar from "./Sidebar"
 import Request from "./Request"
 
@@ -35,12 +34,21 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
         db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/`).update({ LastId: lastId + 1 })
         changeLast(lastId + 1)
     };
-    const markTodo = (id: number) => {
-        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${id}/`).update({ isDone: true });
+
+    const markTodo = (id: number, done: boolean) => {
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${id}/`).update({ isDone: done });
     };
+
     const removeTodo = (id: number) => {
         db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${id}/`).remove();
     };
+
+    const editTodo = (todo: ITodo) => {
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${todo.id}/`).update({description: todo.description, isDone: todo.isDone, addedBy: todo.addedBy})
+        if (todo.date != undefined) {
+            db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${todo.id}/`).update({date: todo.date})
+        }
+    }
 
     const signOut = async () => {
         changeLoading(true);
@@ -124,7 +132,7 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                             {todos.map((todo, index) => (
                                 <Card className="bgdark-alt border-0 my-2" key={index}>
                                     <Card.Body>
-                                        <Todo todo={todo} markTodo={markTodo} removeTodo={removeTodo} />
+                                        <Todo todo={todo} markTodo={markTodo} removeTodo={removeTodo} editTodo={editTodo} />
                                     </Card.Body>
                                 </Card>
                             ))}

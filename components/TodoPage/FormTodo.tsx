@@ -9,14 +9,22 @@ type Props = {
 const FormTodo: React.FC<Props> = ({ addTodo }) => {
   const [value, setValue] = useState<string>("");
   const [due, setDue] = useState<Date>();
-  const [date, setDate] = useState<string>();
-  const [time, setTime] = useState<string>();
+  const [date, setDate] = useState<string>("");
+  const [time, setTime] = useState<string>("");
   const dateRef = useRef(null);
   const timeRef = useRef(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!value) return;
+    var now = Date.now();
+    if (due != undefined && due.valueOf() < now) {
+      setDate("");
+      setTime("");
+      setDue(undefined);
+      alert("You must select a date in the future")
+      return;
+    }
     addTodo(value, due);
     setDate("");
     setTime("");
@@ -28,14 +36,14 @@ const FormTodo: React.FC<Props> = ({ addTodo }) => {
     // onChange();
     const value = e.target.value;
     const elid = e.target.id;
-    var newStr:string = "";
+    var newStr: string = "";
 
     if ("elogdate" === elid) {
       setDate(value);
-      newStr = new String("").concat(value||"", " ", time||"");
+      newStr = new String("").concat(value || "", " ", time || "");
     } else if ("elogtime" === elid) {
       setTime(value);
-      newStr = new String("").concat(date||"", " ", value||"");
+      newStr = new String("").concat(date || "", " ", value || "");
     }
     setDue(new Date(newStr));
   }
