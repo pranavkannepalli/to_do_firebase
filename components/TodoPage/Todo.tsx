@@ -36,7 +36,23 @@ const Todo: React.FC<Props> = ({ todo, markTodo, removeTodo, editTodo }) => {
 
     const getTime = () => {
         if (todo.date == null) return "";
-        return todo.date.toLocaleTimeString();
+        //"12:27:00 PM" -> "HH:mm:ss"
+        var time:string = todo.date.toLocaleTimeString();
+        var AMPM = time.substring(time.length - 2);
+        var s:string[] = time.substring(0, time.length - 3).split(":")
+
+        if (AMPM == "PM") {
+            if (s[0] != "12") {
+                s[0] = String(parseInt(s[0]) + 12);
+            }
+        }
+        else {
+            if (s[0] == "12") {
+                s[0] = "00";
+            }
+        }
+
+        return s[0].concat(":",s[1],":",s[2]);
     }
 
     const [date, setDate] = useState<string>(getDate());
@@ -154,6 +170,9 @@ const Todo: React.FC<Props> = ({ todo, markTodo, removeTodo, editTodo }) => {
                 </Form.Group>
                 <Button className="button bgprimary my-3" type="submit">
                     Submit
+                </Button>
+                <Button className="button-danger my-3" onClick={() => changeEditing(false)}>
+                    Cancel
                 </Button>
             </Form>
         );
