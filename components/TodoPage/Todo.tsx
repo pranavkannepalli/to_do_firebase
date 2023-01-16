@@ -63,6 +63,7 @@ const Todo: React.FC<Props> = ({ todo, markTodo, removeTodo, editTodo }) => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!value) return;
+
         if (due == null) {
             var edit: ITodo = {
                 id: todo.id,
@@ -73,6 +74,11 @@ const Todo: React.FC<Props> = ({ todo, markTodo, removeTodo, editTodo }) => {
             }
         }
         else {
+            var now = Date.now();
+            if (due.valueOf() < now) {
+                alert("You must select a date in the future")
+                return;
+            }
             var edit: ITodo = {
                 id: todo.id,
                 description: value,
