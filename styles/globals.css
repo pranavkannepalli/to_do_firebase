@@ -129,7 +129,7 @@ a {
   background-color: var(--clr-secondary) !important;
   color: white !important;
   text-decoration: none;
-  border: none;
+  border: none !important;
   box-shadow: 0px 0px 0px var(--clr-dark);
   transition: box-shadow 300ms ease-in-out;
 }
@@ -138,7 +138,7 @@ a {
   background-color: var(--clr-primary) !important;
   color: white !important;
   text-decoration: none;
-  border: none;
+  border: none !important;
   box-shadow: 0px 0px 0px var(--clr-dark);
   transition: box-shadow 300ms ease-in-out;
 }
@@ -147,7 +147,7 @@ a {
   background-color: var(--clr-danger) !important;
   color: white !important;
   text-decoration: none;
-  border: none;
+  border: none !important;
   box-shadow: 0px 0px 0px var(--clr-dark);
   transition: box-shadow 300ms ease-in-out;
 }
