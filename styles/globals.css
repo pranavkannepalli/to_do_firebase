@@ -126,8 +126,8 @@ a {
 }
 
 .button {
-  background-color: var(--clr-secondary);
-  color: white;
+  background-color: var(--clr-secondary) !important;
+  color: white !important;
   text-decoration: none;
   border: none;
   box-shadow: 0px 0px 0px var(--clr-dark);
@@ -135,8 +135,8 @@ a {
 }
 
 .button-primary {
-  background-color: var(--clr-primary);
-  color: white;
+  background-color: var(--clr-primary) !important;
+  color: white !important;
   text-decoration: none;
   border: none;
   box-shadow: 0px 0px 0px var(--clr-dark);
@@ -144,8 +144,8 @@ a {
 }
 
 .button-danger {
-  background-color: var(--clr-danger);
-  color: white;
+  background-color: var(--clr-danger) !important;
+  color: white !important;
   text-decoration: none;
   border: none;
   box-shadow: 0px 0px 0px var(--clr-dark);
@@ -154,20 +154,20 @@ a {
 
 .button:hover {
   box-shadow: 0px 2px 16px var(--clr-dark);
-  color: var(--clr-secondary);
-  background: none;
+  color: var(--clr-secondary) !important;
+  background: none !important;
 }
 
 .button-primary:hover {
   box-shadow: 0px 2px 16px var(--clr-dark);
-  color: var(--clr-primary);
-  background: none;
+  color: var(--clr-primary) !important;
+  background: none !important;
 }
 
 .button-danger:hover {
   box-shadow: 0px 2px 16px var(--clr-dark);
-  color: var(--clr-danger);
-  background: none;
+  color: var(--clr-danger) !important;
+  background: none !important;
 }
 
 .danger {
