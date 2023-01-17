@@ -32,7 +32,7 @@ const SignUp: React.FC<Props> = ({ changePage, signUp }) => {
                     <span id="password1" className={password.length < 8 ? "danger" : "success"}>{password.length < 8 ? "Password needs to be more than 8 letters" : "Password is more than 8 letters"}</span>
                     <input required={true} aria-describedby="password2" type="password" className="form-control" value={repeatPassword} onChange={(e) => setRepeat(e.target.value)} placeholder="Retype password" />
                     <span id="password2" className={password != repeatPassword ? "danger" : "success"}>{password != repeatPassword ? "Passwords don't match" : "Passwords are matching"}</span><br />
-                    <Button className="button bgprimary my-3" type="submit">
+                    <Button className="button-primary my-3" type="submit">
                         Submit
                     </Button>
                 </form>
@@ -40,7 +40,7 @@ const SignUp: React.FC<Props> = ({ changePage, signUp }) => {
                 <div className="light">
                     Already have an Account?
                 </div>
-                <Button className="btn button bgprimary" onClick={() => changePage("signin")}>Sign In</Button>
+                <Button className="button-primary" onClick={() => changePage("signin")}>Sign In</Button>
             </div>
         </div>
     )
