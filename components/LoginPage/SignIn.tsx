@@ -44,7 +44,7 @@ const SignIn: React.FC<Props> = ({ changePage, signIn }) => {
                             placeholder="Enter password"
                         />
                     </Form.Group>
-                    <Button className="button bgprimary my-3" type="submit">
+                    <Button className="button-primary bgprimary my-3" type="submit">
                         Submit
                     </Button>
                 </Form>
@@ -52,7 +52,7 @@ const SignIn: React.FC<Props> = ({ changePage, signIn }) => {
                 <div className="light">
                     Need an Account?
                 </div>
-                <Button className="btn button bgprimary" onClick={() => changePage("signup")}>Sign Up</Button>
+                <Button className="button-primary bgprimary" onClick={() => changePage("signup")}>Sign Up</Button>
             </div>
         </div>
     )
