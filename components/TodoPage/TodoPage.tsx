@@ -105,7 +105,7 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
 
     const sortStuff = (sortType: string, e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         var direction = sort[1];
-        if(sortType == sort[0]) {
+        if (sortType == sort[0]) {
             if (sort[1] == "Descending") {
                 direction = "Ascending";
             }
@@ -113,81 +113,81 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                 direction = "Descending";
             }
         }
-        
-        var s : ITodo[] = todos.slice();
+
+        var s: ITodo[] = todos.slice();
         if (sortType == "Original" && direction == "Ascending") {
             s = s.reverse();
         }
         if (sortType == "Description" && direction == "Ascending") {
-            s = s.sort((a : ITodo, b : ITodo) => {
-                    if (a.description.toLowerCase() > b.description.toLowerCase()) {
-                        return 1;
-                    }
-                    if (b.description.toLowerCase() > a.description.toLowerCase()) {
-                        return -1;
-                    }
-                    return 0;
+            s = s.sort((a: ITodo, b: ITodo) => {
+                if (a.description.toLowerCase() > b.description.toLowerCase()) {
+                    return 1;
+                }
+                if (b.description.toLowerCase() > a.description.toLowerCase()) {
+                    return -1;
+                }
+                return 0;
             })
         }
         else if (sortType == "Description" && direction == "Descending") {
-            s = s.sort((a : ITodo, b : ITodo) => {
-                    if (a.description.toLowerCase() > b.description.toLowerCase()) {
-                        return -1;
-                    }
-                    if (b.description.toLowerCase() > a.description.toLowerCase()) {
-                        return 1;
-                    }
-                    return 0;
+            s = s.sort((a: ITodo, b: ITodo) => {
+                if (a.description.toLowerCase() > b.description.toLowerCase()) {
+                    return -1;
+                }
+                if (b.description.toLowerCase() > a.description.toLowerCase()) {
+                    return 1;
+                }
+                return 0;
             })
         }
         else if (sortType == "Author" && direction == "Ascending") {
-            s = s.sort((a : ITodo, b : ITodo) => {
-                    if (a.addedBy.toLowerCase() > b.addedBy.toLowerCase()) {
-                        return 1;
-                    }
-                    if (b.addedBy.toLowerCase() > a.addedBy.toLowerCase()) {
-                        return -1;
-                    }
-                    return 0;
+            s = s.sort((a: ITodo, b: ITodo) => {
+                if (a.addedBy.toLowerCase() > b.addedBy.toLowerCase()) {
+                    return 1;
+                }
+                if (b.addedBy.toLowerCase() > a.addedBy.toLowerCase()) {
+                    return -1;
+                }
+                return 0;
             })
         }
         else if (sortType == "Author" && direction == "Descending") {
-            s = s.sort((a : ITodo, b : ITodo) => {
-                    if (a.addedBy.toLowerCase() > b.addedBy.toLowerCase()) {
-                        return -1;
-                    }
-                    if (b.addedBy.toLowerCase() > a.addedBy.toLowerCase()) {
-                        return 1;
-                    }
-                    return 0;
+            s = s.sort((a: ITodo, b: ITodo) => {
+                if (a.addedBy.toLowerCase() > b.addedBy.toLowerCase()) {
+                    return -1;
+                }
+                if (b.addedBy.toLowerCase() > a.addedBy.toLowerCase()) {
+                    return 1;
+                }
+                return 0;
             })
         }
         else if (sortType == "Date" && direction == "Ascending") {
-            s = s.sort((a : ITodo, b : ITodo) => {
-                    if (b.date == null || a.date == null) {
-                        return -1;
-                    }
-                    if (a.date > b.date) {
-                        return 1;
-                    }
-                    if (b.date > a.date) {
-                        return -1;
-                    }
-                    return 0;
+            s = s.sort((a: ITodo, b: ITodo) => {
+                if (b.date == null || a.date == null) {
+                    return -1;
+                }
+                if (a.date > b.date) {
+                    return 1;
+                }
+                if (b.date > a.date) {
+                    return -1;
+                }
+                return 0;
             })
         }
         else if (sortType == "Date" && direction == "Ascending") {
-            s = s.sort((a : ITodo, b : ITodo) => {
-                    if (b.date == null || a.date == null) {
-                        return -1;
-                    }
-                    if (a.date > b.date) {
-                        return -1;
-                    }
-                    if (b.date > a.date) {
-                        return 1;
-                    }
-                    return 0;
+            s = s.sort((a: ITodo, b: ITodo) => {
+                if (b.date == null || a.date == null) {
+                    return -1;
+                }
+                if (a.date > b.date) {
+                    return -1;
+                }
+                if (b.date > a.date) {
+                    return 1;
+                }
+                return 0;
             })
         }
 
@@ -229,11 +229,11 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                             <DropdownButton variant="secondary" id="dropdown-basic-button" title="Sort by">
                                 {["Original", "Date", "Description", "AddedBy"].map((sortType, index) => (
                                     <Dropdown.Item key={index}><a className="dropdown-item" onClick={(e) => sortStuff(sortType, e)}>
-                                        {sortType == sort[0] ? 
-                                        <div>
-                                            {sortType}
-                                            <Icon className="m-2" icon={sort[1] == "Ascending" ? "ic:outline-keyboard-double-arrow-up":"ic:outline-keyboard-double-arrow-down"}></Icon>
-                                        </div> : sortType}
+                                        {sortType == sort[0] ?
+                                            <div>
+                                                {sortType}
+                                                <Icon className="m-2" icon={sort[1] == "Ascending" ? "ic:outline-keyboard-double-arrow-up" : "ic:outline-keyboard-double-arrow-down"}></Icon>
+                                            </div> : sortType}
                                     </a></Dropdown.Item>
                                 ))}
                             </DropdownButton>
