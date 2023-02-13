@@ -162,11 +162,37 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                     return 0;
             })
         }
+        else if (sortType == "Date" && direction == "Ascending") {
+            s = s.sort((a : ITodo, b : ITodo) => {
+                    if (b.date == null || a.date == null) {
+                        return -1;
+                    }
+                    if (a.date > b.date) {
+                        return 1;
+                    }
+                    if (b.date > a.date) {
+                        return -1;
+                    }
+                    return 0;
+            })
+        }
+        else if (sortType == "Date" && direction == "Ascending") {
+            s = s.sort((a : ITodo, b : ITodo) => {
+                    if (b.date == null || a.date == null) {
+                        return -1;
+                    }
+                    if (a.date > b.date) {
+                        return -1;
+                    }
+                    if (b.date > a.date) {
+                        return 1;
+                    }
+                    return 0;
+            })
+        }
 
         changeSorted(s);
         changeSort([sortType, direction]);
-        console.log(sortedTodos);
-        console.log(sort);
     }
 
     return (
@@ -201,7 +227,7 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                                 Todos
                             </h2>
                             <DropdownButton variant="secondary" id="dropdown-basic-button" title="Sort by">
-                                {["Original", "Date", "Description", "Author"].map((sortType, index) => (
+                                {["Original", "Date", "Description", "AddedBy"].map((sortType, index) => (
                                     <Dropdown.Item key={index}><a className="dropdown-item" onClick={(e) => sortStuff(sortType, e)}>
                                         {sortType == sort[0] ? 
                                         <div>
