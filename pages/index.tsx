@@ -6,6 +6,7 @@ import TodoPage from '../components/TodoPage/TodoPage';
 
 export default function Home() {
   const [todos, changeTodos] = useState<ITodo[]>([]);
+  const [sortedTodos, changeSorted] = useState<ITodo[]>([]);
   const [userExists, changeUserExists] = useState<boolean>(false);
   const [loading, changeLoading] = useState<boolean>(false);
   const [lastId, changeLast] = useState<number>(0);
@@ -46,6 +47,7 @@ export default function Home() {
           allTodos.push(newTodo);
         })
         changeTodos(allTodos);
+        changeSorted(allTodos);
       })
 
       try {
@@ -94,7 +96,8 @@ export default function Home() {
         todos={todos} lastId={lastId} changeAllGroups={changeAllGroups}
         changeCurrentGroup={changeCurrentGroup} changeGroups={changeGroups}
         changeLast={changeLast} changeLoading={changeLoading}
-        changeUserExists={changeUserExists} changeGroupRequests={changeGroupRequests}/>
+        changeUserExists={changeUserExists} changeGroupRequests={changeGroupRequests}
+        sortedTodos={sortedTodos} changeSorted={changeSorted}/>
     )
   }
   else if (loading) {

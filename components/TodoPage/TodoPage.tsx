@@ -1,20 +1,23 @@
 import Head from "next/head";
-import React from "react";
+import React, { useState } from "react";
 import { auth, db } from "../../firebase_setup";
 import FormTodo from "./FormTodo";
 import Todo from "./Todo";
 import { GroupRequest, ITodo } from "../../types"
-import { Card } from "react-bootstrap";
-import Sidebar from "./Sidebar"
-import Request from "./Request"
+import { Card, Dropdown, DropdownButton } from "react-bootstrap";
+import Sidebar from "./Sidebar";
+import Request from "./Request";
+import { Icon } from "@iconify/react";
 
 type Props = {
     currentGroup: string;
     groups: string[];
     groupRequests: GroupRequest[];
     todos: ITodo[];
+    sortedTodos: ITodo[];
     lastId: number;
     allGroups: string[];
+    changeSorted: React.Dispatch<React.SetStateAction<ITodo[]>>;
     changeGroupRequests: (value: React.SetStateAction<GroupRequest[]>) => void;
     changeCurrentGroup: (value: React.SetStateAction<string>) => void;
     changeGroups: (value: React.SetStateAction<string[]>) => void;
@@ -24,12 +27,14 @@ type Props = {
     changeLoading: (value: React.SetStateAction<boolean>) => void
 }
 
-const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGroups, todos, lastId, changeGroupRequests, changeCurrentGroup, changeGroups, changeAllGroups, changeLast, changeUserExists, changeLoading }) => {
+const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGroups, todos, sortedTodos, lastId, changeSorted, changeGroupRequests, changeCurrentGroup, changeGroups, changeAllGroups, changeLast, changeUserExists, changeLoading }) => {
+
+    const [sort, changeSort] = useState<string[]>(["Original", "Ascending"]);
 
     const addTodo = (text: string, date: Date | undefined) => {
-        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${lastId + 1}/`).set({ id: lastId + 1, description: text, isDone: false, addedBy: auth.currentUser?.email})
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${lastId + 1}/`).set({ id: lastId + 1, description: text, isDone: false, addedBy: auth.currentUser?.email })
         if (date != undefined) {
-            db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${lastId + 1}/`).update({date: date})
+            db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${lastId + 1}/`).update({ date: date })
         }
         db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/`).update({ LastId: lastId + 1 })
         changeLast(lastId + 1)
@@ -44,9 +49,9 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
     };
 
     const editTodo = (todo: ITodo) => {
-        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${todo.id}/`).update({description: todo.description, isDone: todo.isDone, addedBy: todo.addedBy})
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${todo.id}/`).update({ description: todo.description, isDone: todo.isDone, addedBy: todo.addedBy })
         if (todo.date != undefined) {
-            db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${todo.id}/`).update({date: todo.date})
+            db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${todo.id}/`).update({ date: todo.date })
         }
     }
 
@@ -98,6 +103,72 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
         })
     }
 
+    const sortStuff = (sortType: string, e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        var direction = sort[1];
+        if(sortType == sort[0]) {
+            if (sort[1] == "Descending") {
+                direction = "Ascending";
+            }
+            else {
+                direction = "Descending";
+            }
+        }
+        
+        var s : ITodo[] = todos.slice();
+        if (sortType == "Original" && direction == "Ascending") {
+            s = s.reverse();
+        }
+        if (sortType == "Description" && direction == "Ascending") {
+            s = s.sort((a : ITodo, b : ITodo) => {
+                    if (a.description.toLowerCase() > b.description.toLowerCase()) {
+                        return 1;
+                    }
+                    if (b.description.toLowerCase() > a.description.toLowerCase()) {
+                        return -1;
+                    }
+                    return 0;
+            })
+        }
+        else if (sortType == "Description" && direction == "Descending") {
+            s = s.sort((a : ITodo, b : ITodo) => {
+                    if (a.description.toLowerCase() > b.description.toLowerCase()) {
+                        return -1;
+                    }
+                    if (b.description.toLowerCase() > a.description.toLowerCase()) {
+                        return 1;
+                    }
+                    return 0;
+            })
+        }
+        else if (sortType == "Author" && direction == "Ascending") {
+            s = s.sort((a : ITodo, b : ITodo) => {
+                    if (a.addedBy.toLowerCase() > b.addedBy.toLowerCase()) {
+                        return 1;
+                    }
+                    if (b.addedBy.toLowerCase() > a.addedBy.toLowerCase()) {
+                        return -1;
+                    }
+                    return 0;
+            })
+        }
+        else if (sortType == "Author" && direction == "Descending") {
+            s = s.sort((a : ITodo, b : ITodo) => {
+                    if (a.addedBy.toLowerCase() > b.addedBy.toLowerCase()) {
+                        return -1;
+                    }
+                    if (b.addedBy.toLowerCase() > a.addedBy.toLowerCase()) {
+                        return 1;
+                    }
+                    return 0;
+            })
+        }
+
+        changeSorted(s);
+        changeSort([sortType, direction]);
+        console.log(sortedTodos);
+        console.log(sort);
+    }
+
     return (
         <div>
             <Head>
@@ -122,14 +193,25 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                                         </Card.Body>
                                     </Card>))}
                             </div> : ""}
-                            <h2 className="secondary">
+                            <h2 className="secondary my-4">
                                 Add a Todo
                             </h2>
                             <FormTodo addTodo={addTodo} />
-                            <h2 className="secondary">
+                            <h2 className="secondary my-4">
                                 Todos
                             </h2>
-                            {todos.map((todo, index) => (
+                            <DropdownButton variant="secondary" id="dropdown-basic-button" title="Sort by">
+                                {["Original", "Date", "Description", "Author"].map((sortType, index) => (
+                                    <Dropdown.Item key={index}><a className="dropdown-item" onClick={(e) => sortStuff(sortType, e)}>
+                                        {sortType == sort[0] ? 
+                                        <div>
+                                            {sortType}
+                                            <Icon className="m-2" icon={sort[1] == "Ascending" ? "ic:outline-keyboard-double-arrow-up":"ic:outline-keyboard-double-arrow-down"}></Icon>
+                                        </div> : sortType}
+                                    </a></Dropdown.Item>
+                                ))}
+                            </DropdownButton>
+                            {sortedTodos.map((todo, index) => (
                                 <Card className="bgdark-alt border-0 my-2" key={index}>
                                     <Card.Body>
                                         <Todo todo={todo} markTodo={markTodo} removeTodo={removeTodo} editTodo={editTodo} />
