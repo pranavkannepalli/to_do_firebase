@@ -110,13 +110,23 @@ const Todo: React.FC<Props> = ({ todo, markTodo, removeTodo, editTodo }) => {
         setDue(new Date(newStr));
     }
 
+    const getClassName = () => {
+        var now = Date.now();
+        if (todo.date != undefined && todo.date.valueOf() < now && !todo.isDone) {
+            return "my-1 danger";
+        }
+        else {
+            return "my-1";
+        }
+    }
+
     if (!editing) {
         return (
             <div className="todo ">
                 <h5 style={{ textDecoration: todo.isDone ? "line-through" : "" }} className="my-2">
                     {todo.description}
                 </h5>
-                <div className="my-1">
+                <div className={getClassName()}>
                     <strong>Date Due: </strong>{todo.date != null ? todo.date.toLocaleDateString() + " " + todo.date.toLocaleTimeString() : "None "}
                 </div>
                 <div className="my-1">

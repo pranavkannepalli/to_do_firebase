@@ -225,18 +225,18 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                             <FormTodo addTodo={addTodo} />
                             <h2 className="secondary my-4">
                                 Todos
+                                <DropdownButton variant="secondary" id="dropdown-basic-button" title="Sort by" disabled={todos.length == 0}>
+                                    {["Original", "Date", "Description", "AddedBy"].map((sortType, index) => (
+                                        <Dropdown.Item key={index}><a className="dropdown-item" onClick={(e) => sortStuff(sortType, e)}>
+                                            {sortType == sort[0] ?
+                                                <div>
+                                                    {sortType}
+                                                    <Icon className="m-2" icon={sort[1] == "Ascending" ? "ic:outline-keyboard-double-arrow-up" : "ic:outline-keyboard-double-arrow-down"}></Icon>
+                                                </div> : sortType}
+                                        </a></Dropdown.Item>
+                                    ))}
+                                </DropdownButton>
                             </h2>
-                            <DropdownButton variant="secondary" id="dropdown-basic-button" title="Sort by">
-                                {["Original", "Date", "Description", "AddedBy"].map((sortType, index) => (
-                                    <Dropdown.Item key={index}><a className="dropdown-item" onClick={(e) => sortStuff(sortType, e)}>
-                                        {sortType == sort[0] ?
-                                            <div>
-                                                {sortType}
-                                                <Icon className="m-2" icon={sort[1] == "Ascending" ? "ic:outline-keyboard-double-arrow-up" : "ic:outline-keyboard-double-arrow-down"}></Icon>
-                                            </div> : sortType}
-                                    </a></Dropdown.Item>
-                                ))}
-                            </DropdownButton>
                             {sortedTodos.map((todo, index) => (
                                 <Card className="bgdark-alt border-0 my-2" key={index}>
                                     <Card.Body>
