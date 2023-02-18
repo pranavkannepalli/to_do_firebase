@@ -1,5 +1,7 @@
+import { Icon } from "@iconify/react";
 import React from "react";
 import { Button } from "react-bootstrap";
+import { signInWithGoogle } from "../../firebase_setup";
 
 type Props = {
     changePage: React.Dispatch<React.SetStateAction<string>>;
@@ -15,8 +17,10 @@ const SignUp: React.FC<Props> = ({ changePage, signUp }) => {
         e.preventDefault();
         if (!email) return;
         if (!password) return;
-        if (password != repeatPassword) return;
-        if (password.length < 8) return;
+        if (password != repeatPassword) {
+            alert("Passwords do not match")
+            return;
+        };
         signUp(email, password);
         setEmail("");
         setPassword("");
@@ -37,10 +41,31 @@ const SignUp: React.FC<Props> = ({ changePage, signUp }) => {
                     </Button>
                 </form>
                 <hr />
-                <div className="light">
-                    Already have an Account?
+                <h3 className="light">
+                    Other Sign-in Methods
+                </h3>
+                <div className="row">
+                    <div className="col">
+                        <Icon icon="logos:google-icon" onClick={signInWithGoogle}/>
+                    </div>
                 </div>
-                <Button className="button-primary" onClick={() => changePage("signin")}>Sign In</Button>
+                <hr />
+                <div className="row">
+                    <div className="col">
+                        <div className="light">
+                            Forgot Password?
+                        </div>
+                        <Button className="button-primary" onClick={() => changePage("reset")}>
+                            Reset
+                        </Button>
+                    </div>
+                    <div className="col">
+                        <div className="light">
+                            Need an Account?
+                        </div>
+                        <Button className="button-primary bgprimary" onClick={() => changePage("signin")}>Sign In</Button>
+                    </div>
+                </div>
             </div>
         </div>
     )

@@ -3,6 +3,7 @@ import React from "react";
 import { auth, db } from "../../firebase_setup";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import ResetPassword from "./ResetPassword";
 import {useState} from "react";
 
 type Props = {
@@ -22,7 +23,13 @@ const LoginPage: React.FC<Props> = ({ changeLast, changeUserExists, changeLoadin
       db.ref(`${auth.currentUser?.uid}/`).once("value", snapshot => { changeLast(snapshot.val().LastId) })
     }
     catch (error) {
-      console.log(error);
+      if (error == "FirebaseError: Firebase: The password is invalid or the user does not have a password. (auth/wrong-password).") {
+        alert('The password is invalid.')
+      }
+      else if (error == "FirebaseError: Firebase: There is no user record corresponding to this identifier. The user may have been deleted. (auth/user-not-found)."){
+        alert("No user exists with that email.")
+      }
+      else alert(error);
     }
     changeLoading(false);
   }
@@ -37,19 +44,32 @@ const LoginPage: React.FC<Props> = ({ changeLast, changeUserExists, changeLoadin
       res.user && changeUserExists(true);
     }
     catch (error) {
-      console.log(error);
+      if (error == "FirebaseError: Firebase: The email address is already in use by another account. (auth/email-already-in-use).") {
+        alert("This email is already in use.")
+      }
+      else if (error == "FirebaseError: Firebase: Password should be at least 6 characters (auth/weak-password).") {
+        alert("Password must be at least 6 characters.")
+      }
+      else {
+        alert(error);
+      }
     }
     changeLoading(false);
   }
 
   if (page == "signin") {
     return (
-      <SignIn changePage={changePage} signIn={signIn}></SignIn>
+      <SignIn changePage={changePage} signIn={signIn}/>
+    )
+  }
+  else if (page == "signup") {
+    return (
+      <SignUp changePage={changePage} signUp={signUp}/>
     )
   }
   else {
     return (
-      <SignUp changePage={changePage} signUp={signUp}></SignUp>
+      <ResetPassword changePage={changePage}/>
     )
   }
 }

@@ -1,5 +1,7 @@
+import { Icon } from "@iconify/react";
 import React from "react";
 import { Button, Form } from "react-bootstrap";
+import { signInWithGoogle } from "../../firebase_setup";
 
 type Props = {
     changePage: React.Dispatch<React.SetStateAction<string>>;
@@ -49,10 +51,31 @@ const SignIn: React.FC<Props> = ({ changePage, signIn }) => {
                     </Button>
                 </Form>
                 <hr />
-                <div className="light">
-                    Need an Account?
+                <h3 className="light">
+                    Other Sign-in Methods
+                </h3>
+                <div className="row">
+                    <div className="col">
+                        <Icon icon="logos:google-icon" onClick={signInWithGoogle}/>
+                    </div>
                 </div>
-                <Button className="button-primary bgprimary" onClick={() => changePage("signup")}>Sign Up</Button>
+                <hr />
+                <div className="row">
+                    <div className="col">
+                        <div className="light">
+                            Forgot Password?
+                        </div>
+                        <Button className="button-primary" onClick={() => changePage("reset")}>
+                            Reset
+                        </Button>
+                    </div>
+                    <div className="col">
+                        <div className="light">
+                            Need an Account?
+                        </div>
+                        <Button className="button-primary bgprimary" onClick={() => changePage("signup")}>Sign Up</Button>
+                    </div>
+                </div>
             </div>
         </div>
     )

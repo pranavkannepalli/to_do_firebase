@@ -15,7 +15,6 @@ export default function Home() {
   const [currentGroup, changeCurrentGroup] = useState<string>("Personal");
   const [groupRequests, changeGroupRequests] = useState<GroupRequest[]>([]);
   useEffect(() => { loadData() }, [userExists, currentGroup])
-
   const loadData = () => {
     db.ref("All Groups").once("value", snapshot => {
       changeAllGroups(snapshot.val());
@@ -124,7 +123,7 @@ export default function Home() {
     }
   };
 
-  if (userExists) {
+  if (auth.currentUser != null) {
     return (
       <TodoPage currentGroup={currentGroup}
         groups={groups} allGroups={allGroups} groupRequests={groupRequests}
