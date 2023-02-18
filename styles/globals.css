@@ -124,6 +124,7 @@ a {
   color: inherit;
   text-decoration: none !important;
   border: none;
+  transition: color 300ms ease-in-out;
 }
 
 .button {
@@ -180,7 +181,7 @@ a {
 }
 
 a:hover {
-  color: var(--clr-primary);
+  color: var(--clr-primary) !important;
 }
 
 h1 {
