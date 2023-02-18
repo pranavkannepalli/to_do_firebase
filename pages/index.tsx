@@ -33,6 +33,7 @@ export default function Home() {
               isDone: data.isDone,
               addedBy: data.addedBy,
               date: new Date(data.date),
+              subtasks: undefined
             }
           }
           else {
@@ -42,8 +43,42 @@ export default function Home() {
               isDone: data.isDone,
               addedBy: data.addedBy,
               date: null,
+              subtasks: undefined
             }
           }
+
+          db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${data.id}/Subtasks`).once("value", s => {
+            if(s.exists()) {
+              var allSubtasks: any = [];
+              s.forEach(s2 => {
+                var d: any = s2.val();
+                if ("date" in d) {
+                  var newSubtask: ITodo = {
+                    id: d.id,
+                    description: d.description,
+                    isDone: d.isDone,
+                    addedBy: d.addedBy,
+                    date: new Date(d.date),
+                    subtasks: []
+                  }
+                }
+                else {
+                  var newSubtask: ITodo = {
+                    id: d.id,
+                    description: d.description,
+                    isDone: d.isDone,
+                    addedBy: d.addedBy,
+                    date: null,
+                    subtasks: undefined
+                  }
+                } 
+
+                allSubtasks.push(newSubtask);
+              })
+              newTodo.subtasks = allSubtasks
+            }
+          })
+
           allTodos.push(newTodo);
         })
         changeTodos(allTodos);

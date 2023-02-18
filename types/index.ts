@@ -4,6 +4,7 @@ export interface ITodo {
     isDone: boolean;
     addedBy: string;
     date?: Date | null;
+    subtasks?: ITodo[];
 }
 
 export interface GroupRequest {

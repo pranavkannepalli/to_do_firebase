@@ -55,6 +55,30 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
         }
     }
 
+    const addSubtask = (parentId: number, text: string, date: Date | undefined) => {
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${parentId}/Subtasks/${lastId + 1}/`).set({ id: lastId + 1, description: text, isDone: false, addedBy: auth.currentUser?.email })
+        if (date != undefined) {
+            db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${parentId}/Subtasks/${lastId + 1}/`).update({ date: date })
+        }
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/`).update({ LastId: lastId + 1 })
+        changeLast(lastId + 1)
+    };
+
+    const markSubtask = (parentId: number, id: number, done: boolean) => {
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${parentId}/Subtasks/${id}`).update({ isDone: done });
+    };
+
+    const removeSubtask = (parentId: number, id: number) => {
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${parentId}/Subtasks/${id}`).remove();
+    };
+
+    const editSubtask = (parentId: number, todo: ITodo) => {
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${parentId}/Subtasks/${todo.id}`).update({ description: todo.description, isDone: todo.isDone, addedBy: todo.addedBy })
+        if (todo.date != undefined) {
+            db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${parentId}/Subtasks/${todo.id}`).update({ date: todo.date })
+        }
+    }
+
     const signOut = async () => {
         changeLoading(true);
         try {
@@ -238,11 +262,9 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                                 </DropdownButton>
                             </h2>
                             {sortedTodos.map((todo, index) => (
-                                <Card className="bgdark-alt border-0 my-2" key={index}>
-                                    <Card.Body>
-                                        <Todo todo={todo} markTodo={markTodo} removeTodo={removeTodo} editTodo={editTodo} />
-                                    </Card.Body>
-                                </Card>
+                                <Todo  key={index} todo={todo} 
+                                markTodo={markTodo} removeTodo={removeTodo} editTodo={editTodo} addSubtask={addSubtask}
+                                markSubtask={markSubtask} editSubtask={editSubtask} removeSubtask={removeSubtask}/>
                             ))}
                         </div>
                     </div>

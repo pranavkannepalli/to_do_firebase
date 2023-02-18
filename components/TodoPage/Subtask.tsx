@@ -3,23 +3,18 @@ import { Card, Button, Form } from "react-bootstrap";
 import { ITodo } from "../../types";
 import { Icon } from '@iconify/react';
 import { useState, useRef } from "react";
-import Subtask from "./Subtask";
-import FormSubtask from "./FormSubtask";
 
 type Props = {
+    parentId: number;
     todo: ITodo;
-    addSubtask: (parentId: number, text: string, date: Date | undefined) => void;
-    markTodo: (id: number, done: boolean) => void;
-    removeTodo: (id: number) => void;
-    editTodo: (todo: ITodo) => void;
     markSubtask: (parentId: number, id: number, done: boolean) => void;
     removeSubtask: (parentId: number, id: number) => void;
     editSubtask: (parentId: number, todo: ITodo) => void;
 }
 
-const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTodo, markSubtask, removeSubtask, editSubtask }) => {
+const Subtask: React.FC<Props> = ({ parentId, todo, markSubtask, removeSubtask, editSubtask }) => {
     const [editing, changeEditing] = useState<boolean>(false);
-    const [adding, changeAdding] = useState<boolean>(false);
+
     const [value, setValue] = useState<string>(todo.description);
     const [due, setDue] = useState<Date>();
 
@@ -41,7 +36,7 @@ const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTod
     }
 
     const getTime = () => {
-        if (todo.date == null) return "";
+        if (todo.date == null || todo.date == undefined) return "";
         //"12:27:00 PM" -> "HH:mm:ss"
         var time: string = todo.date.toLocaleTimeString();
         var AMPM = time.substring(time.length - 2);
@@ -93,7 +88,7 @@ const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTod
                 date: due
             }
         }
-        editTodo(edit);
+        editSubtask(parentId, edit);
         setDate("");
         setTime("");
         setDue(undefined);
@@ -129,7 +124,7 @@ const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTod
     if (!editing) {
         return (
             <div>
-                <Card className="bgdark-alt border-0 my-2">
+                <Card className="bgdark-alt border-0 my-2 mx-5">
                     <Card.Body>
                         <div className="todo ">
                             <h5 style={{ textDecoration: todo.isDone ? "line-through" : "" }} className="my-2">
@@ -144,45 +139,33 @@ const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTod
                             <div>
                                 {!todo.isDone ?
                                     (
-                                        <Button className="button-primary m-2" title="Mark as Done" variant="outline-success border-0" onClick={() => markTodo(todo.id, true)}>
+                                        <Button className="button-primary m-2" title="Mark as Done" variant="outline-success border-0" onClick={() => markSubtask(parentId, todo.id, true)}>
                                             <Icon icon="ic:baseline-done-outline" />
                                         </Button>
                                     ) :
                                     (
-                                        <Button className="button-primary m-2" title="Mark as Not Done" variant="outline-success border-0" onClick={() => markTodo(todo.id, false)}>
+                                        <Button className="button-primary m-2" title="Mark as Not Done" variant="outline-success border-0" onClick={() => markSubtask(parentId, todo.id, false)}>
                                             <Icon icon="ic:round-remove-done" />
                                         </Button>
                                     )
                                 }
-                                <Button className="button-primary my-3" title="Add a subtask" onClick={() => changeAdding(!adding)}>
-                                    <Icon icon="material-symbols:assignment-add-outline"/>
-                                </Button>
                                 <Button className="button m-2" title="edit" variant="outline-success border-0" onClick={() => changeEditing(true)}>
                                     <Icon icon="material-symbols:edit-outline-rounded" />
                                 </Button>
-                                <Button className="button-danger m-2" title="Delete" variant="outline-danger border-0" onClick={() => removeTodo(todo.id)}>
+                                <Button className="button-danger m-2" title="Delete" variant="outline-danger border-0" onClick={() => removeSubtask(parentId, todo.id)}>
                                     <Icon icon="mdi:trash-can-outline" />
                                 </Button>
                             </div>
                         </div>
                     </Card.Body>
                 </Card>
-                {adding ? 
-                <Card className="bgdark-alt border-0 my-2 mx-5">
-                    <Card.Body>
-                        <FormSubtask changeAdding={changeAdding} addSubtask={addSubtask} parentId={todo.id}/>
-                    </Card.Body>
-                </Card> : ""}
-                {todo.subtasks?.map((subtask: ITodo, index: number) =>
-                    <Subtask parentId={todo.id} key={index} todo={subtask} markSubtask={markSubtask} removeSubtask={removeSubtask} editSubtask={editSubtask} />
-                )}
             </div>
         )
     }
     else {
         return (
             <div>
-                <Card className="bgdark-alt border-0 my-2">
+                <Card className="bgdark-alt border-0 my-2 mx-5">
                     <Card.Body>
                         <Form onSubmit={handleSubmit}>
                             <Form.Group>
@@ -229,4 +212,4 @@ const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTod
 
 }
 
-export default Todo;
+export default Subtask;

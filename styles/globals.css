@@ -11,11 +11,12 @@
   --clr-danger: #F24E1E;
 }
 
-.expandedSiderbar {
+.expandedSidebar {
   position: sticky;
   left: 0px;
   top: 0px;
   height: 100vh;
+  z-index:99 !important;
 }
 
 .grad {
