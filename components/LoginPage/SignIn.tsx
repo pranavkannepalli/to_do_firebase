@@ -56,7 +56,7 @@ const SignIn: React.FC<Props> = ({ changePage, signIn }) => {
                 </h3>
                 <div className="row">
                     <div className="col">
-                        <Button onClick={signInWithGoogle}/>
+                        <Button className="button-none" onClick={signInWithGoogle}>
                             <Icon icon="logos:google-icon"/>
                         </Button>
                     </div>

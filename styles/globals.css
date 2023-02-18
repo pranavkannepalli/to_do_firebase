@@ -136,6 +136,14 @@ a {
   transition: box-shadow 300ms ease-in-out;
 }
 
+.button-none {
+  background: none !important;
+  text-decoration: none;
+  border: none !important;
+  box-shadow: 0px 0px 0px var(--clr-dark);
+  transition: box-shadow 300ms ease-in-out;
+}
+
 .button-primary {
   background-color: var(--clr-primary) !important;
   color: white !important;
@@ -159,6 +167,12 @@ a {
   color: var(--clr-secondary) !important;
   background: none !important;
 }
+
+.button-none:hover {
+  box-shadow: 0px 2px 16px var(--clr-light);
+  background: none !important;
+}
+
 
 .button-primary:hover {
   box-shadow: 0px 2px 16px var(--clr-dark);
