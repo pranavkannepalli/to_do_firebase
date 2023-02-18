@@ -124,7 +124,7 @@ a {
   color: inherit;
   text-decoration: none !important;
   border: none;
-  transition: color 300ms ease-in-out;
+  transition: color 300ms ease-in-out !important;
 }
 
 .button {
