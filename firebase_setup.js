@@ -4,7 +4,7 @@ import "firebase/compat/auth";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBBoP5nb1cbHCENcOsV9mYNEyCPg4Ed6Kw",
-    authDomain: "todo-list-aa205.firebaseapp.com",
+    authDomain: "to-do-firebase-seven.vercel.app",
     databaseURL: "https://todo-list-aa205-default-rtdb.firebaseio.com",
     projectId: "todo-list-aa205",
     storageBucket: "todo-list-aa205.appspot.com",
