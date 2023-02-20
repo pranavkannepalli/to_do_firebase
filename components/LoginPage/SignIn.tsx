@@ -24,7 +24,10 @@ const SignIn: React.FC<Props> = ({ changeLoading, changePage, signIn }) => {
 
     async function google() {
         changeLoading(true);
-        await signInWithGoogle().then(() => changeLoading(false)).catch((error) => alert(error));
+        await signInWithGoogle().then((user) => {
+            changeLoading(false)
+            alert(user)
+        }).catch((error) => alert(error));
     }
 
     return (
