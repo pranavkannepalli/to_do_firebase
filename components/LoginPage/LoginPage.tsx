@@ -5,6 +5,8 @@ import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import ResetPassword from "./ResetPassword";
 import {useState} from "react";
+import { signInWithGoogle } from "../../firebase_setup";
+
 
 type Props = {
   changeLast: (value: React.SetStateAction<number>) => void;
@@ -15,6 +17,14 @@ type Props = {
 const LoginPage: React.FC<Props> = ({ changeLast, changeUserExists, changeLoading }) => {
   const [page, changePage] = useState<string>("signin");
   
+  async function google() {
+    changeLoading(true);
+    await signInWithGoogle().then((user) => {
+        changeLoading(false)
+        changeUserExists(true)
+    }).catch((error) => alert(error));
+}
+
   const signIn = async (email: string, password: string) => {
     changeLoading(true);
     try {
@@ -59,12 +69,12 @@ const LoginPage: React.FC<Props> = ({ changeLast, changeUserExists, changeLoadin
 
   if (page == "signin") {
     return (
-      <SignIn changeLoading={changeLoading} changePage={changePage} signIn={signIn}/>
+      <SignIn changeLoading={changeLoading} changePage={changePage} signIn={signIn} google={google}/>
     )
   }
   else if (page == "signup") {
     return (
-      <SignUp changePage={changePage} signUp={signUp} changeLoading={changeLoading}/>
+      <SignUp changePage={changePage} signUp={signUp} changeLoading={changeLoading} google={google}/>
     )
   }
   else {

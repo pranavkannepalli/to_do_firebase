@@ -6,10 +6,11 @@ import { signInWithGoogle } from "../../firebase_setup";
 type Props = {
     changePage: React.Dispatch<React.SetStateAction<string>>;
     signIn: (email: string, password: string) => void;
-    changeLoading: (value: React.SetStateAction<boolean>) => void
+    changeLoading: (value: React.SetStateAction<boolean>) => void;
+    google(): Promise<void>;
 }
 
-const SignIn: React.FC<Props> = ({ changeLoading, changePage, signIn }) => {
+const SignIn: React.FC<Props> = ({ changeLoading, changePage, signIn, google }) => {
     const [email, setEmail] = React.useState<string>("");
     const [password, setPassword] = React.useState<string>("");
 
@@ -20,13 +21,6 @@ const SignIn: React.FC<Props> = ({ changeLoading, changePage, signIn }) => {
         signIn(email, password);
         setEmail("");
         setPassword("");
-    }
-
-    async function google() {
-        changeLoading(true);
-        await signInWithGoogle().then((user) => {
-            changeLoading(false)
-        }).catch((error) => alert(error));
     }
 
     return (

@@ -1,15 +1,15 @@
 import { Icon } from "@iconify/react";
 import React from "react";
 import { Button } from "react-bootstrap";
-import { signInWithGoogle } from "../../firebase_setup";
 
 type Props = {
     changePage: React.Dispatch<React.SetStateAction<string>>;
     signUp: (email: string, password: string) => void;
-    changeLoading: (value: React.SetStateAction<boolean>) => void
+    changeLoading: (value: React.SetStateAction<boolean>) => void;
+    google(): Promise<void>;
 }
 
-const SignUp: React.FC<Props> = ({ changePage, signUp, changeLoading }) => {
+const SignUp: React.FC<Props> = ({ changePage, signUp, changeLoading, google }) => {
     const [email, setEmail] = React.useState<string>("");
     const [password, setPassword] = React.useState<string>("");
     const [repeatPassword, setRepeat] = React.useState<string>("");
@@ -25,13 +25,6 @@ const SignUp: React.FC<Props> = ({ changePage, signUp, changeLoading }) => {
         signUp(email, password);
         setEmail("");
         setPassword("");
-    }
-
-    async function google() {
-        changeLoading(true);
-        await signInWithGoogle().then((user) => {
-            changeLoading(false)
-        }).catch((error) => alert(error));
     }
 
     return (

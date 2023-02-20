@@ -219,3 +219,25 @@ hr {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
+
+input {
+  background-color: var(--clr-dark-alt) !important;
+  color: var(--clr-dark) !important;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-right: 5px;
+}
+
+input[type="time"] {
+  border: none !important;
+  width: 150px !important;
+  height: 30px;
+  border-radius: 5px !important;
+}
+
+input[type="date"] {
+  border: none !important;
+  width: 150px !important;
+  height: 30px;
+  border-radius: 5px !important;
+}

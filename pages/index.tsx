@@ -15,6 +15,7 @@ export default function Home() {
   const [currentGroup, changeCurrentGroup] = useState<string>("Personal");
   const [groupRequests, changeGroupRequests] = useState<GroupRequest[]>([]);
   useEffect(() => { loadData() }, [userExists, currentGroup])
+  useEffect(() => changeUserExists(auth.currentUser != null), [auth.currentUser])
   const loadData = () => {
     db.ref("All Groups").once("value", snapshot => {
       changeAllGroups(snapshot.val());
@@ -115,6 +116,7 @@ export default function Home() {
             Groups.push(snapshot.val()[i]);
           }
           changeGroups(Groups);
+          console.log(groups)
         })
       }
       catch (error) {
