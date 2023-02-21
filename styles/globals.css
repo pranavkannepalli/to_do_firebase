@@ -147,11 +147,6 @@ button {
   background-color: var(--clr-dark);
 }
 
-html,
-body {
-  font-family: 'Roboto', sans-serif;
-}
-
 h1 {
   color: var(--clr-primary);
 }
@@ -242,10 +237,12 @@ h1 {
   box-sizing: border-box;
 }
 
-body {
+html, body {
   margin: 0 !important;
   color: var(--clr-dark);
   background: var(--clr-light) !important;
+  font-family: 'Roboto', sans-serif;
+  padding: 0 !important;
 }
 
 hr {
