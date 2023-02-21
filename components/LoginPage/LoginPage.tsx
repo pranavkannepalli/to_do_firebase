@@ -22,7 +22,10 @@ const LoginPage: React.FC<Props> = ({ changeLast, changeUserExists, changeLoadin
     await signInWithGoogle().then((user) => {
         changeLoading(false)
         changeUserExists(true)
-    }).catch((error) => alert(error));
+    }).catch((error) => {
+      alert(error) 
+      changeLoading(false)
+    });
 }
 
   const signIn = async (email: string, password: string) => {

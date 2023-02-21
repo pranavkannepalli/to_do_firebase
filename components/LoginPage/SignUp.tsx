@@ -28,45 +28,50 @@ const SignUp: React.FC<Props> = ({ changePage, signUp, changeLoading, google }) 
     }
 
     return (
-        <div className="grad">
-            <div className="bgdark sign">
-                <h2 className="primary">Sign Up<br /></h2>
-                <form onSubmit={handleSubmit}>
-                    <input required={true} type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter email" />
-                    <input required={true} aria-describedby="password1" type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter password" />
-                    <span id="password1" className={password.length < 8 ? "danger" : "success"}>{password.length < 8 ? "Password needs to be more than 8 letters" : "Password is more than 8 letters"}</span>
-                    <input required={true} aria-describedby="password2" type="password" className="form-control" value={repeatPassword} onChange={(e) => setRepeat(e.target.value)} placeholder="Retype password" />
-                    <span id="password2" className={password != repeatPassword ? "danger" : "success"}>{password != repeatPassword ? "Passwords don't match" : "Passwords are matching"}</span><br />
-                    <Button className="button-primary my-3" type="submit">
-                        Submit
-                    </Button>
-                </form>
-                <hr />
-                <h3 className="light">
-                    Other Sign-in Methods
-                </h3>
-                <div className="row">
-                    <div className="col">
-                        <Button onClick={google}>
-                            <Icon icon="logos:google-icon"/>
+        <div className="row login">
+            <div className="col-md-7 col-sm-0">
+
+            </div>
+            <div className="col-md-5 col-sm-12">
+                <div className="bgdark sign">
+                    <h2 className="primary">Sign Up<br /></h2>
+                    <form onSubmit={handleSubmit}>
+                        <input required={true} type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter email" />
+                        <input required={true} aria-describedby="password1" type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter password" />
+                        <span id="password1" className={password.length < 8 ? "danger" : "success"}>{password.length < 8 ? "Password needs to be more than 8 letters" : "Password is more than 8 letters"}</span>
+                        <input required={true} aria-describedby="password2" type="password" className="form-control" value={repeatPassword} onChange={(e) => setRepeat(e.target.value)} placeholder="Retype password" />
+                        <span id="password2" className={password != repeatPassword ? "danger" : "success"}>{password != repeatPassword ? "Passwords don't match" : "Passwords are matching"}</span><br />
+                        <Button className="button-primary my-3" type="submit">
+                            Submit
                         </Button>
-                    </div>
-                </div>
-                <hr />
-                <div className="row">
-                    <div className="col">
-                        <div className="light">
-                            Forgot Password?
+                    </form>
+                    <hr />
+                    <h3 className="light">
+                        Other Sign-in Methods
+                    </h3>
+                    <div className="row">
+                        <div className="col">
+                            <Button onClick={google}>
+                                <Icon icon="logos:google-icon" />
+                            </Button>
                         </div>
-                        <Button className="button-primary" onClick={() => changePage("reset")}>
-                            Reset
-                        </Button>
                     </div>
-                    <div className="col">
-                        <div className="light">
-                            Need an Account?
+                    <hr />
+                    <div className="row">
+                        <div className="col">
+                            <div className="light">
+                                Forgot Password?
+                            </div>
+                            <Button className="button-primary" onClick={() => changePage("reset")}>
+                                Reset
+                            </Button>
                         </div>
-                        <Button className="button-primary bgprimary" onClick={() => changePage("signin")}>Sign In</Button>
+                        <div className="col">
+                            <div className="light">
+                                Need an Account?
+                            </div>
+                            <Button className="button-primary bgprimary" onClick={() => changePage("signin")}>Sign In</Button>
+                        </div>
                     </div>
                 </div>
             </div>
