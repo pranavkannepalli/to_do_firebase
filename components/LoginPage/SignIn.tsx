@@ -6,11 +6,10 @@ import { Button, Form } from "react-bootstrap";
 type Props = {
     changePage: React.Dispatch<React.SetStateAction<string>>;
     signIn: (email: string, password: string) => void;
-    changeLoading: (value: React.SetStateAction<boolean>) => void;
     google(): Promise<void>;
 }
 
-const SignIn: React.FC<Props> = ({ changeLoading, changePage, signIn, google }) => {
+const SignIn: React.FC<Props> = ({ changePage, signIn, google }) => {
     const [email, setEmail] = React.useState<string>("");
     const [password, setPassword] = React.useState<string>("");
 
@@ -73,8 +72,8 @@ const SignIn: React.FC<Props> = ({ changeLoading, changePage, signIn, google }) 
                     </h3>
                     <div className="row">
                         <div className="col">
-                            <Button className="button-none" onClick={google}>
-                                <Icon icon="logos:google-icon" />
+                            <Button className="button-none dark bgdark-alt p-2" onClick={google}>
+                                Continue with Google <Icon icon="logos:google-icon" className="m-2" />
                             </Button>
                         </div>
                     </div>

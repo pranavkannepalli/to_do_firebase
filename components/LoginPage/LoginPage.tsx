@@ -72,12 +72,12 @@ const LoginPage: React.FC<Props> = ({ changeLast, changeUserExists, changeLoadin
 
   if (page == "signin") {
     return (
-      <SignIn changeLoading={changeLoading} changePage={changePage} signIn={signIn} google={google}/>
+      <SignIn changePage={changePage} signIn={signIn} google={google}/>
     )
   }
   else if (page == "signup") {
     return (
-      <SignUp changePage={changePage} signUp={signUp} changeLoading={changeLoading} google={google}/>
+      <SignUp changePage={changePage} signUp={signUp} google={google}/>
     )
   }
   else {

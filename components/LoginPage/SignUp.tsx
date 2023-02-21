@@ -1,15 +1,15 @@
 import { Icon } from "@iconify/react";
 import React from "react";
 import { Button } from "react-bootstrap";
+import Image from "next/image";
 
 type Props = {
     changePage: React.Dispatch<React.SetStateAction<string>>;
     signUp: (email: string, password: string) => void;
-    changeLoading: (value: React.SetStateAction<boolean>) => void;
     google(): Promise<void>;
 }
 
-const SignUp: React.FC<Props> = ({ changePage, signUp, changeLoading, google }) => {
+const SignUp: React.FC<Props> = ({ changePage, signUp, google }) => {
     const [email, setEmail] = React.useState<string>("");
     const [password, setPassword] = React.useState<string>("");
     const [repeatPassword, setRepeat] = React.useState<string>("");
@@ -29,11 +29,14 @@ const SignUp: React.FC<Props> = ({ changePage, signUp, changeLoading, google }) 
 
     return (
         <div className="row login">
-            <div className="col-md-7 col-sm-0">
-
+            <title>
+                Sign Up
+            </title>
+            <div className="imageContainer">
+                <Image className="loginImage" src="/images/signup.svg" width={32} height={32} alt="Sign Up"/>
             </div>
-            <div className="col-md-5 col-sm-12">
-                <div className="bgdark sign">
+            <div className="bgdark sign">
+                <div className="content">
                     <h2 className="primary">Sign Up<br /></h2>
                     <form onSubmit={handleSubmit}>
                         <input required={true} type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter email" />
@@ -45,33 +48,13 @@ const SignUp: React.FC<Props> = ({ changePage, signUp, changeLoading, google }) 
                             Submit
                         </Button>
                     </form>
-                    <hr />
-                    <h3 className="light">
-                        Other Sign-in Methods
-                    </h3>
                     <div className="row">
-                        <div className="col">
-                            <Button onClick={google}>
-                                <Icon icon="logos:google-icon" />
-                            </Button>
-                        </div>
-                    </div>
-                    <hr />
-                    <div className="row">
-                        <div className="col">
-                            <div className="light">
-                                Forgot Password?
-                            </div>
-                            <Button className="button-primary" onClick={() => changePage("reset")}>
-                                Reset
-                            </Button>
-                        </div>
-                        <div className="col">
-                            <div className="light">
-                                Need an Account?
-                            </div>
-                            <Button className="button-primary bgprimary" onClick={() => changePage("signin")}>Sign In</Button>
-                        </div>
+                        <a className="light" onClick={() => changePage("reset")}>
+                            Reset Password
+                        </a>
+                        <a className="light" onClick={() => changePage("signup")}>
+                            Sign Up
+                        </a>
                     </div>
                 </div>
             </div>
