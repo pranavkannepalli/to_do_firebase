@@ -128,19 +128,19 @@ ul {
 }
 
 .light {
-  color: var(--clr-light);
+  color: var(--clr-light) !important;
 }
 
 .dark {
-  color: var(--clr-dark);
+  color: var(--clr-dark) !important;
 }
 
 .primary {
-  color: var(--clr-primary);
+  color: var(--clr-primary) !important;
 }
 
 .secondary {
-  color: var(--clr-secondary);
+  color: var(--clr-secondary) !important;
 }
 
 button {
