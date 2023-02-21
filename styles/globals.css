@@ -20,43 +20,43 @@
 }
 
 .login {
-  height: 100vh;
-  width: 100vw;
+  height: 100vh !important;
+  width: 100vw !important;
 }
 
 .imageContainer {
-  width: 58.3%;
-  display: flex;
-  align-items: center;
-  vertical-align: center;
-  margin: 0px;
+  width: 58.3% !important;
+  display: flex !important;
+  align-items: center !important;
+  vertical-align: center !important;
+  margin: 0px !important;
 }
 
 .loginImage {
-  width: 90%;
-  height: auto;
+  width: 90% !important;
+  height: auto !important;
   position: relative !important;
-  object-fit: cover;
-  vertical-align: center;
-  margin-right: auto;
-  margin-left: auto;
+  object-fit: cover !important;
+  vertical-align: center !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
 }
 
 .sidebar-icon {
-  color: var(--clr-light);
-  float: right;
-  height: 30px;
-  width: 30px;
+  color: var(--clr-light) !important;
+  float: right !important;
+  height: 30px !important;
+  width: 30px !important;
 }
 
 .sign {
-  padding: 3vw;
-  text-align: center;
-  height: 100vh;
-  width: 41.7%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 3vw !important;
+  text-align: center !important;
+  height: 100vh !important;
+  width: 41.7% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .row {
@@ -64,7 +64,7 @@
 }
 
 .col-lg-10 {
-  margin-right: 25px;
+  margin-right: 25px !important;
 }
 
 @media screen and (min-width: 992px) {
@@ -79,14 +79,14 @@
 
 @media screen and (max-width: 600px) {
   .imageContainer {
-    width: 0;
+    width: 0 !important;
     visibility: hidden !important;
   }
 
   .sign {
-    width: 100%;
-    margin-right: 0;
-    background: linear-gradient(var(--clr-dark), var(--clr-altprimary));
+    width: 100% !important;
+    margin-right: 0 !important;
+    background: linear-gradient(var(--clr-dark), var(--clr-altprimary))  !important;
   }
 }
 
