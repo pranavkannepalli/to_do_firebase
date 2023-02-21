@@ -52,8 +52,8 @@ const SignUp: React.FC<Props> = ({ changePage, signUp, google }) => {
                         <a className="light" onClick={() => changePage("reset")}>
                             Reset Password
                         </a>
-                        <a className="light" onClick={() => changePage("signup")}>
-                            Sign Up
+                        <a className="light" onClick={() => changePage("signin")}>
+                            Sign In
                         </a>
                     </div>
                 </div>

@@ -226,7 +226,7 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
             </Head>
             <main>
                 <div className="grid">
-                    <div className="row m-2">
+                    <div className="row">
                         <Sidebar groups={groups} allGroups={allGroups} signOut={signOut} changeAllGroups={changeAllGroups} changeGroups={changeGroups} changeCurrentGroup={changeCurrentGroup}></Sidebar>
                         <div className="col-lg-9 col-sm-12 px-4">
                             <h1 className="primary">
