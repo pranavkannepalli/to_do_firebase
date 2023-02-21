@@ -13,9 +13,9 @@
 
 .expandedSidebar {
   position: sticky;
-  left: 0px;
-  top: 0px;
-  height: 100vh;
+  left: 0px !important;
+  top: 0px !important;
+  height: 100vh !important;
   z-index:99 !important;
 }
 
@@ -243,9 +243,9 @@ h1 {
 }
 
 body {
-  margin: 0;
+  margin: 0 !important;
   color: var(--clr-dark);
-  background: var(--clr-light);
+  background: var(--clr-light) !important;
 }
 
 hr {
