@@ -62,6 +62,7 @@ const FormTodo: React.FC<Props> = ({ addTodo }) => {
         <>
           <input
             id="elogdate"
+            title="Select Date"
             ref={dateRef}
             value={date}
             onChange={(e) => _handleChange(e)}
@@ -69,6 +70,7 @@ const FormTodo: React.FC<Props> = ({ addTodo }) => {
           />
           <input
             id="elogtime"
+            title="Select Time"
             ref={timeRef}
             value={time}
             onChange={(e) => _handleChange(e)}

@@ -129,9 +129,9 @@ const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTod
     if (!editing) {
         return (
             <div>
-                <Card className="bgdark-alt border-0 my-2">
+                <Card className="todo bgdark-alt border-0 my-2">
                     <Card.Body>
-                        <div className="todo ">
+                        <div className="">
                             <h5 style={{ textDecoration: todo.isDone ? "line-through" : "" }} className="my-2">
                                 {todo.description}
                             </h5>
@@ -154,7 +154,7 @@ const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTod
                                         </Button>
                                     )
                                 }
-                                <Button className="button-primary my-3" title="Add a subtask" onClick={() => changeAdding(!adding)}>
+                                <Button className="button-primary my-3 m-2" title="Add a subtask" onClick={() => changeAdding(!adding)}>
                                     <Icon icon="material-symbols:assignment-add-outline"/>
                                 </Button>
                                 <Button className="button m-2" title="edit" variant="outline-success border-0" onClick={() => changeEditing(true)}>

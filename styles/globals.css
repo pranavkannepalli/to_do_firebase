@@ -11,6 +11,25 @@
   --clr-danger: #F24E1E;
 }
 
+.todo {
+  animation-delay: 500ms !important;
+  animation: fade-in 1s !important;
+  max-width: 1024px !important;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.subtask {
+  margin-left: 5% !important;
+}
+
 .expandedSidebar {
   position: sticky;
   left: 0px !important;
@@ -25,16 +44,16 @@
   top: 0px !important;
   height: 100vh !important;
   z-index:99 !important;
-  width: fit-content;
+  width: fit-content !important;
 }
 
 .bigButton {
-  width: 65px;
-  height: 55px;
+  width: 65px !important;
+  height: 55px !important;
 }
 
 .smallButton {
-  margin-right: 10px;
+  margin-right: 10px !important;
 }
 
 .login {
@@ -271,7 +290,8 @@ hr {
   margin-bottom: 2rem;
 }
 
-input {
+input{
+  max-width: 1024 !important;
   background-color: var(--clr-dark-alt) !important;
   color: var(--clr-dark) !important;
   margin-top: 5px;
@@ -291,4 +311,8 @@ input[type="date"] {
   width: 150px !important;
   height: 30px;
   border-radius: 5px !important;
+}
+
+input[type="text"] {
+  max-width: 1024px !important;
 }

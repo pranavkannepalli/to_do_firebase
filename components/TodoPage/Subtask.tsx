@@ -124,7 +124,7 @@ const Subtask: React.FC<Props> = ({ parentId, todo, markSubtask, removeSubtask, 
     if (!editing) {
         return (
             <div>
-                <Card className="bgdark-alt border-0 my-2 mx-5">
+                <Card className="subtask todo bgdark-alt border-0 my-2">
                     <Card.Body>
                         <div className="todo ">
                             <h5 style={{ textDecoration: todo.isDone ? "line-through" : "" }} className="my-2">
@@ -165,7 +165,7 @@ const Subtask: React.FC<Props> = ({ parentId, todo, markSubtask, removeSubtask, 
     else {
         return (
             <div>
-                <Card className="bgdark-alt border-0 my-2 mx-5">
+                <Card className="subtask todo bgdark-alt border-0 my-2">
                     <Card.Body>
                         <Form onSubmit={handleSubmit}>
                             <Form.Group>
