@@ -72,7 +72,7 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
         return (
             <div className="col-lg-3 col-sm-12 bgdark expandedSidebar px-4">
                 <div className="primary">
-                    <button className="p-2" onClick={() => changeClosed(!closed)}>
+                    <button className="smallButton p-2" onClick={() => changeClosed(!closed)}>
                         <svg width="45" height="35" viewBox="0 0 45 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M1.17188 33.7656H43.8281M1.17188 17.5156H43.8281M1.17188 1.26562H43.8281" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
@@ -130,8 +130,8 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
     }
     else {
         return (
-            <div className="col-lg-1 col-sm-12 mb-2 px-2 button_only bgdark">
-                <button className="p-2" onClick={() => changeClosed(!closed)}>
+            <div className="col-lg-1 col-sm-12 mb-2 px-4 button_only bgdark">
+                <button className="bigButton p-2" onClick={() => changeClosed(!closed)}>
                     <svg width="45" height="35" viewBox="0 0 45 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1.17188 33.7656H43.8281M1.17188 17.5156H43.8281M1.17188 1.26562H43.8281" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>

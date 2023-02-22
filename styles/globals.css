@@ -19,6 +19,24 @@
   z-index:99 !important;
 }
 
+.button_only {
+  position: sticky;
+  left: 0px !important;
+  top: 0px !important;
+  height: 100vh !important;
+  z-index:99 !important;
+  width: fit-content;
+}
+
+.bigButton {
+  width: 65px;
+  height: 55px;
+}
+
+.smallButton {
+  margin-right: 10px;
+}
+
 .login {
   height: 100vh !important;
   width: 100vw !important;
