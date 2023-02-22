@@ -57,7 +57,16 @@ const AccountPage: React.FC<Props> = ({ groups, allGroups, changeCurrentGroup, c
                 user?.updateEmail(newE).then(() => {
                 alert("Email updated!")
                 }).catch((error) => alert(error))
-            }).catch((error) => alert(error))
+            }).catch((error) => {
+                if (error == "FirebaseError: Firebase: The password is invalid or the user does not have a password. (auth/wrong-password).") {
+                    alert("Wrong current password or user does not have a password.");
+                    return;
+                }
+                else {
+                    alert(error)
+                    return;
+                }
+            })
         }
 
         if (newP != "" && newP == repeatNewP) {
@@ -65,9 +74,27 @@ const AccountPage: React.FC<Props> = ({ groups, allGroups, changeCurrentGroup, c
             user.reauthenticateWithCredential(cred).then(() => {
                 var user = firebase.auth().currentUser;
                 user?.updatePassword(newP).then(() => {
-                alert("Email updated!")
-                }).catch((error) => alert(error))
-            }).catch((error) => alert(error))
+                alert("Password updated!")
+                }).catch((error) => {
+                    if(error == "FirebaseError: Firebase: Password should be at least 6 characters (auth/weak-password).") {
+                        alert("Choose a stronger password");
+                        return;
+                    }
+                    else {
+                        alert(error);
+                        return;
+                    }
+                })
+            }).catch((error) => {
+                if (error == "FirebaseError: Firebase: The password is invalid or the user does not have a password. (auth/wrong-password).") {
+                    alert("Wrong current password or user does not have a password.");
+                    return;
+                }
+                else {
+                    alert(error)
+                    return;
+                }
+            })
         }
         else if (newP != repeatNewP) {
             alert("Passwords do not match");
@@ -93,7 +120,12 @@ const AccountPage: React.FC<Props> = ({ groups, allGroups, changeCurrentGroup, c
                             <h1 className="primary">
                                 Account
                             </h1>
-                            <h2>Change email or password</h2>
+                            <h2 className="secondary">
+                                Current Account Info
+                            </h2>
+                            <h2 className="secondary">
+                                Change email or password
+                            </h2>
                             <Form onSubmit={(e) => handleSubmit(e)}>
                                 <Form.Group className="my-2">
                                     <Form.Label>
