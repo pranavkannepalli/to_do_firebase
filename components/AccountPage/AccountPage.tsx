@@ -4,8 +4,10 @@ import { auth } from "../../firebase_setup";
 import firebase from "firebase/compat/app"
 import Sidebar from "../TodoPage/Sidebar";
 import { Button, Form } from "react-bootstrap";
+import { Icon } from "@iconify/react";
 
 type Props = {
+    lastId: number;
     groups: string[];
     allGroups: string[];
     changeCurrentGroup: (value: React.SetStateAction<string>) => void;
@@ -15,12 +17,15 @@ type Props = {
     changeLoading: (value: React.SetStateAction<boolean>) => void
 }
 
-const AccountPage: React.FC<Props> = ({ groups, allGroups, changeCurrentGroup, changeGroups, changeAllGroups, changeUserExists, changeLoading }) => {
+const AccountPage: React.FC<Props> = ({ lastId, groups, allGroups, changeCurrentGroup, changeGroups, changeAllGroups, changeUserExists, changeLoading }) => {
 
-    const [currentP, changeCurrentP] = useState("");
-    const [newP, changeNewP] = useState("");
-    const [repeatNewP, changeRepeatNewP] = useState("");
-    const [newE, changeNewE] = useState("");
+    const [currentP, changeCurrentP] = useState<string>("");
+    const [newP, changeNewP] = useState<string>("");
+    const [repeatNewP, changeRepeatNewP] = useState<string>("");
+    const [newE, changeNewE] = useState<string>("");
+
+    const [editingDisplay, changeEditing] = useState<boolean>(false);
+    const [edit, changeEdit] = useState<string>("");
 
     const signOut = async () => {
         changeLoading(true);
@@ -107,6 +112,21 @@ const AccountPage: React.FC<Props> = ({ groups, allGroups, changeCurrentGroup, c
         changeNewP("");
     }
 
+    const changeDisplayName = async (e:React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        if (edit.length < 5) {
+            alert("Display name is too short");
+            return;
+        }
+        else if(edit.length > 30) {
+            alert("Display name is too long");
+            return;
+        }
+        await auth.currentUser?.updateProfile({displayName: edit}).then(() => console.log(auth.currentUser?.displayName));
+        changeEditing(false);
+        changeEdit('');
+    }
+
     return (
         <div>
             <Head>
@@ -123,6 +143,37 @@ const AccountPage: React.FC<Props> = ({ groups, allGroups, changeCurrentGroup, c
                             <h2 className="secondary">
                                 Current Account Info
                             </h2>
+                            <div>
+                                <h4>
+                                    {auth.currentUser?.email}
+                                </h4>
+                                <div>
+                                    {editingDisplay ? 
+                                    <div>
+                                        <Form onSubmit={(e) => changeDisplayName(e)}>
+                                            <Form.Control 
+                                            type="text" 
+                                            required={true} 
+                                            className="input" 
+                                            value={edit} onChange={(e) => changeEdit(e.target.value)} 
+                                            placeholder={(auth.currentUser != null && auth.currentUser.displayName != null) ? auth.currentUser.displayName : ""}/>
+                                            <Button className="button bgprimary my-3" type="submit">
+                                                Submit
+                                            </Button>
+                                            <Button className="button bgprimary my-3" onClick={() => changeEditing(false)}>
+                                                Cancel
+                                            </Button>
+                                        </Form>
+                                    </div> 
+                                    : <div>
+                                        Display Name: {auth.currentUser?.displayName}
+                                        <Icon className="m-2" icon="material-symbols:edit" onClick={() => changeEditing(true)}/>
+                                    </div> }
+                                </div>
+                                <div>
+                                    Number of todos: {lastId - 2}
+                                </div>
+                            </div>
                             <h2 className="secondary">
                                 Change email or password
                             </h2>

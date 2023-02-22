@@ -140,7 +140,7 @@ export default function Home() {
     }
     else {
       return (
-        <AccountPage groups={groups} allGroups={allGroups} changeUserExists={changeUserExists} changeAllGroups={changeAllGroups} changeCurrentGroup={changeCurrentGroup} changeGroups={changeGroups} changeLoading={changeLoading}/>
+        <AccountPage lastId={lastId} groups={groups} allGroups={allGroups} changeUserExists={changeUserExists} changeAllGroups={changeAllGroups} changeCurrentGroup={changeCurrentGroup} changeGroups={changeGroups} changeLoading={changeLoading}/>
       )
     }
   }

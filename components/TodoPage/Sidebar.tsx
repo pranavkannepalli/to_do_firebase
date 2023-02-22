@@ -77,7 +77,7 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
                             <path d="M1.17188 33.7656H43.8281M1.17188 17.5156H43.8281M1.17188 1.26562H43.8281" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                     </button>
-                    {auth.currentUser?.email}
+                    Hello {auth.currentUser?.displayName}
                 </div>
                 <h2 className="primary">
                     <a onClick={() => changeCurrentGroup("Personal")}>

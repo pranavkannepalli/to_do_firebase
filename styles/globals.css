@@ -239,6 +239,7 @@ a {
 .button-none:hover {
   box-shadow: 0px 2px 16px var(--clr-light);
   background: none !important;
+  color: white !important;
 }
 
 
@@ -294,9 +295,6 @@ input{
   max-width: 1024 !important;
   background-color: var(--clr-dark-alt) !important;
   color: var(--clr-dark) !important;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  margin-right: 5px;
 }
 
 input[type="time"] {

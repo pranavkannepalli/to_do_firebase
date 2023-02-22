@@ -32,7 +32,7 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
     const [sort, changeSort] = useState<string[]>(["Original", "Ascending"]);
 
     const addTodo = (text: string, date: Date | undefined) => {
-        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${lastId + 1}/`).set({ id: lastId + 1, description: text, isDone: false, addedBy: auth.currentUser?.email })
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${lastId + 1}/`).set({ id: lastId + 1, description: text, isDone: false, addedBy: auth.currentUser?.displayName })
         if (date != undefined) {
             db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${lastId + 1}/`).update({ date: date })
         }
