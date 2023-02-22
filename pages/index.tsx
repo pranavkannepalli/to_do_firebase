@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ITodo, GroupRequest } from "../types"
 import LoginPage from "../components/LoginPage/LoginPage";
 import TodoPage from '../components/TodoPage/TodoPage';
+import AccountPage from "../components/AccountPage/AccountPage";
 
 export default function Home() {
   const [todos, changeTodos] = useState<ITodo[]>([]);
@@ -20,7 +21,7 @@ export default function Home() {
     db.ref("All Groups").once("value", snapshot => {
       changeAllGroups(snapshot.val());
     })
-    if (userExists) {
+    if (userExists && currentGroup != "Account") {
       db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/`).once("value", snapshot => { changeLast(snapshot.val().LastId) })
       db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/`).on("value", snapshot => {
         let allTodos: any = [];
@@ -126,15 +127,22 @@ export default function Home() {
   };
 
   if (auth.currentUser != null) {
-    return (
-      <TodoPage currentGroup={currentGroup}
-        groups={groups} allGroups={allGroups} groupRequests={groupRequests}
-        todos={todos} lastId={lastId} changeAllGroups={changeAllGroups}
-        changeCurrentGroup={changeCurrentGroup} changeGroups={changeGroups}
-        changeLast={changeLast} changeLoading={changeLoading}
-        changeUserExists={changeUserExists} changeGroupRequests={changeGroupRequests}
-        sortedTodos={sortedTodos} changeSorted={changeSorted}/>
-    )
+    if(currentGroup != "Account") {
+      return (
+        <TodoPage currentGroup={currentGroup}
+          groups={groups} allGroups={allGroups} groupRequests={groupRequests}
+          todos={todos} lastId={lastId} changeAllGroups={changeAllGroups}
+          changeCurrentGroup={changeCurrentGroup} changeGroups={changeGroups}
+          changeLast={changeLast} changeLoading={changeLoading}
+          changeUserExists={changeUserExists} changeGroupRequests={changeGroupRequests}
+          sortedTodos={sortedTodos} changeSorted={changeSorted}/>
+      )
+    }
+    else {
+      return (
+        <AccountPage groups={groups} allGroups={allGroups} changeUserExists={changeUserExists} changeAllGroups={changeAllGroups} changeCurrentGroup={changeCurrentGroup} changeGroups={changeGroups} changeLoading={changeLoading}/>
+      )
+    }
   }
   else if (loading) {
     <div>Loading...</div>

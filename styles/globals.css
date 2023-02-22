@@ -316,3 +316,11 @@ input[type="date"] {
 input[type="text"] {
   max-width: 1024px !important;
 }
+
+input[type="password"] {
+  max-width: 1024px !important;
+}
+
+input[type="email"] {
+  max-width: 1024px !important;
+}

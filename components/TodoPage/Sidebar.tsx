@@ -88,7 +88,7 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
                 <a className="light" onClick={() => changeCurrentGroup("Personal")}>
                     Todos <br />
                 </a>
-                <a className="light" onClick={() => console.log("nothing here")}>
+                <a className="light" onClick={() => changeCurrentGroup("Account")}>
                     Account <br />
                 </a>
                 <a className="light" onClick={() => signOut()}>
