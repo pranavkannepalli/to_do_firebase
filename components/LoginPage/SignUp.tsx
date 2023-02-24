@@ -1,18 +1,18 @@
 import { Icon } from "@iconify/react";
-import React from "react";
+import React, {useState} from "react";
 import { Button } from "react-bootstrap";
 import Image from "next/image";
 
 type Props = {
     changePage: React.Dispatch<React.SetStateAction<string>>;
-    signUp: (email: string, password: string) => void;
-    google(): Promise<void>;
+    signUp: (email: string, password: string, displayName: string) => void;
 }
 
-const SignUp: React.FC<Props> = ({ changePage, signUp, google }) => {
-    const [email, setEmail] = React.useState<string>("");
-    const [password, setPassword] = React.useState<string>("");
-    const [repeatPassword, setRepeat] = React.useState<string>("");
+const SignUp: React.FC<Props> = ({ changePage, signUp }) => {
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [repeatPassword, setRepeat] = useState<string>("");
+    const [displayName, setDisplay] = useState<string>("");
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -22,7 +22,7 @@ const SignUp: React.FC<Props> = ({ changePage, signUp, google }) => {
             alert("Passwords do not match")
             return;
         };
-        signUp(email, password);
+        signUp(email, password, displayName);
         setEmail("");
         setPassword("");
     }
@@ -40,6 +40,7 @@ const SignUp: React.FC<Props> = ({ changePage, signUp, google }) => {
                     <h2 className="primary">Sign Up<br /></h2>
                     <form onSubmit={handleSubmit}>
                         <input required={true} type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter email" />
+                        <input required={true} type="text" className="form-control" value={displayName} onChange={(e) => setDisplay(e.target.value)} placeholder="Choose a username"/>
                         <input required={true} aria-describedby="password1" type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter password" />
                         <span id="password1" className={password.length < 8 ? "danger" : "success"}>{password.length < 8 ? "Password needs to be more than 8 letters" : "Password is more than 8 letters"}</span>
                         <input required={true} aria-describedby="password2" type="password" className="form-control" value={repeatPassword} onChange={(e) => setRepeat(e.target.value)} placeholder="Retype password" />

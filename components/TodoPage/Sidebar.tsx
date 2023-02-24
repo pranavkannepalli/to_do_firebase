@@ -59,7 +59,7 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
     const joinGroup = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!(inGroups(join)) && inAllGroups(join)) {
-            db.ref(`${join}/Requests/${auth.currentUser?.uid}`).set({ id: auth.currentUser?.uid, email: auth.currentUser?.email })
+            db.ref(`${join}/Requests/${auth.currentUser?.uid}`).set({ id: auth.currentUser?.uid, username: auth.currentUser?.displayName })
             alert("Join request sent")
         }
         else {
@@ -77,7 +77,7 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
                             <path d="M1.17188 33.7656H43.8281M1.17188 17.5156H43.8281M1.17188 1.26562H43.8281" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                     </button>
-                    {auth.currentUser?.email}
+                    Hello {auth.currentUser?.displayName}
                 </div>
                 <h2 className="primary">
                     <a onClick={() => changeCurrentGroup("Personal")}>
@@ -88,7 +88,7 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
                 <a className="light" onClick={() => changeCurrentGroup("Personal")}>
                     Todos <br />
                 </a>
-                <a className="light" onClick={() => console.log("nothing here")}>
+                <a className="light" onClick={() => changeCurrentGroup("Account")}>
                     Account <br />
                 </a>
                 <a className="light" onClick={() => signOut()}>

@@ -47,7 +47,7 @@ const LoginPage: React.FC<Props> = ({ changeLast, changeUserExists, changeLoadin
     changeLoading(false);
   }
 
-  const signUp = async (email: string, password: string) => {
+  const signUp = async (email: string, password: string, displayName: string) => {
     changeLoading(true);
     try {
       const res = await auth.createUserWithEmailAndPassword(email, password);
@@ -55,6 +55,7 @@ const LoginPage: React.FC<Props> = ({ changeLast, changeUserExists, changeLoadin
       db.ref(`${auth.currentUser?.uid}/Tasks/`).update({1: {id: 1, description: "Say Hello to Your New Account, Check to mark as Done, X to Remove", isDone: false, addedBy: "Admin"}})
       db.ref(`${auth.currentUser?.uid}/`).update({ Groups: ["Personal"] })
       res.user && changeUserExists(true);
+      auth.currentUser?.updateProfile({displayName: displayName})
     }
     catch (error) {
       if (error == "FirebaseError: Firebase: The email address is already in use by another account. (auth/email-already-in-use).") {
@@ -77,7 +78,7 @@ const LoginPage: React.FC<Props> = ({ changeLast, changeUserExists, changeLoadin
   }
   else if (page == "signup") {
     return (
-      <SignUp changePage={changePage} signUp={signUp} google={google}/>
+      <SignUp changePage={changePage} signUp={signUp}/>
     )
   }
   else {

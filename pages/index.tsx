@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ITodo, GroupRequest } from "../types"
 import LoginPage from "../components/LoginPage/LoginPage";
 import TodoPage from '../components/TodoPage/TodoPage';
+import AccountPage from "../components/AccountPage/AccountPage";
 
 export default function Home() {
   const [todos, changeTodos] = useState<ITodo[]>([]);
@@ -20,8 +21,12 @@ export default function Home() {
     db.ref("All Groups").once("value", snapshot => {
       changeAllGroups(snapshot.val());
     })
-    if (userExists) {
+    if (auth.currentUser != null && currentGroup != "Account") {
       db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/`).once("value", snapshot => { changeLast(snapshot.val().LastId) })
+      if(lastId == null || lastId == undefined) {
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/`).update({LastId: 2})
+        changeLast(3)
+      }
       db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/`).on("value", snapshot => {
         let allTodos: any = [];
         snapshot.forEach(snap => {
@@ -93,7 +98,7 @@ export default function Home() {
               var data: any = snap.val();
               var newRequest: GroupRequest = {
                 id: data.id,
-                email: data.email
+                username: data.username
               }
               allRequests.push(newRequest);
             })
@@ -120,21 +125,29 @@ export default function Home() {
         })
       }
       catch (error) {
+        db.ref(`${auth.currentUser?.uid}/Groups/`).update({0: "Personal"})
         console.log(error);
       }
     }
   };
 
   if (auth.currentUser != null) {
-    return (
-      <TodoPage currentGroup={currentGroup}
-        groups={groups} allGroups={allGroups} groupRequests={groupRequests}
-        todos={todos} lastId={lastId} changeAllGroups={changeAllGroups}
-        changeCurrentGroup={changeCurrentGroup} changeGroups={changeGroups}
-        changeLast={changeLast} changeLoading={changeLoading}
-        changeUserExists={changeUserExists} changeGroupRequests={changeGroupRequests}
-        sortedTodos={sortedTodos} changeSorted={changeSorted}/>
-    )
+    if(currentGroup != "Account") {
+      return (
+        <TodoPage currentGroup={currentGroup}
+          groups={groups} allGroups={allGroups} groupRequests={groupRequests}
+          todos={todos} lastId={lastId} changeAllGroups={changeAllGroups}
+          changeCurrentGroup={changeCurrentGroup} changeGroups={changeGroups}
+          changeLast={changeLast} changeLoading={changeLoading}
+          changeUserExists={changeUserExists} changeGroupRequests={changeGroupRequests}
+          sortedTodos={sortedTodos} changeSorted={changeSorted}/>
+      )
+    }
+    else {
+      return (
+        <AccountPage lastId={lastId} groups={groups} allGroups={allGroups} changeUserExists={changeUserExists} changeAllGroups={changeAllGroups} changeCurrentGroup={changeCurrentGroup} changeGroups={changeGroups} changeLoading={changeLoading}/>
+      )
+    }
   }
   else if (loading) {
     <div>Loading...</div>

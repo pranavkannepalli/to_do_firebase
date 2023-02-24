@@ -20,8 +20,9 @@ type Props = {
 const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTodo, markSubtask, removeSubtask, editSubtask }) => {
     const [editing, changeEditing] = useState<boolean>(false);
     const [adding, changeAdding] = useState<boolean>(false);
-    const [value, setValue] = useState<string>(todo.description);
-    const [due, setDue] = useState<Date>();
+    const [value, changeValue] = useState<string>(todo.description);
+    const [due, changeDue] = useState<Date>();
+    const [deleting, changeDeleting] = useState<boolean>(false);
 
     const getDate = () => {
         if (todo.date == null || todo.date == undefined) return "";
@@ -61,8 +62,8 @@ const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTod
         return s[0].concat(":", s[1], ":", s[2]);
     }
 
-    const [date, setDate] = useState<string>(getDate());
-    const [time, setTime] = useState<string>(getTime());
+    const [date, changeDate] = useState<string>(getDate());
+    const [time, changeTime] = useState<string>(getTime());
     const dateRef = useRef(null);
     const timeRef = useRef(null);
 
@@ -94,9 +95,9 @@ const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTod
             }
         }
         editTodo(edit);
-        setDate("");
-        setTime("");
-        setDue(undefined);
+        changeDate("");
+        changeTime("");
+        changeDue(undefined);
         changeEditing(false);
     };
 
@@ -107,13 +108,13 @@ const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTod
         var newStr: string = "";
 
         if ("elogdate" === elid) {
-            setDate(value);
+            changeDate(value);
             newStr = new String("").concat(value || "", " ", time || "");
         } else if ("elogtime" === elid) {
-            setTime(value);
+            changeTime(value);
             newStr = new String("").concat(date || "", " ", value || "");
         }
-        setDue(new Date(newStr));
+        changeDue(new Date(newStr));
     }
 
     const getClassName = () => {
@@ -126,7 +127,7 @@ const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTod
         }
     }
 
-    if (!editing) {
+    if (!editing && !deleting) {
         return (
             <div>
                 <Card className="todo bgdark-alt border-0 my-2">
@@ -155,29 +156,57 @@ const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTod
                                     )
                                 }
                                 <Button className="button-primary my-3 m-2" title="Add a subtask" onClick={() => changeAdding(!adding)}>
-                                    <Icon icon="material-symbols:assignment-add-outline"/>
+                                    <Icon icon="material-symbols:assignment-add-outline" />
                                 </Button>
                                 <Button className="button m-2" title="edit" variant="outline-success border-0" onClick={() => changeEditing(true)}>
                                     <Icon icon="material-symbols:edit-outline-rounded" />
                                 </Button>
-                                <Button className="button-danger m-2" title="Delete" variant="outline-danger border-0" onClick={() => removeTodo(todo.id)}>
+                                <Button className="button-danger m-2" title="Delete" variant="outline-danger border-0" onClick={() => changeDeleting(true)}>
                                     <Icon icon="mdi:trash-can-outline" />
                                 </Button>
                             </div>
                         </div>
                     </Card.Body>
                 </Card>
-                {adding ? 
-                <Card className="bgdark-alt border-0 my-2 mx-5">
-                    <Card.Body>
-                        <FormSubtask changeAdding={changeAdding} addSubtask={addSubtask} parentId={todo.id}/>
-                    </Card.Body>
-                </Card> : ""}
+                {adding ?
+                    <Card className="bgdark-alt border-0 my-2 mx-5">
+                        <Card.Body>
+                            <FormSubtask changeAdding={changeAdding} addSubtask={addSubtask} parentId={todo.id} />
+                        </Card.Body>
+                    </Card> : ""}
                 {todo.subtasks?.map((subtask: ITodo, index: number) =>
                     <Subtask parentId={todo.id} key={index} todo={subtask} markSubtask={markSubtask} removeSubtask={removeSubtask} editSubtask={editSubtask} />
                 )}
             </div>
         )
+    }
+    else if (deleting) {
+        return (
+            <div>
+                <Card className="todo bgdark-alt border-0 my-2">
+                    <Card.Body>
+                        <div className="">
+                            <h5 style={{ textDecoration: todo.isDone ? "line-through" : "" }} className="my-2">
+                                {todo.description}
+                            </h5>
+                            <strong>Are you sure you want to delete this todo{todo.subtasks != null && todo.subtasks.length > 0 ? " and all its subtasks" : ""}? <br/></strong>
+                            <strong className="danger">This action is irreversible!<br/></strong>
+                            <Button className="button-danger my-2" onClick={() => removeTodo(todo.id)}>Delete</Button>
+                            <Button className="button-primary m-2" onClick={() => changeDeleting(false)}>Cancel</Button>
+                        </div>
+                    </Card.Body>
+                </Card>
+                {adding ?
+                    <Card className="bgdark-alt border-0 my-2 mx-5">
+                        <Card.Body>
+                            <FormSubtask changeAdding={changeAdding} addSubtask={addSubtask} parentId={todo.id} />
+                        </Card.Body>
+                    </Card> : ""}
+                {todo.subtasks?.map((subtask: ITodo, index: number) =>
+                    <Subtask parentId={todo.id} key={index} todo={subtask} markSubtask={markSubtask} removeSubtask={removeSubtask} editSubtask={editSubtask} />
+                )}
+            </div>
+        );
     }
     else {
         return (
@@ -191,7 +220,7 @@ const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTod
                                     type="text"
                                     className="input"
                                     value={value}
-                                    onChange={(e) => setValue(e.target.value)}
+                                    onChange={(e) => changeValue(e.target.value)}
                                     placeholder="Edit description"
                                 />
                                 <>
