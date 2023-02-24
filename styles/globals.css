@@ -44,7 +44,6 @@
   position: sticky;
   left: 0px !important;
   top: 0px !important;
-  width: 100vw !important;
   z-index: 99 !important;
 }
 
@@ -119,6 +118,10 @@
   .imageContainer {
     width: 0 !important;
     visibility: hidden !important;
+  }
+
+  .button_only {
+    width: 100vw !important;
   }
 
   .sign {
