@@ -45,6 +45,7 @@
   left: 0px !important;
   top: 0px !important;
   z-index: 99 !important;
+  width: fit-content !important;
 }
 
 .bigButton {
