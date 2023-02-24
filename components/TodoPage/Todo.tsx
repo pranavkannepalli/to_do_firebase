@@ -191,7 +191,7 @@ const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTod
                             </h5>
                             <strong>Are you sure you want to delete this todo{todo.subtasks != null && todo.subtasks.length > 0 ? " and all its subtasks" : ""}? <br/></strong>
                             <strong className="danger">This action is irreversible!<br/></strong>
-                            <Button className="button-danger my-2" onClick={() => removeTodo(todo.id)}>Delete</Button>
+                            <Button className="button-danger my-2" onClick={() => {removeTodo(todo.id); changeDeleting(false)}}>Delete</Button>
                             <Button className="button-primary m-2" onClick={() => changeDeleting(false)}>Cancel</Button>
                         </div>
                     </Card.Body>
