@@ -14,9 +14,9 @@ type Props = {
 
 const Subtask: React.FC<Props> = ({ parentId, todo, markSubtask, removeSubtask, editSubtask }) => {
     const [editing, changeEditing] = useState<boolean>(false);
-
-    const [value, setValue] = useState<string>(todo.description);
-    const [due, setDue] = useState<Date>();
+    const [deleting, changeDeleting] = useState<boolean>(false);
+    const [value, changeValue] = useState<string>(todo.description);
+    const [due, changeDue] = useState<Date>();
 
     const getDate = () => {
         if (todo.date == null || todo.date == undefined) return "";
@@ -56,8 +56,8 @@ const Subtask: React.FC<Props> = ({ parentId, todo, markSubtask, removeSubtask, 
         return s[0].concat(":", s[1], ":", s[2]);
     }
 
-    const [date, setDate] = useState<string>(getDate());
-    const [time, setTime] = useState<string>(getTime());
+    const [date, changeDate] = useState<string>(getDate());
+    const [time, changeTime] = useState<string>(getTime());
     const dateRef = useRef(null);
     const timeRef = useRef(null);
 
@@ -89,9 +89,9 @@ const Subtask: React.FC<Props> = ({ parentId, todo, markSubtask, removeSubtask, 
             }
         }
         editSubtask(parentId, edit);
-        setDate("");
-        setTime("");
-        setDue(undefined);
+        changeDate("");
+        changeTime("");
+        changeDue(undefined);
         changeEditing(false);
     };
 
@@ -102,13 +102,13 @@ const Subtask: React.FC<Props> = ({ parentId, todo, markSubtask, removeSubtask, 
         var newStr: string = "";
 
         if ("elogdate" === elid) {
-            setDate(value);
+            changeDate(value);
             newStr = new String("").concat(value || "", " ", time || "");
         } else if ("elogtime" === elid) {
-            setTime(value);
+            changeTime(value);
             newStr = new String("").concat(date || "", " ", value || "");
         }
-        setDue(new Date(newStr));
+        changeDue(new Date(newStr));
     }
 
     const getClassName = () => {
@@ -121,7 +121,7 @@ const Subtask: React.FC<Props> = ({ parentId, todo, markSubtask, removeSubtask, 
         }
     }
 
-    if (!editing) {
+    if (!editing && !deleting) {
         return (
             <div>
                 <Card className="subtask todo bgdark-alt border-0 my-2">
@@ -152,10 +152,29 @@ const Subtask: React.FC<Props> = ({ parentId, todo, markSubtask, removeSubtask, 
                                 <Button className="button m-2" title="edit" variant="outline-success border-0" onClick={() => changeEditing(true)}>
                                     <Icon icon="material-symbols:edit-outline-rounded" />
                                 </Button>
-                                <Button className="button-danger m-2" title="Delete" variant="outline-danger border-0" onClick={() => removeSubtask(parentId, todo.id)}>
+                                <Button className="button-danger m-2" title="Delete" variant="outline-danger border-0" onClick={() => changeDeleting(true)}>
                                     <Icon icon="mdi:trash-can-outline" />
                                 </Button>
                             </div>
+                        </div>
+                    </Card.Body>
+                </Card>
+            </div>
+        )
+    }
+    else if (deleting) {
+        return (
+            <div>
+                <Card className="subtask todo bgdark-alt border-0 my-2">
+                    <Card.Body>
+                        <div className="">
+                            <h5 style={{ textDecoration: todo.isDone ? "line-through" : "" }} className="my-2">
+                                {todo.description}
+                            </h5>
+                            <strong>Are you sure you want to delete this todo? <br /></strong>
+                            <strong className="danger">This action is irreversible!<br/></strong>
+                            <Button className="button-danger my-2" onClick={() => removeSubtask(parentId, todo.id)}>Delete</Button>
+                            <Button className="button-primary m-2" onClick={() => changeDeleting(false)}>Cancel</Button>
                         </div>
                     </Card.Body>
                 </Card>
@@ -174,7 +193,7 @@ const Subtask: React.FC<Props> = ({ parentId, todo, markSubtask, removeSubtask, 
                                     type="text"
                                     className="input"
                                     value={value}
-                                    onChange={(e) => setValue(e.target.value)}
+                                    onChange={(e) => changeValue(e.target.value)}
                                     placeholder="Edit description"
                                 />
                                 <>

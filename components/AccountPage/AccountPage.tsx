@@ -5,6 +5,7 @@ import firebase from "firebase/compat/app"
 import Sidebar from "../TodoPage/Sidebar";
 import { Button, Form } from "react-bootstrap";
 import { Icon } from "@iconify/react";
+import DeletePopup from "./DeletePopup";
 
 type Props = {
     lastId: number;
@@ -23,7 +24,7 @@ const AccountPage: React.FC<Props> = ({ lastId, groups, allGroups, changeCurrent
     const [newP, changeNewP] = useState<string>("");
     const [repeatNewP, changeRepeatNewP] = useState<string>("");
     const [newE, changeNewE] = useState<string>("");
-
+    const [deleting, changeDeleting] = useState<boolean>(false);
     const [editingDisplay, changeEditing] = useState<boolean>(false);
     const [edit, changeEdit] = useState<string>("");
 
@@ -41,7 +42,7 @@ const AccountPage: React.FC<Props> = ({ lastId, groups, allGroups, changeCurrent
         changeLoading(false);
     }
 
-    const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         changeLoading(true);
         var user = auth.currentUser;
@@ -49,7 +50,7 @@ const AccountPage: React.FC<Props> = ({ lastId, groups, allGroups, changeCurrent
             alert("Something's fishy")
             return;
         }
-        
+
         if (newE == "" && newP == "") {
             alert("Please enter a new email or password");
             return;
@@ -60,7 +61,7 @@ const AccountPage: React.FC<Props> = ({ lastId, groups, allGroups, changeCurrent
             user.reauthenticateWithCredential(cred).then(() => {
                 var user = firebase.auth().currentUser;
                 user?.updateEmail(newE).then(() => {
-                alert("Email updated!")
+                    alert("Email updated!")
                 }).catch((error) => alert(error))
             }).catch((error) => {
                 if (error == "FirebaseError: Firebase: The password is invalid or the user does not have a password. (auth/wrong-password).") {
@@ -79,9 +80,9 @@ const AccountPage: React.FC<Props> = ({ lastId, groups, allGroups, changeCurrent
             user.reauthenticateWithCredential(cred).then(() => {
                 var user = firebase.auth().currentUser;
                 user?.updatePassword(newP).then(() => {
-                alert("Password updated!")
+                    alert("Password updated!")
                 }).catch((error) => {
-                    if(error == "FirebaseError: Firebase: Password should be at least 6 characters (auth/weak-password).") {
+                    if (error == "FirebaseError: Firebase: Password should be at least 6 characters (auth/weak-password).") {
                         alert("Choose a stronger password");
                         return;
                     }
@@ -112,17 +113,17 @@ const AccountPage: React.FC<Props> = ({ lastId, groups, allGroups, changeCurrent
         changeNewP("");
     }
 
-    const changeDisplayName = async (e:React.FormEvent<HTMLFormElement>) => {
+    const changeDisplayName = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (edit.length < 5) {
             alert("Display name is too short");
             return;
         }
-        else if(edit.length > 30) {
+        else if (edit.length > 30) {
             alert("Display name is too long");
             return;
         }
-        await auth.currentUser?.updateProfile({displayName: edit}).then(() => console.log(auth.currentUser?.displayName));
+        await auth.currentUser?.updateProfile({ displayName: edit }).then(() => console.log(auth.currentUser?.displayName));
         changeEditing(false);
         changeEdit('');
     }
@@ -132,7 +133,8 @@ const AccountPage: React.FC<Props> = ({ lastId, groups, allGroups, changeCurrent
             <Head>
                 <title>To-do App</title>
             </Head>
-            <main>
+            {deleting ? <DeletePopup changeDeleting={changeDeleting} changeUserExists={changeUserExists} /> : ""}
+            <main className={deleting ? "blurry" : ""}>
                 <div className="grid">
                     <div className="row">
                         <Sidebar groups={groups} allGroups={allGroups} signOut={signOut} changeAllGroups={changeAllGroups} changeGroups={changeGroups} changeCurrentGroup={changeCurrentGroup}></Sidebar>
@@ -148,31 +150,33 @@ const AccountPage: React.FC<Props> = ({ lastId, groups, allGroups, changeCurrent
                                     {auth.currentUser?.email}
                                 </h4>
                                 <div>
-                                    {editingDisplay ? 
-                                    <div>
-                                        <Form onSubmit={(e) => changeDisplayName(e)}>
-                                            <Form.Control 
-                                            type="text" 
-                                            required={true} 
-                                            className="input" 
-                                            value={edit} onChange={(e) => changeEdit(e.target.value)} 
-                                            placeholder={(auth.currentUser != null && auth.currentUser.displayName != null) ? auth.currentUser.displayName : ""}/>
-                                            <Button className="button bgprimary my-3" type="submit">
-                                                Submit
-                                            </Button>
-                                            <Button className="button bgprimary my-3" onClick={() => changeEditing(false)}>
-                                                Cancel
-                                            </Button>
-                                        </Form>
-                                    </div> 
-                                    : <div>
-                                        Display Name: {auth.currentUser?.displayName}
-                                        <Icon className="m-2" icon="material-symbols:edit" onClick={() => changeEditing(true)}/>
-                                    </div> }
+                                    {editingDisplay ?
+                                        <div>
+                                            <Form onSubmit={(e) => changeDisplayName(e)}>
+                                                <Form.Control
+                                                    type="text"
+                                                    required={true}
+                                                    className="input"
+                                                    value={edit} onChange={(e) => changeEdit(e.target.value)}
+                                                    placeholder={(auth.currentUser != null && auth.currentUser.displayName != null) ? auth.currentUser.displayName : ""} />
+                                                <Button className="button bgprimary my-3" type="submit">
+                                                    Submit
+                                                </Button>
+                                                <Button className="button bgprimary my-3" onClick={() => changeEditing(false)}>
+                                                    Cancel
+                                                </Button>
+                                            </Form>
+                                        </div>
+                                        : <div>
+                                            Display Name: {auth.currentUser?.displayName}
+                                            <Icon className="m-2" icon="material-symbols:edit" onClick={() => changeEditing(true)} />
+                                        </div>}
                                 </div>
                                 <div>
                                     Number of todos: {lastId - 2}
                                 </div>
+                                <br />
+                                <Button className="button-danger" onClick={() => { changeDeleting(true); console.log(deleting) }}>Delete Account</Button>
                             </div>
                             <h2 className="secondary">
                                 Change email or password

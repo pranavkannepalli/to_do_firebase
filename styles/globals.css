@@ -21,6 +21,7 @@
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -35,7 +36,7 @@
   left: 0px !important;
   top: 0px !important;
   height: 100vh !important;
-  z-index:99 !important;
+  z-index: 99 !important;
 }
 
 .button_only {
@@ -43,7 +44,7 @@
   left: 0px !important;
   top: 0px !important;
   height: 100vh !important;
-  z-index:99 !important;
+  z-index: 99 !important;
   width: fit-content !important;
 }
 
@@ -97,7 +98,7 @@
 }
 
 .row {
-  margin:0 !important;
+  margin: 0 !important;
 }
 
 .col-lg-10 {
@@ -123,7 +124,7 @@
   .sign {
     width: 100% !important;
     margin-right: 0 !important;
-    background: linear-gradient(var(--clr-dark), var(--clr-altprimary))  !important;
+    background: linear-gradient(var(--clr-dark), var(--clr-altprimary)) !important;
   }
 }
 
@@ -275,7 +276,8 @@ h1 {
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   margin: 0 !important;
   color: var(--clr-dark);
   background: var(--clr-light) !important;
@@ -291,7 +293,7 @@ hr {
   margin-bottom: 2rem;
 }
 
-input{
+input {
   max-width: 1024 !important;
   background-color: var(--clr-dark-alt) !important;
   color: var(--clr-dark) !important;
@@ -321,4 +323,29 @@ input[type="password"] {
 
 input[type="email"] {
   max-width: 1024px !important;
+}
+
+.delete-container {
+  display: flex !important;
+  flex-direction: column !important;
+  position: fixed !important;
+  background-color: #cfcfcf !important;
+  width: 50vw !important;
+  height: fit-content !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  border-radius: 10px !important;
+  padding: 20px !important;
+  z-index: 100 !important;
+}
+
+.blurry {
+  position: absolute !important;
+  width: 100% !important;
+  top: 0 !important;
+  left: 0 !important;
+  opacity: 0.5 !important;
+  filter: alpha(opacity = 50);
+  pointer-events: none !important;
 }

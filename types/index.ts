@@ -9,5 +9,5 @@ export interface ITodo {
 
 export interface GroupRequest {
     id: string;
-    email: string;
+    username: string;
 }
