@@ -43,7 +43,7 @@
   position: sticky;
   left: 0px !important;
   top: 0px !important;
-  height: 100vh !important;
+  width: 100vh !important;
   z-index: 99 !important;
   width: fit-content !important;
 }
