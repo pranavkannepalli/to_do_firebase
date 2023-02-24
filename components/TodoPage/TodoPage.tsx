@@ -119,7 +119,7 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                 var data: any = snap.val();
                 var newRequest: GroupRequest = {
                     id: data.id,
-                    email: data.email
+                    username: data.username
                 }
                 allRequests.push(newRequest);
             })

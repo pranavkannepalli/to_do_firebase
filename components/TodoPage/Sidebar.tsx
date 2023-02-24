@@ -59,7 +59,7 @@ const Sidebar: React.FC<Props> = ({ groups, signOut, allGroups, changeAllGroups,
     const joinGroup = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!(inGroups(join)) && inAllGroups(join)) {
-            db.ref(`${join}/Requests/${auth.currentUser?.uid}`).set({ id: auth.currentUser?.uid, email: auth.currentUser?.email })
+            db.ref(`${join}/Requests/${auth.currentUser?.uid}`).set({ id: auth.currentUser?.uid, username: auth.currentUser?.displayName })
             alert("Join request sent")
         }
         else {
