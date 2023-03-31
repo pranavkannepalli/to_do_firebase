@@ -142,6 +142,9 @@ const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTod
                             <div className="my-1">
                                 <strong>Added By: </strong>{todo.addedBy}
                             </div>
+                            <div className="my-1">
+                                <strong>Tag: </strong>{todo.tag != undefined ? todo.tag : "None"}
+                            </div>
                             <div>
                                 {!todo.isDone ?
                                     (
