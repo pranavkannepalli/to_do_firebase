@@ -54,6 +54,7 @@ const LoginPage: React.FC<Props> = ({ changeLast, changeUserExists, changeLoadin
       db.ref(`${auth.currentUser?.uid}/`).update({ LastId: 2 })
       db.ref(`${auth.currentUser?.uid}/Tasks/`).update({1: {id: 1, description: "Say Hello to Your New Account, Check to mark as Done, X to Remove", isDone: false, addedBy: "Admin"}})
       db.ref(`${auth.currentUser?.uid}/`).update({ Groups: ["Personal"] })
+      db.ref(`${auth.currentUser?.uid}/`).update({ Tags: ["Untagged"] })
       res.user && changeUserExists(true);
       auth.currentUser?.updateProfile({displayName: displayName})
     }

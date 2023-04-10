@@ -5,6 +5,7 @@ export interface ITodo {
     addedBy: string;
     date?: Date | null;
     subtasks?: ITodo[];
+    tag?: string | null;
 }
 
 export interface GroupRequest {

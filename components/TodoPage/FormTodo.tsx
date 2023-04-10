@@ -1,16 +1,20 @@
 import * as React from "react";
 import { useState, useRef } from "react";
 import { Button, Form } from "react-bootstrap";
+import Tags from "./Tags";
 
 type Props = {
-  addTodo: (text: string, date: Date | undefined) => void;
+  createTag: (tagName: string) => void;
+  addTodo: (text: string, date: Date | undefined, tag: string) => void;
+  tags: string[];
 };
 
-const FormTodo: React.FC<Props> = ({ addTodo }) => {
+const FormTodo: React.FC<Props> = ({ createTag, addTodo, tags }) => {
   const [value, setValue] = useState<string>("");
   const [due, setDue] = useState<Date>();
   const [date, setDate] = useState<string>("");
   const [time, setTime] = useState<string>("");
+  const [tag, setTag] = useState<string>("Untagged");
   const dateRef = useRef(null);
   const timeRef = useRef(null);
 
@@ -25,7 +29,8 @@ const FormTodo: React.FC<Props> = ({ addTodo }) => {
       alert("You must select a date in the future")
       return;
     }
-    addTodo(value, due);
+    addTodo(value, due, tag);
+    setTag("Untagged")
     setDate("");
     setTime("");
     setDue(undefined);
@@ -78,9 +83,10 @@ const FormTodo: React.FC<Props> = ({ addTodo }) => {
           />
         </>
       </Form.Group>
-      <Button className="button bgprimary my-3" type="submit">
-        Submit
-      </Button>
+      <Tags title={"Select a Tag"} tags={tags} handleClick={setTag} createTag={createTag}/>
+        <Button className="button bgprimary my-3" type="submit">
+          Submit
+        </Button>
     </Form>
   );
 };

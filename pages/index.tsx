@@ -8,6 +8,7 @@ import AccountPage from "../components/AccountPage/AccountPage";
 export default function Home() {
   const [todos, changeTodos] = useState<ITodo[]>([]);
   const [sortedTodos, changeSorted] = useState<ITodo[]>([]);
+  const [tags, changeTags] = useState<string[]>([]);
   const [userExists, changeUserExists] = useState<boolean>(false);
   const [loading, changeLoading] = useState<boolean>(false);
   const [lastId, changeLast] = useState<number>(0);
@@ -15,6 +16,7 @@ export default function Home() {
   const [groups, changeGroups] = useState<string[]>(["Personal"]);
   const [currentGroup, changeCurrentGroup] = useState<string>("Personal");
   const [groupRequests, changeGroupRequests] = useState<GroupRequest[]>([]);
+
   useEffect(() => { loadData() }, [userExists, currentGroup])
   useEffect(() => changeUserExists(auth.currentUser != null), [auth.currentUser])
   const loadData = () => {
@@ -38,7 +40,8 @@ export default function Home() {
               isDone: data.isDone,
               addedBy: data.addedBy,
               date: new Date(data.date),
-              subtasks: undefined
+              subtasks: undefined,
+              tag: "Untagged"
             }
           }
           else {
@@ -48,8 +51,16 @@ export default function Home() {
               isDone: data.isDone,
               addedBy: data.addedBy,
               date: null,
-              subtasks: undefined
+              subtasks: undefined,
+              tag: "Untagged"
             }
+          }
+
+          if ("tag" in data) {
+            newTodo.tag = data.tag
+          }
+          else {
+            db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${data.id}`).update({tag: "Untagged"})
           }
 
           db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${data.id}/Subtasks`).once("value", s => {
@@ -64,7 +75,8 @@ export default function Home() {
                     isDone: d.isDone,
                     addedBy: d.addedBy,
                     date: new Date(d.date),
-                    subtasks: []
+                    subtasks: [],
+                    tag: "Untagged"
                   }
                 }
                 else {
@@ -74,7 +86,8 @@ export default function Home() {
                     isDone: d.isDone,
                     addedBy: d.addedBy,
                     date: null,
-                    subtasks: undefined
+                    subtasks: undefined,
+                    tag: "Untagged"
                   }
                 } 
 
@@ -121,11 +134,24 @@ export default function Home() {
             Groups.push(snapshot.val()[i]);
           }
           changeGroups(Groups);
-          console.log(groups)
         })
       }
       catch (error) {
         db.ref(`${auth.currentUser?.uid}/Groups/`).update({0: "Personal"})
+        console.log(error);
+      }
+
+      try {
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tags/`).once("value", snapshot => {
+          let Tags: any = [];
+          for (let i = 0; i < snapshot.val().length; i++) {
+            Tags.push(snapshot.val()[i]);
+          }
+          changeTags(Tags);
+        })
+      }
+      catch (error) {
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tags/`).update({0: "Personal"})
         console.log(error);
       }
     }
@@ -140,7 +166,8 @@ export default function Home() {
           changeCurrentGroup={changeCurrentGroup} changeGroups={changeGroups}
           changeLast={changeLast} changeLoading={changeLoading}
           changeUserExists={changeUserExists} changeGroupRequests={changeGroupRequests}
-          sortedTodos={sortedTodos} changeSorted={changeSorted}/>
+          sortedTodos={sortedTodos} changeSorted={changeSorted}
+          tags={tags} changeTags={changeTags}/>
       )
     }
     else {

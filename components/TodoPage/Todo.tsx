@@ -5,9 +5,12 @@ import { Icon } from '@iconify/react';
 import { useState, useRef } from "react";
 import Subtask from "./Subtask";
 import FormSubtask from "./FormSubtask";
+import Tags from "./Tags";
 
 type Props = {
+    tags: string[];
     todo: ITodo;
+    createTag: (tagName: string) => void;
     addSubtask: (parentId: number, text: string, date: Date | undefined) => void;
     markTodo: (id: number, done: boolean) => void;
     removeTodo: (id: number) => void;
@@ -17,11 +20,12 @@ type Props = {
     editSubtask: (parentId: number, todo: ITodo) => void;
 }
 
-const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTodo, markSubtask, removeSubtask, editSubtask }) => {
+const Todo: React.FC<Props> = ({ tags, todo, addSubtask, markTodo, removeTodo, editTodo, markSubtask, removeSubtask, editSubtask, createTag }) => {
     const [editing, changeEditing] = useState<boolean>(false);
     const [adding, changeAdding] = useState<boolean>(false);
     const [value, changeValue] = useState<string>(todo.description);
     const [due, changeDue] = useState<Date>();
+    const [tag, changeTag] = useState<string>(todo.tag != null ? todo.tag : "Untagged");
     const [deleting, changeDeleting] = useState<boolean>(false);
 
     const getDate = () => {
@@ -77,7 +81,8 @@ const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTod
                 description: value,
                 isDone: todo.isDone,
                 addedBy: todo.addedBy,
-                date: undefined
+                date: undefined,
+                tag: tag
             }
         }
         else {
@@ -91,7 +96,8 @@ const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTod
                 description: value,
                 isDone: todo.isDone,
                 addedBy: todo.addedBy,
-                date: due
+                date: due,
+                tag: tag
             }
         }
         editTodo(edit);
@@ -141,6 +147,9 @@ const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTod
                             </div>
                             <div className="my-1">
                                 <strong>Added By: </strong>{todo.addedBy}
+                            </div>
+                            <div className="my-1">
+                                <strong>Tag: </strong>{todo.tag != undefined ? todo.tag : "Untagged"}
                             </div>
                             <div>
                                 {!todo.isDone ?
@@ -240,6 +249,7 @@ const Todo: React.FC<Props> = ({ todo, addSubtask, markTodo, removeTodo, editTod
                                     />
                                 </>
                             </Form.Group>
+                            <Tags title={tag} tags={tags} handleClick={changeTag} createTag={createTag}/>
                             <Button className="button bgprimary my-3" type="submit">
                                 Submit
                             </Button>
