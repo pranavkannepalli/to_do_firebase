@@ -41,7 +41,7 @@ export default function Home() {
               addedBy: data.addedBy,
               date: new Date(data.date),
               subtasks: undefined,
-              tag: "None"
+              tag: "Untagged"
             }
           }
           else {
@@ -52,7 +52,7 @@ export default function Home() {
               addedBy: data.addedBy,
               date: null,
               subtasks: undefined,
-              tag: "None"
+              tag: "Untagged"
             }
           }
 
@@ -60,7 +60,7 @@ export default function Home() {
             newTodo.tag = data.tag
           }
           else {
-            
+            db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${data.id}`).update({tag: "Untagged"})
           }
 
           db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${data.id}/Subtasks`).once("value", s => {
@@ -76,7 +76,7 @@ export default function Home() {
                     addedBy: d.addedBy,
                     date: new Date(d.date),
                     subtasks: [],
-                    tag: "None"
+                    tag: "Untagged"
                   }
                 }
                 else {
@@ -87,7 +87,7 @@ export default function Home() {
                     addedBy: d.addedBy,
                     date: null,
                     subtasks: undefined,
-                    tag: "None"
+                    tag: "Untagged"
                   }
                 } 
 
@@ -134,7 +134,6 @@ export default function Home() {
             Groups.push(snapshot.val()[i]);
           }
           changeGroups(Groups);
-          console.log(groups)
         })
       }
       catch (error) {
@@ -149,7 +148,6 @@ export default function Home() {
             Tags.push(snapshot.val()[i]);
           }
           changeTags(Tags);
-          console.log(tags)
         })
       }
       catch (error) {

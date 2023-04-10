@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { auth, db } from "../../firebase_setup";
 import FormTodo from "./FormTodo";
 import Todo from "./Todo";
@@ -30,11 +30,13 @@ type Props = {
 }
 
 const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGroups, tags, todos, sortedTodos, lastId, changeSorted, changeGroupRequests, changeCurrentGroup, changeGroups, changeAllGroups, changeLast, changeUserExists, changeLoading, changeTags }) => {
-
+    const [tagFilter, changeTagFilter] = useState<string[]>(tags)
     const [sort, changeSort] = useState<string[]>(["Original", "Descending"]);
 
-    const addTodo = (text: string, date: Date | undefined) => {
-        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${lastId + 1}/`).set({ id: lastId + 1, description: text, isDone: false, addedBy: auth.currentUser?.displayName, tag: "None" })
+    useEffect(() => {tagState("All")}, [tags])
+
+    const addTodo = (text: string, date: Date | undefined, tag: string) => {
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${lastId + 1}/`).set({ id: lastId + 1, description: text, isDone: false, addedBy: auth.currentUser?.displayName, tag: "Untagged" })
         if (date != undefined) {
             db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${lastId + 1}/`).update({ date: date })
         }
@@ -51,7 +53,7 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
     };
 
     const editTodo = (todo: ITodo) => {
-        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${todo.id}/`).update({ description: todo.description, isDone: todo.isDone, addedBy: todo.addedBy })
+        db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${todo.id}/`).update({ description: todo.description, isDone: todo.isDone, addedBy: todo.addedBy, tag: todo.tag })
         if (todo.date != undefined) {
             db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${todo.id}/`).update({ date: todo.date })
         }
@@ -74,7 +76,27 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
         db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${parentId}/Subtasks/${id}`).remove();
     };
 
+    const tagState = (tag: string) => {
+        let t = tagFilter;
+        const index = t.indexOf(tag);
+        if (index > -1) {
+            t.splice(index, 1);
+        }
+        else {
+            t.push(tag);
+        }
+        if (tag == "All") {
+            t = tags;
+        }
+        changeTagFilter(t);
+    }
+
     const createTag = (tagName: string) => {
+        if (tags.includes(tagName)) {
+            alert("Tag already exists.");
+            return;
+        }
+
         let t = tags;
         t.push(tagName)
         changeTags(t)
@@ -136,7 +158,7 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
         })
     }
 
-    const sortStuff = (sortType: string, e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    const sortStuff = (sortType: string, e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         var direction = sort[1];
         if (sortType == sort[0]) {
             if (sort[1] == "Descending") {
@@ -237,7 +259,7 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                 <div className="grid">
                     <div className="row">
                         <Sidebar groups={groups} allGroups={allGroups} signOut={signOut} changeAllGroups={changeAllGroups} changeGroups={changeGroups} changeCurrentGroup={changeCurrentGroup}></Sidebar>
-                        <div className="col-lg-8 col-sm-12 px-4">
+                        <div className="col px-4">
                             <h1 className="primary">
                                 {currentGroup}
                             </h1>
@@ -255,32 +277,33 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                             <h2 className="secondary my-4">
                                 Add a Todo
                             </h2>
-                            <FormTodo addTodo={addTodo} />
+                            <FormTodo addTodo={addTodo} tags={tags} createTag={createTag} />
                             <h2 className="secondary my-4">
                                 Todos
                                 <DropdownButton variant="secondary" id="dropdown-basic-button" title="Sort by" disabled={todos.length == 0}>
                                     {["Original", "Date", "Description", "AddedBy"].map((sortType, index) => (
-                                        <Dropdown.Item key={index}><a className="dropdown-item" onClick={(e) => sortStuff(sortType, e)}>
+                                        <Dropdown.Item key={index} className="dropdown-item" onClick={(e) => sortStuff(sortType, e)}>
                                             {sortType == sort[0] ?
                                                 <div>
                                                     {sortType}
                                                     <Icon className="m-2" icon={sort[1] == "Ascending" ? "ic:outline-keyboard-double-arrow-up" : "ic:outline-keyboard-double-arrow-down"}></Icon>
                                                 </div> : sortType}
-                                        </a></Dropdown.Item>
+                                        </Dropdown.Item>
                                     ))}
                                 </DropdownButton>
                                 <DropdownButton variant="secondary" id="dropdown-basic-button" title="Tags" disabled={todos.length == 0}>
+                                    <Dropdown.Item className="dropdown-item" onClick={(e) => {tagState("All")}}>
+                                            Select All
+                                        </Dropdown.Item>
                                     {tags.map((tag, index) => (
-                                        <Dropdown.Item key={index}>
-                                            <a className="dropdown-item" onClick={(e) => console.log(tag)}>
-                                                {tag}
-                                            </a>
+                                        <Dropdown.Item key={index} className="dropdown-item" onClick={(e) => {tagState(tag)}}>
+                                            {tag} {tagFilter.includes(tag) && <Icon className='m-2' icon="material-symbols:check-small"/>}
                                         </Dropdown.Item>
                                     ))}
                                 </DropdownButton>
                             </h2>
-                            {sortedTodos.map((todo, index) => (
-                                <Todo key={index} todo={todo}
+                            {sortedTodos.filter(todo => (todo.tag != null && tagFilter.includes(todo.tag))).map((todo, index) => (
+                                <Todo key={index} todo={todo} tags={tags} createTag={createTag}
                                     markTodo={markTodo} removeTodo={removeTodo} editTodo={editTodo} addSubtask={addSubtask}
                                     markSubtask={markSubtask} editSubtask={editSubtask} removeSubtask={removeSubtask} />
                             ))}
