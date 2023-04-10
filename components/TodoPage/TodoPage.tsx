@@ -30,10 +30,10 @@ type Props = {
 }
 
 const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGroups, tags, todos, sortedTodos, lastId, changeSorted, changeGroupRequests, changeCurrentGroup, changeGroups, changeAllGroups, changeLast, changeUserExists, changeLoading, changeTags }) => {
-    const [tagFilter, changeTagFilter] = useState<string[]>(tags)
+    const [tagFilter, changeTagFilter] = useState(tags)
     const [sort, changeSort] = useState<string[]>(["Original", "Descending"]);
 
-    useEffect(() => {tagState("All")}, [tags])
+    useEffect(() => { changeTagFilter(tags) }, [tags])
 
     const addTodo = (text: string, date: Date | undefined, tag: string) => {
         db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${lastId + 1}/`).set({ id: lastId + 1, description: text, isDone: false, addedBy: auth.currentUser?.displayName, tag: "Untagged" })
@@ -75,21 +75,6 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
     const removeSubtask = (parentId: number, id: number) => {
         db.ref(`${currentGroup == "Personal" ? auth.currentUser?.uid : currentGroup}/Tasks/${parentId}/Subtasks/${id}`).remove();
     };
-
-    const tagState = (tag: string) => {
-        let t = tagFilter;
-        const index = t.indexOf(tag);
-        if (index > -1) {
-            t.splice(index, 1);
-        }
-        else {
-            t.push(tag);
-        }
-        if (tag == "All") {
-            t = tags;
-        }
-        changeTagFilter(t);
-    }
 
     const createTag = (tagName: string) => {
         if (tags.includes(tagName)) {
@@ -292,12 +277,21 @@ const TodoPage: React.FC<Props> = ({ currentGroup, groups, groupRequests, allGro
                                     ))}
                                 </DropdownButton>
                                 <DropdownButton variant="secondary" id="dropdown-basic-button" title="Tags" disabled={todos.length == 0}>
-                                    <Dropdown.Item className="dropdown-item" onClick={(e) => {tagState("All")}}>
-                                            Select All
-                                        </Dropdown.Item>
+                                    <Dropdown.Item className="dropdown-item" onClick={(e) => { changeTagFilter(tags) }}>
+                                        Select All
+                                    </Dropdown.Item>
                                     {tags.map((tag, index) => (
-                                        <Dropdown.Item key={index} className="dropdown-item" onClick={(e) => {tagState(tag)}}>
-                                            {tag} {tagFilter.includes(tag) && <Icon className='m-2' icon="material-symbols:check-small"/>}
+                                        <Dropdown.Item key={index} className="dropdown-item" onClick={(e) => {
+                                            changeTagFilter(prev => {
+                                                if (prev.includes(tag)) {
+                                                    return prev.filter(t => t != tag)
+                                                }
+                                                else {
+                                                    return [...prev, tag]
+                                                }
+                                            })
+                                        }}>
+                                            {tag} {tagFilter.includes(tag) && <Icon className='m-2' icon="material-symbols:check-small" />}
                                         </Dropdown.Item>
                                     ))}
                                 </DropdownButton>
